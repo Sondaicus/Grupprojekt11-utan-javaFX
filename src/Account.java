@@ -9,6 +9,7 @@ public abstract class Account {
     private String username;
     private String pass;
     private int accountType;
+    private Database d;
 
 
     public Account(int id, String username,String pass,int accountType) {
@@ -16,6 +17,7 @@ public abstract class Account {
         this.username = username;
         this.pass = pass;
         this.accountType = accountType;
+        this.d = new Database();
     }
 
     public String getUsername() {

@@ -15,7 +15,7 @@ public class UserAccount extends Account {
     }
 
 
-    public void createTask(String taskName, String categoryName/Category category) {
+    public void createTask(String taskName, String categoryName) {
 
     }
 
