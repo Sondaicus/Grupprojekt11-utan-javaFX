@@ -17,4 +17,16 @@ public class Database {
         this.tasks = new ArrayList<>();
     }
 
+    public void readFile() {
+        
+    }
+
+    public void writeToFile() {
+
+    }
+
+    public void removeFromFile() {
+
+    }
+
 }
