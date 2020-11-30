@@ -15,10 +15,17 @@ public class Database {
         this.users = new ArrayList<>();
         this.categories = new ArrayList<>();
         this.tasks = new ArrayList<>();
+
+        readFile("users.txt",users);
+        readFile("categories.txt",categories);
+        readFile(".txt",tasks)
+
+
+
     }
 
     public void readFile() {
-        
+
     }
 
     public void writeToFile() {
