@@ -11,7 +11,10 @@ public class Database {
     private ArrayList<Category> categories;
     private ArrayList<Task> tasks;
 
-
-    
+    public Database() {
+        this.users = new ArrayList<>();
+        this.categories = new ArrayList<>();
+        this.tasks = new ArrayList<>();
+    }
 
 }
