@@ -74,12 +74,12 @@ public class Database {
 
         //users.forEach(u -> System.out.println(u + " 1"));
 
-        for (Subject s : subjects) {
+        /*for (Subject s : subjects) {
             System.out.println(s);
             System.out.println("----------");
             s.printTasks();
             System.out.println("----------");
-        }
+        }*/
 
 
 
@@ -120,6 +120,16 @@ public class Database {
 
     public ArrayList<Account> getUsers() {
         return users;
+    }
+
+    public void printUsers(String user) {
+        int i = 0;
+        for (Account a : users) {
+            if (!user.equals(a.getUsername())) {
+                System.out.println(i + " " + a);
+                i++;
+            }
+        }
     }
 
     public ArrayList<Subject> getSubjects() {
