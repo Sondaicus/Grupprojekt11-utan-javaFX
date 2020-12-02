@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Class: Java20B
  */
 public class Database {
-    private ArrayList<UserAccount > users;
+    private ArrayList<UserAccount> users;
     private ArrayList<Category> categories;
     private ArrayList<Task> tasks;
 
@@ -24,15 +24,15 @@ public class Database {
 
     }
 
-    public void readFile(String fileNaame,ArrayList<UserAccount> list) {
+    public void readFile(String fileName,ArrayList<UserAccount> list) {
 
     }
 
-    public void readFile(String fileNaame,ArrayList<Category> list) {
+    public void readFile(String fileName,ArrayList<Category> list) {
 
     }
 
-    public void readFile(String fileNaame,ArrayList<Task> list) {
+    public void readFile(String fileName,ArrayList<Task> list) {
 
     }
 
