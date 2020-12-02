@@ -18,13 +18,21 @@ public class Database {
 
         readFile("users.txt",users);
         readFile("categories.txt",categories);
-        readFile(".txt",tasks)
+        readFile(".txt",tasks);
 
 
 
     }
 
-    public void readFile() {
+    public void readFile(String fileNaame,ArrayList<UserAccount> list) {
+
+    }
+
+    public void readFile(String fileNaame,ArrayList<Category> list) {
+
+    }
+
+    public void readFile(String fileNaame,ArrayList<Task> list) {
 
     }
 
