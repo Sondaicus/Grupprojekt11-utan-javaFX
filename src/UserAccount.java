@@ -7,11 +7,11 @@ import java.util.ArrayList;
  * Class: Java20B
  */
 public class UserAccount extends Account {
-    private ArrayList<Category> categories;
+    private ArrayList<Subject> subjects;
 
     public UserAccount(int id, String username,String pass) {
         super(id,username,pass,1);
-        this.categories = new ArrayList<Category>();
+        this.subjects = getDatabase().getSubjects();
     }
 
 }

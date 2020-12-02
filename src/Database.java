@@ -8,31 +8,23 @@ import java.util.ArrayList;
  */
 public class Database {
     private ArrayList<UserAccount> users;
-    private ArrayList<Category> categories;
     private ArrayList<Task> tasks;
+    private ArrayList<Subject> subjects;
 
     public Database() {
         this.users = new ArrayList<>();
-        this.categories = new ArrayList<>();
         this.tasks = new ArrayList<>();
+        this.subjects = new ArrayList<>();
 
         readFile("users.txt",users);
-        readFile("categories.txt",categories);
+        readFile("categories.txt",subjects);
         readFile(".txt",tasks);
 
 
 
     }
 
-    public void readFile(String fileName,ArrayList<UserAccount> list) {
-
-    }
-
-    public void readFile(String fileName,ArrayList<Category> list) {
-
-    }
-
-    public void readFile(String fileName,ArrayList<Task> list) {
+    public void readFile(String fileName,ArrayList<?> list) {
 
     }
 
@@ -44,4 +36,15 @@ public class Database {
 
     }
 
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
+    public ArrayList<UserAccount> getUsers() {
+        return users;
+    }
+
+    public ArrayList<Subject> getSubjects() {
+        return subjects;
+    }
 }

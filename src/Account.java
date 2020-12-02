@@ -23,4 +23,8 @@ public abstract class Account {
     public String getUsername() {
         return username;
     }
+
+    public Database getDatabase() {
+        return d;
+    }
 }
