@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -22,6 +19,7 @@ public class Database {
 
         try {
             readFile("Files/users.txt");
+            writeToFiles();
         } catch (IOException io) {
             System.out.println("IOException");
             io.printStackTrace();
@@ -29,6 +27,7 @@ public class Database {
 
         //readFile("categories.txt",subjects);
         //readFile(".txt",tasks);
+
 
 
 
@@ -66,12 +65,13 @@ public class Database {
 
     }
 
-    public void writeToFile() {
-        //users.add(new UserAccount())
+    public void writeToFiles() throws IOException {
+        PrintWriter printWriter = new PrintWriter(new FileWriter("Files/users.txt"));
         for (Account user : users) {
 
+            printWriter.println(user);
         }
-
+        printWriter.close();
     }
 
     public void removeFromFile() {
