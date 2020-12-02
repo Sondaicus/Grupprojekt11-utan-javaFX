@@ -9,9 +9,13 @@ import java.util.ArrayList;
 public class UserAccount extends Account {
     private ArrayList<Subject> subjects;
 
-    public UserAccount(int id, String username,String pass) {
-        super(id,username,pass,1);
-        this.subjects = getDatabase().getSubjects();
+    public UserAccount(String username,String pass, int accType) {
+        super(username,pass,accType);
+        //this.subjects = getDatabase().getSubjects();
     }
 
+    @Override
+    public String toString() {
+        return  super.getUsername() + "," + super.getPass() + "," + super.getAccountType();
+    }
 }

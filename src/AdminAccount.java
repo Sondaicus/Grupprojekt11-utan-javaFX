@@ -10,13 +10,14 @@ import java.util.ArrayList;
  */
 public class AdminAccount extends Account {
 
-    private ArrayList<UserAccount> users;
+    private ArrayList<Account> users;
     private ArrayList<Subject> subjects;
 
-    public AdminAccount(int id, String username, String pass) {
-        super(id, username, pass, 0);
-        users = getDatabase().getUsers();
-        subjects = getDatabase().getSubjects();
+    public AdminAccount(String username, String pass, int accType) {
+        super(username, pass, accType);
+        //users = getDatabase().getUsers();
+        //subjects = getDatabase().getSubjects();
+
 
     }
 
@@ -28,6 +29,9 @@ public class AdminAccount extends Account {
         subjects.add(new Subject(subjectName));
     }
 
-
+    @Override
+    public String toString() {
+        return super.getUsername() + "," + super.getPass() + "," + super.getAccountType();
+    }
 
 }
