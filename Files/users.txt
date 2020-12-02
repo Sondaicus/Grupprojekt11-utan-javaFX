@@ -1,4 +1,2 @@
-Erik,pass,1
-Adam,pass,0
-Adam,pass,0
-Adam,pass,0
+adam,pass,1
+adam3,pass,0

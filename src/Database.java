@@ -14,18 +14,21 @@ public class Database {
 
     public Database() {
         users = new ArrayList<>();
-        tasks = new ArrayList<>();
         subjects = new ArrayList<>();
 
         try {
             readFile("Files/users.txt");
-            writeToFiles();
+            readFile("Files/subjects.txt");
+            readFile("Files/Erik.txt");
+            writeToFile("Files/users.txt");
+            writeToFile("Files/subjects.txt");
+            writeToFile("Files/Erik.txt");
         } catch (IOException io) {
             System.out.println("IOException");
             io.printStackTrace();
         }
 
-        //readFile("categories.txt",subjects);
+        //readFile(".txt",subjects);
         //readFile(".txt",tasks);
 
 
@@ -36,7 +39,6 @@ public class Database {
     public void readFile(String fileName) throws IOException {
 
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
-
         String line;
         while (((line = bufferedReader.readLine()) != null)) {
 
@@ -53,25 +55,59 @@ public class Database {
                 } else if (accType == 0) {
                     users.add(new AdminAccount(username,pass,accType));
                 }
+            } else if (fileName.contains("subjects.txt")) { //***
+                String parts[] = line.split(",");
+                for (int i = 0; i < parts.length; i++) {
+                    subjects.add(new Subject(parts[i]));
+                }
+
+            } else {
+                String parts[] = line.split(",");
+                for (Subject subject : subjects) {
+
+                    if (subject.toString().equalsIgnoreCase(parts[1])) {
+                        subject.createTask(parts[0],parts[1]);
+                    }
+                }
             }
-
-
-
-
         }
 
-        users.forEach(u -> System.out.println(u));
+        //users.forEach(u -> System.out.println(u + " 1"));
+
+        for (Subject s : subjects) {
+            System.out.println(s);
+            System.out.println("----------");
+            s.printTasks();
+            System.out.println("----------");
+        }
+
+
 
 
     }
 
-    public void writeToFiles() throws IOException {
-        PrintWriter printWriter = new PrintWriter(new FileWriter("Files/users.txt"));
-        for (Account user : users) {
+    public void writeToFile(String fileName) throws IOException {
+        PrintWriter printWriter = new PrintWriter(new FileWriter(fileName));
 
-            printWriter.println(user);
+        if (fileName.contains("users.txt")) {
+            for (Account user : users) {
+                printWriter.println(user);
+            }
+            printWriter.close();
+        } else if (fileName.contains("subjects.txt")) {
+            for (Subject subject : subjects) {
+                printWriter.println(subject);
+            }
+                printWriter.close();
+        } else {
+            for (Subject subject : subjects) {
+                for (Task task : subject.getTasks()) {
+                    printWriter.println(task);
+                }
+
+            }
+            printWriter.close();
         }
-        printWriter.close();
     }
 
     public void removeFromFile() {

@@ -12,10 +12,11 @@ public class Subject {
 
     public Subject(String subjectName) {
         this.subjectName = subjectName;
+        this.tasks = new ArrayList<>();;
     }
 
-    public void createTask(String taskName, String desc) {
-        tasks.add(new Task(taskName,desc, subjectName));
+    public void createTask(String taskName,String subjectName) {
+        tasks.add(new Task(taskName, subjectName));
 
     }
 
@@ -34,5 +35,12 @@ public class Subject {
 
     }
 
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
 
+    @Override
+    public String toString() {
+        return subjectName;
+    }
 }
