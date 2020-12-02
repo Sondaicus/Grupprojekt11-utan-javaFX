@@ -14,16 +14,4 @@ public class UserAccount extends Account {
         this.categories = new ArrayList<Category>();
     }
 
-
-    public void createTask(String taskName, String categoryName) {
-
-    }
-
-    public void removeTask() {
-
-    }
-
-    public void printTasks(String categoryName/Category category) {
-
-    }
 }

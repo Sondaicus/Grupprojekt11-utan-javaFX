@@ -7,12 +7,16 @@
 public class Task {
     private String taskName;
     private String description;
-    private Category category; //***
+    private String category; //***
 
 
-    public Task(String taskName,String description, Category category) {
+    public Task(String taskName,String description, String category) {
         this.taskName = taskName;
         this.description = description;
         this.category = category;
+    }
+
+    public String getTaskName() {
+        return taskName;
     }
 }
