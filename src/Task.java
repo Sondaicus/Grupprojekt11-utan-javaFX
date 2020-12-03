@@ -7,12 +7,21 @@
 public class Task {
     private String taskName;
     private String description;
-    private Category category; //***
+    private String subjectName; //***
 
 
-    public Task(String taskName,String description, Category category) {
+    public Task(String taskName, String subjectName) {
         this.taskName = taskName;
         this.description = description;
-        this.category = category;
+        this.subjectName = subjectName;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+
+    public String toString() {
+        return taskName + "," + subjectName;
     }
 }

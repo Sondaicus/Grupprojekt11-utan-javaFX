@@ -10,21 +10,28 @@ import java.util.ArrayList;
  */
 public class AdminAccount extends Account {
 
-    private ArrayList<UserAccount> users;
-    private ArrayList<Category> categories;
+    private ArrayList<Account> users;
+    private ArrayList<Subject> subjects;
 
-    public AdminAccount(int id, String username, String pass) {
-        super(id, username, pass, 0);
+    public AdminAccount(String username, String pass, int accType) {
+        super(username, pass, accType);
+        //users = getDatabase().getUsers();
+        //subjects = getDatabase().getSubjects();
+
+
     }
 
     public void removeUserAccount(String username) {
         users.removeIf(u -> u.getUsername().equals(username));
     }
 
-    public void createCategory(String categoryName) {
-        categories.add(new Category(categoryName));
+    public void createSubject(String subjectName) {
+        subjects.add(new Subject(subjectName));
     }
 
-
+    @Override
+    public String toString() {
+        return super.getUsername() + "," + super.getPass() + "," + super.getAccountType();
+    }
 
 }

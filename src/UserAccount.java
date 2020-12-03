@@ -7,23 +7,15 @@ import java.util.ArrayList;
  * Class: Java20B
  */
 public class UserAccount extends Account {
-    private ArrayList<Category> categories;
+    private ArrayList<Subject> subjects;
 
-    public UserAccount(int id, String username,String pass) {
-        super(id,username,pass,1);
-        this.categories = new ArrayList<Category>();
+    public UserAccount(String username,String pass, int accType) {
+        super(username,pass,accType);
+        //this.subjects = getDatabase().getSubjects();
     }
 
-
-    public void createTask(String taskName, String categoryName) {
-
-    }
-
-    public void removeTask() {
-
-    }
-
-    public void printTasks(String categoryName/Category category) {
-
+    @Override
+    public String toString() {
+        return  super.getUsername() + "," + super.getPass() + "," + super.getAccountType();
     }
 }

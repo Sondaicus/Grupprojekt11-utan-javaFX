@@ -1,0 +1,2 @@
+adam,pass,1
+adam3,pass,0

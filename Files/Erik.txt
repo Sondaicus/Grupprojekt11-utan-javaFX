@@ -1,0 +1,3 @@
+Ägg,Inköpslista
+Kakor,Inköpslista
+Smör,Inköpslista
