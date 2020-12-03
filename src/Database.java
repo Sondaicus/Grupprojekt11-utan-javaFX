@@ -16,28 +16,23 @@ public class Database {
         users = new ArrayList<>();
         subjects = new ArrayList<>();
 
-        try {
-            readFile("Files/users.txt");
-            readFile("Files/subjects.txt");
-            readFile("Files/Erik.txt");
-            writeToFile("Files/users.txt");
-            writeToFile("Files/subjects.txt");
-            writeToFile("Files/Erik.txt");
-        } catch (IOException io) {
-            System.out.println("IOException");
-            io.printStackTrace();
-        }
+            //readFile("Files/users.txt");
+            //readFile("Files/subjects.txt");
+            //readFile("Files/Erik.txt");
+            //writeToFile("Files/users.txt");
+           // writeToFile("Files/subjects.txt");
+            //writeToFile("Files/Erik.txt");
+
 
         //readFile(".txt",subjects);
         //readFile(".txt",tasks);
 
 
 
-
     }
 
-    public void readFile(String fileName) throws IOException {
-
+    public void readFile(String fileName) {
+        try {
         BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
         String line;
         while (((line = bufferedReader.readLine()) != null)) {
@@ -71,6 +66,9 @@ public class Database {
                 }
             }
         }
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
 
         //users.forEach(u -> System.out.println(u + " 1"));
 
@@ -86,27 +84,34 @@ public class Database {
 
     }
 
-    public void writeToFile(String fileName) throws IOException {
-        PrintWriter printWriter = new PrintWriter(new FileWriter(fileName));
+    public void writeToFile(String fileName) {
+        try {
+            //PrintWriter printWriter = new PrintWriter(new FileWriter(fileName));
+            FileWriter fileWriter = new FileWriter(fileName, true);
+
 
         if (fileName.contains("users.txt")) {
-            for (Account user : users) {
-                printWriter.println(user);
-            }
-            printWriter.close();
-        } else if (fileName.contains("subjects.txt")) {
-            for (Subject subject : subjects) {
-                printWriter.println(subject);
-            }
-                printWriter.close();
+
+            fileWriter.write(users.get(users.size()-1) + "\n");
+            fileWriter.close();
+
+        } else if (fileName.contains("subjects.txt")) { /**/
+
+                fileWriter.write(subjects.get(subjects.size()-1) + "\n");
+                fileWriter.close();
+
         } else {
+            //tasks
             for (Subject subject : subjects) {
                 for (Task task : subject.getTasks()) {
-                    printWriter.println(task);
+                    fileWriter.write(task + "\n");
                 }
 
             }
-            printWriter.close();
+            fileWriter.close();
+        }
+        } catch (IOException io) {
+            io.printStackTrace();
         }
     }
 

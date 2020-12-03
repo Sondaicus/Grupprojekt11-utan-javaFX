@@ -1,3 +1,4 @@
+import javax.sound.midi.SysexMessage;
 import java.util.Scanner;
 
 public class Main {
@@ -14,6 +15,7 @@ public class Main {
             System.out.println("2. Skapa ett konto");
             answer = sc.nextInt();
             if (answer == 1) {
+                database.readFile("Files/users.txt");
                 while (true) {
                     System.out.println("Ange användarnamn");
                     username = sc.next();
@@ -40,7 +42,7 @@ public class Main {
                                             System.out.println("Ange siffran på konto som du vill ta bort eller skriv q för att avsluta");
                                             input = sc.next();
 
-                                            //****
+
                                             if (input.)
                                             database.getUsers().remove(Integer.parseInt(input) - 1);
 
@@ -52,7 +54,7 @@ public class Main {
                                     } else if (answer == 3 ) {
 
                                     } else if (answer == 4) {
-
+                                        System.exit(0);
                                     } else {
 
                                     }
@@ -73,7 +75,7 @@ public class Main {
                                     } else if (answer == 3) {
 
                                     } else if (answer == 4) {
-
+                                        System.exit(0);
                                     } else {
 
                                     }
@@ -101,11 +103,14 @@ public class Main {
                     System.out.println("2. Admin");
                     answer = sc.nextInt();
 
-                    if (answer == 0) {
+                    if (answer == 1) {
                         database.getUsers().add(new AdminAccount(username, password, answer));
+                        System.out.println(database.getUsers());
+                        database.writeToFile("Files/users.txt");
                         break;
-                    } else if (answer == 1) {
+                    } else if (answer == 2) {
                         database.getUsers().add(new UserAccount(username, password, answer));
+                        database.writeToFile("Files/users.txt");
                         break;
                     } else {
                         System.out.println("Fel, försök igen!");
