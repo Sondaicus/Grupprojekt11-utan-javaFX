@@ -1,14 +1,19 @@
 import javax.sound.midi.SysexMessage;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws FileNotFoundException {
+
         Database database = new Database();
         String username;
         String password;
         int answer;
         String input;
         Scanner sc = new Scanner(System.in);
+
         while (true) {
             System.out.println("Vill du logga in eller skapa konto?");
             System.out.println("1. Logga in");
@@ -43,8 +48,8 @@ public class Main {
                                             input = sc.next();
 
 
-                                            if (input.)
-                                            database.getUsers().remove(Integer.parseInt(input) - 1);
+                                            //if (input)
+                                            //database.getUsers().remove(Integer.parseInt(input) - 1);
 
                                         }
 
@@ -69,6 +74,17 @@ public class Main {
 
 
                                     if (answer == 1) {
+                                        System.out.println("Välj kategori: ");
+
+                                        Scanner scanner = new Scanner(new File("Files/subjects.txt"));
+
+                                        while (scanner.hasNextLine()) {
+                                            System.out.println(scanner.nextLine());
+                                        }
+                                        input = sc.nextLine();
+                                        if (input.equals(1)) {
+                                            System.out.println("Hello");
+                                        }
 
                                     } else if (answer == 2) {
 
