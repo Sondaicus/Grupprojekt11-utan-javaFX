@@ -46,9 +46,9 @@ public class Database {
                 int accType = Integer.parseInt(parts[2]);
 
                 if (accType == 1) {
-                    users.add(new UserAccount(username,pass,accType));
+                    //users.add(new UserAccount(username,pass,accType));
                 } else if (accType == 0) {
-                    users.add(new AdminAccount(username,pass,accType));
+                    //users.add(new AdminAccount(username,pass,accType));
                 }
             } else if (fileName.contains("subjects.txt")) { //***
                 String parts[] = line.split(",");

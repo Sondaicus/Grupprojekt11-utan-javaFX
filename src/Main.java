@@ -1,15 +1,49 @@
-import javax.sound.midi.SysexMessage;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        List<Subject> subjects = new ArrayList<>();
+        Subject s1 = new Subject("Hushåll");
+        Subject s2 = new Subject("Underhållning");
+        subjects.add(s1);
+        subjects.add(s2);
+
+        List<Account> users = new ArrayList<>();
+
+          AccountCreator.createAdmin("Hakim","pass",subjects,users);
+        //a5.printUsers();
+
+        UserAccount a1 = new UserAccount("Hakim","pass",subjects,users);
+        AdminAccount a2 = new AdminAccount("Ad","pass",subjects,users);
+        UserAccount a3 = new UserAccount("Kalle","pass",subjects,users);
+        AdminAccount a4 = new AdminAccount("Ad","pass",subjects,users);
+
+        users.add(AccountCreator.createUser("Hakim","pass",subjects,users));
+        users.add(AccountCreator.createAdmin("Ad","pass",subjects,users));
+        users.add(AccountCreator.createUser("Kalle","pass",subjects,users));
+        users.add(AccountCreator.createAdmin("Ad","pass",subjects,users));
+        System.out.println(users);
+
+        //a2.addSubject("Övrigt");
+        //a1.setUsers(users);
+        //a2.setUsers(users);
+        //a2.removeUser("Hakim");
+
+        //System.out.println(users.get(0).getUsers());
+        //System.out.println(a2.getUsers());
+        //System.out.println(a1.getUsers());
         Database database = new Database();
         String username;
         String password;
         int answer;
         String input;
         Scanner sc = new Scanner(System.in);
-        while (true) {
+
+
+
+        /*while (true) {
             System.out.println("Vill du logga in eller skapa konto?");
             System.out.println("1. Logga in");
             System.out.println("2. Skapa ett konto");
@@ -37,14 +71,6 @@ public class Main {
 
                                     if (answer == 1 ) {
                                         while (true) {
-                                            database.printUsers(user);
-                                            System.out.println("Q. Avsluta");
-                                            System.out.println("Ange siffran på konto som du vill ta bort eller skriv q för att avsluta");
-                                            input = sc.next();
-
-
-                                            if (input.)
-                                            database.getUsers().remove(Integer.parseInt(input) - 1);
 
                                         }
 
@@ -104,14 +130,8 @@ public class Main {
                     answer = sc.nextInt();
 
                     if (answer == 1) {
-                        database.getUsers().add(new AdminAccount(username, password, answer));
-                        System.out.println(database.getUsers());
-                        database.writeToFile("Files/users.txt");
-                        break;
                     } else if (answer == 2) {
-                        database.getUsers().add(new UserAccount(username, password, answer));
-                        database.writeToFile("Files/users.txt");
-                        break;
+
                     } else {
                         System.out.println("Fel, försök igen!");
                     }
@@ -123,7 +143,7 @@ public class Main {
 
             }
 
-        }
+        }*/
 
 
     }
