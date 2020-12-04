@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Created by Max Erling
@@ -137,7 +138,15 @@ public class Database {
         }
     }
 
-    public ArrayList<Subject> getSubjects() {
+    public ArrayList<Subject> getSubjects() throws FileNotFoundException {
+
+        Scanner scanner = new Scanner(new File("Files/subjects.txt"));
+
+        String c ="";
+        while (c == String.valueOf(scanner.hasNextLine())) {
+
+        }
+
         return subjects;
     }
 }

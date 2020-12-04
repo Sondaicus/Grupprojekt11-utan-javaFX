@@ -12,12 +12,11 @@ public class Subject {
 
     public Subject(String subjectName) {
         this.subjectName = subjectName;
-        this.tasks = new ArrayList<>();;
+        this.tasks = new ArrayList<>();
     }
 
     public void createTask(String taskName,String subjectName) {
         tasks.add(new Task(taskName, subjectName));
-
     }
 
     public void removeTask(String taskName) {

@@ -120,12 +120,12 @@ public class Main {
                     answer = sc.nextInt();
 
                     if (answer == 1) {
-                        database.getUsers().add(new AdminAccount(username, password, answer));
-                        System.out.println(database.getUsers());
+                        database.getUsers().add(new UserAccount(username, password, answer));
+                        //System.out.println(database.getUsers());
                         database.writeToFile("Files/users.txt");
                         break;
                     } else if (answer == 2) {
-                        database.getUsers().add(new UserAccount(username, password, answer));
+                        database.getUsers().add(new AdminAccount(username, password, answer));
                         database.writeToFile("Files/users.txt");
                         break;
                     } else {

@@ -14,6 +14,12 @@ public class UserAccount extends Account {
         //this.subjects = getDatabase().getSubjects();
     }
 
+
+    public void printCategories() {
+        for (Subject subject: subjects)
+            System.out.println(subject);
+    }
+
     @Override
     public String toString() {
         return  super.getUsername() + "," + super.getPass() + "," + super.getAccountType();
