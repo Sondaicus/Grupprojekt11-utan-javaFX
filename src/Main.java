@@ -106,6 +106,7 @@ public class Main {
                                     activeAdmin.printUsers();
                                 } else if (alt == 4) {
                                     System.out.println("Loggar ut..");
+                                    activeAdmin.setActive(false);
                                     break;
 
                                 } else {
