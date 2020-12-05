@@ -17,56 +17,55 @@ public class Database {
         users = new ArrayList<>();
         subjects = new ArrayList<>();
 
-            //readFile("Files/users.txt");
-            //readFile("Files/subjects.txt");
-            //readFile("Files/Erik.txt");
-            //writeToFile("Files/users.txt");
-           // writeToFile("Files/subjects.txt");
-            //writeToFile("Files/Erik.txt");
+        //readFile("Files/users.txt");
+        //readFile("Files/subjects.txt");
+        //readFile("Files/Erik.txt");
+        //writeToFile("Files/users.txt");
+        // writeToFile("Files/subjects.txt");
+        //writeToFile("Files/Erik.txt");
 
 
         //readFile(".txt",subjects);
         //readFile(".txt",tasks);
 
 
-
     }
 
     public void readFile(String fileName) {
         try {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
-        String line;
-        while (((line = bufferedReader.readLine()) != null)) {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
+            String line;
+            while (((line = bufferedReader.readLine()) != null)) {
 
-            if (fileName.contains("users.txt")) {
+                if (fileName.contains("users.txt")) {
 
-                String parts[] = line.split(",");
-                //int id = Integer.parseInt(parts[0]);
-                String username = parts[0];
-                String pass = parts[1];
-                int accType = Integer.parseInt(parts[2]);
+                    String parts[] = line.split(",");
+                    //int id = Integer.parseInt(parts[0]);
+                    String username = parts[0];
+                    String pass = parts[1];
+                    int accType = Integer.parseInt(parts[2]);
 
-                if (accType == 1) {
-                    users.add(new UserAccount(username,pass,accType));
-                } else if (accType == 0) {
-                    users.add(new AdminAccount(username,pass,accType));
-                }
-            } else if (fileName.contains("subjects.txt")) { //***
-                String parts[] = line.split(",");
-                for (int i = 0; i < parts.length; i++) {
-                    subjects.add(new Subject(parts[i]));
-                }
+                    if (accType == 1) {
+                        users.add(new UserAccount(username, pass, accType));
+                    } else if (accType == 0) {
+                        users.add(new AdminAccount(username, pass, accType));
+                    }
+                } else if (fileName.contains("subjects.txt")) { //***
+                    String parts[] = line.split(",");
+                    for (int i = 0; i < parts.length; i++) {
+                        subjects.add(new Subject(parts[i]));
+                    }
 
-            } else {
-                String parts[] = line.split(",");
-                for (Subject subject : subjects) {
+                } else {
+                    String parts[] = line.split(",");
+                    for (Subject subject : subjects) {
 
-                    if (subject.toString().equalsIgnoreCase(parts[1])) {
-                        subject.createTask(parts[0],parts[1]);
+                        if (subject.toString().equalsIgnoreCase(parts[1])) {
+                            subject.createTask(parts[0], parts[1]);
+                        }
                     }
                 }
             }
-        }
         } catch (IOException io) {
             io.printStackTrace();
         }
@@ -81,8 +80,6 @@ public class Database {
         }*/
 
 
-
-
     }
 
     public void writeToFile(String fileName) {
@@ -91,26 +88,26 @@ public class Database {
             FileWriter fileWriter = new FileWriter(fileName, true);
 
 
-        if (fileName.contains("users.txt")) {
+            if (fileName.contains("users.txt")) {
 
-            fileWriter.write(users.get(users.size()-1) + "\n");
-            fileWriter.close();
-
-        } else if (fileName.contains("subjects.txt")) { /**/
-
-                fileWriter.write(subjects.get(subjects.size()-1) + "\n");
+                fileWriter.write(users.get(users.size() - 1) + "\n");
                 fileWriter.close();
 
-        } else {
-            //tasks
-            for (Subject subject : subjects) {
-                for (Task task : subject.getTasks()) {
-                    fileWriter.write(task + "\n");
-                }
+            } else if (fileName.contains("subjects.txt")) { /**/
 
+                fileWriter.write(subjects.get(subjects.size() - 1) + "\n");
+                fileWriter.close();
+
+            } else {
+                //tasks
+                for (Subject subject : subjects) {
+                    for (Task task : subject.getTasks()) {
+                        fileWriter.write(task + "\n");
+                    }
+
+                }
+                fileWriter.close();
             }
-            fileWriter.close();
-        }
         } catch (IOException io) {
             io.printStackTrace();
         }
@@ -142,7 +139,7 @@ public class Database {
 
         Scanner scanner = new Scanner(new File("Files/subjects.txt"));
 
-        String c ="";
+        String c = "";
         while (c == String.valueOf(scanner.hasNextLine())) {
 
         }
