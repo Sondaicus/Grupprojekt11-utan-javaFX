@@ -99,9 +99,11 @@ public class Main {
 
 
                                 } else if (alt == 2) {
-
+                                    System.out.println("Vilket ämne vill du lägga till?");
+                                    input = sc.next();
+                                    activeAdmin.addSubject(input);
                                 } else if (alt == 3) {
-
+                                    activeAdmin.printUsers();
                                 } else if (alt == 4) {
                                     System.out.println("Avslutar..");
                                     System.exit(1);

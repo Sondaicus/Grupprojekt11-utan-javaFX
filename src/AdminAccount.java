@@ -39,9 +39,12 @@ public class AdminAccount extends Account {
 
 
     public void printUsers() {
+        System.out.println("--------------");
         for (Account user : super.getUsers()) {
+
             System.out.println(user);
         }
+        System.out.println("--------------");
     }
 
     @Override
