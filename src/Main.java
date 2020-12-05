@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,24 +13,7 @@ public class Main {
 
         List<Account> users = new ArrayList<>();
 
-        AccountCreator.createAdmin("Hakim","pass",subjects,users);
         //a5.printUsers();
-
-        UserAccount a1 = new UserAccount("Hakim","pass",subjects,users);
-        AdminAccount a2 = new AdminAccount("Ad","pass",subjects,users);
-        UserAccount a3 = new UserAccount("Kalle","pass",subjects,users);
-        AdminAccount a4 = new AdminAccount("Ad","pass",subjects,users);
-
-        users.add(AccountCreator.createUser("Hakim","pass",subjects,users));
-        users.add(AccountCreator.createAdmin("Ad","pass",subjects,users));
-        users.add(AccountCreator.createUser("Kalle","pass",subjects,users));
-        users.add(AccountCreator.createAdmin("Ad","pass",subjects,users));
-        a4.printUsers();
-        System.out.println("-");
-        //a4.removeUser(5,"Hakim");
-        a4.removeUser(6,"Ad");
-        System.out.println("-");
-        a4.printUsers();
 
         //a2.addSubject("Övrigt");
         //a1.setUsers(users);
@@ -42,9 +26,134 @@ public class Main {
         Database database = new Database();
         String username;
         String password;
-        int answer;
+        int answer = 0;
+        int alt = 0;
+        int id = 0;
         String input;
         Scanner sc = new Scanner(System.in);
+        AdminAccount activeAdmin = null;
+        UserAccount activeUser = null;
+
+        while (true) {
+
+            System.out.println("Vill du logga in eller skapa konto?");
+            System.out.println("1. Logga in");
+            System.out.println("2. Skapa ett konto");
+
+            try {
+                answer = sc.nextInt();
+            } catch (InputMismatchException in) {
+                sc.next();
+            }
+                switch (answer) {
+                    case 1:
+                        System.out.println("Ange användarnamn");
+                        username = sc.next();
+                        System.out.println("Ange lösenord");
+                        password = sc.next();
+
+                        for (Account user : users) {
+                            if (user.auth(username,password)) {
+                                System.out.println("Inloggning lyckades");
+                                if (user.getAccountType() == 0) {
+                                    activeAdmin = (AdminAccount) user;
+                                    activeAdmin.setActive(true);
+                                    activeAdmin.isActive();
+                                    System.out.println("Välkommen " + activeAdmin.getUsername());
+                                    break;
+                                } else if (user.getAccountType() == 1) {
+                                    activeUser = (UserAccount) user;
+                                    activeUser.setActive(true);
+                                    System.out.println("Välkommen " + activeUser.getUsername());
+                                    break;
+                                }
+                            }
+                        }
+
+
+
+                        while (activeAdmin.isActive()) {
+                                System.out.println("Välja alternativ:");
+                                System.out.println("1. Ta bort ett konto");
+                                System.out.println("2. Skapa ett ämne");
+                                System.out.println("3. Se alla användare");
+                                System.out.println("4. Avsluta");
+
+                                try {
+                                    alt = sc.nextInt();
+                                } catch (InputMismatchException in) {
+                                    sc.next();
+                                }
+
+                                if (alt == 1) {
+                                    activeAdmin.printUsers();
+                                    System.out.println("Vad för id?");
+                                    try {
+                                        id = sc.nextInt();
+                                    } catch (InputMismatchException in) {
+                                        sc.next();
+                                    }
+                                    System.out.println("Vad för användarnman?");
+                                    username = sc.next();
+                                    activeAdmin.removeUser(id,username);
+
+
+                                } else if (alt == 2) {
+
+                                } else if (alt == 3) {
+
+                                } else if (alt == 4) {
+                                    System.out.println("Avslutar..");
+                                    System.exit(1);
+
+                                } else {
+                                    System.out.println("Felaktig inmatning");
+                                }
+                        }
+
+                        while (activeUser.isActive()) {
+
+                        }
+                    case 2:
+                        while (true) {
+                            System.out.println("Ange användarnamn");
+                            username = sc.next();
+                            System.out.println("Ange lösenord");
+                            password = sc.next();
+                            System.out.println("Typ av konto");
+                            System.out.println("1. Vanlig användare");
+                            System.out.println("2. Admin");
+
+                            try {
+                                 alt = sc.nextInt();
+                            } catch (InputMismatchException in) {
+                                sc.next();
+                            }
+
+                            if (alt == 1) {
+                                Account adm = AccountCreator.createUser(username,password,subjects,users);
+                                System.out.println("Användarkonto " + username + " skapat");
+                                users.add(adm);
+                                break;
+                            } else if (alt == 2) {
+                                Account user = AccountCreator.createAdmin(username,password,subjects,users);
+                                System.out.println("Användarkonto " + username + " skapat");
+                                users.add(user);
+                                break;
+                            } else {
+                                System.out.println("Fel, försök igen!");
+                            }
+                        }
+                        break;
+
+
+                    default:
+                        System.out.println("Välj mellan alternativen!");
+                        break;
+                }
+
+
+        }
 
 
 
@@ -149,6 +258,16 @@ public class Main {
             }
 
         }*/
+
+
+    }
+
+
+
+    public void createOrLoginPrompt() {
+        System.out.println("Vill du logga in eller skapa konto?");
+        System.out.println("1. Logga in");
+        System.out.println("2. Skapa ett konto");
 
 
     }

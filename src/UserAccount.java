@@ -15,12 +15,22 @@ public class UserAccount extends Account  {
 
     @Override
     public String toString() {
-        return "ID: " + super.getId() + " " + "Username: " + super.getUsername() + " [User]";
+        return "ID:" + super.getId() + " " + super.getUsername() + " [User]";
     }
 
     @Override
     public boolean auth(String user, String pass) {
         return false;
+    }
+
+    @Override
+    public boolean isActive() {
+        return super.isActive();
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        super.setActive(active);
     }
 
 

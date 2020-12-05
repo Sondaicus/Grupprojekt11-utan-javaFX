@@ -20,11 +20,13 @@ public class AdminAccount extends Account {
 
     public void removeUser(int id, String username) {
         for (Account user : super.getUsers()) {
-            if (!(super.getUsername().equals(username)) && user.getUsername().equals(username) && user.getId() == id) {
+
+            if (user.getUsername().equals(username) && user.getId() == id && !(super.getUsername().equals(username) && super.getId() == id)) {
                 super.getUsers().remove(user);
+                System.out.println(user.getUsername() + " borttagen");
                 break;
             } else {
-                System.out.println("Du kan inte ta bort denna användare");
+                System.out.println("Du kan inte ta bort denna användare för tillfället");
                 break;
             }
         }
@@ -44,7 +46,7 @@ public class AdminAccount extends Account {
 
     @Override
     public String toString() {
-        return "ID: " + super.getId() + " " + "Username: " + super.getUsername() + " [Admin]";
+        return "ID:" + super.getId() + " " + super.getUsername() + " [Admin]";
     }
 
     @Override
@@ -52,4 +54,13 @@ public class AdminAccount extends Account {
         return super.getUsername().equals(user) && super.getPass().equals(pass);
     }
 
+    @Override
+    public boolean isActive() {
+        return super.isActive();
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        super.setActive(active);
+    }
 }

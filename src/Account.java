@@ -16,6 +16,7 @@ abstract class Account {
      private List<Account> users;
      private static AtomicInteger uniqueId = new AtomicInteger();
      private int id;
+     private boolean active;
 
      public Account(String username, String pass, int accType, List<Subject> subjects, List<Account> users) {
           this.username = username;
@@ -24,6 +25,7 @@ abstract class Account {
           this.subjects = subjects;
           this.users = users;
           this.id= uniqueId.getAndIncrement();
+          this.active = false;
      }
 
      public String getUsername() {
@@ -48,6 +50,14 @@ abstract class Account {
 
      public int getId() {
           return id;
+     }
+
+     public void setActive(boolean active) {
+          this.active = active;
+     }
+
+     public boolean isActive() {
+          return active;
      }
 
      public abstract boolean auth(String user, String pass);
