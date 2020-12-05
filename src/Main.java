@@ -48,6 +48,7 @@ public class Main {
             }
                 switch (answer) {
                     case 1:
+                        while (activeAdmin == null || activeUser == null) {
                         System.out.println("Ange användarnamn");
                         username = sc.next();
                         System.out.println("Ange lösenord");
@@ -68,6 +69,13 @@ public class Main {
                                     break;
                                 }
                             }
+                        }
+
+                        if (activeAdmin == null && activeUser == null) {
+                            System.out.println("Inloggning misslyckades, försök igen!");
+                        }
+
+
                         }
 
 
