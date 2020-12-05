@@ -37,7 +37,7 @@ public class Main {
 
         while (true) {
 
-            System.out.println("Vill du logga in eller skapa konto?");
+            System.out.println("Vill du logga in eller skapa ett konto?");
             System.out.println("1. Logga in");
             System.out.println("2. Skapa ett konto");
 
@@ -77,7 +77,7 @@ public class Main {
                                 System.out.println("1. Ta bort ett konto");
                                 System.out.println("2. Skapa ett ämne");
                                 System.out.println("3. Se alla användare");
-                                System.out.println("4. Avsluta");
+                                System.out.println("4. Logga ut");
 
                                 try {
                                     alt = sc.nextInt();
@@ -105,17 +105,14 @@ public class Main {
                                 } else if (alt == 3) {
                                     activeAdmin.printUsers();
                                 } else if (alt == 4) {
-                                    System.out.println("Avslutar..");
-                                    System.exit(1);
+                                    System.out.println("Loggar ut..");
+                                    break;
 
                                 } else {
                                     System.out.println("Felaktig inmatning");
                                 }
                         }
-
-                        while (activeUser.isActive()) {
-
-                        }
+                        break;
                     case 2:
                         while (true) {
                             System.out.println("Ange användarnamn");
