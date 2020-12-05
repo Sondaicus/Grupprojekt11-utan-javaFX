@@ -15,7 +15,7 @@ public class UserAccount extends Account  {
 
     @Override
     public String toString() {
-        return super.getUsername() + "," + super.getPass() + "," + super.getAccountType();
+        return "ID: " + super.getId() + " " + "Username: " + super.getUsername() + " [User]";
     }
 
     @Override

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Max Erling
@@ -13,6 +14,8 @@ abstract class Account {
      private int accountType;
      private List<Subject> subjects;
      private List<Account> users;
+     private static AtomicInteger uniqueId = new AtomicInteger();
+     private int id;
 
      public Account(String username, String pass, int accType, List<Subject> subjects, List<Account> users) {
           this.username = username;
@@ -20,6 +23,7 @@ abstract class Account {
           this.accountType = accType;
           this.subjects = subjects;
           this.users = users;
+          this.id= uniqueId.getAndIncrement();
      }
 
      public String getUsername() {
@@ -42,6 +46,9 @@ abstract class Account {
           return users;
      }
 
+     public int getId() {
+          return id;
+     }
 
      public abstract boolean auth(String user, String pass);
 

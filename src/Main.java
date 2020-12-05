@@ -12,7 +12,7 @@ public class Main {
 
         List<Account> users = new ArrayList<>();
 
-          AccountCreator.createAdmin("Hakim","pass",subjects,users);
+        AccountCreator.createAdmin("Hakim","pass",subjects,users);
         //a5.printUsers();
 
         UserAccount a1 = new UserAccount("Hakim","pass",subjects,users);
@@ -24,7 +24,12 @@ public class Main {
         users.add(AccountCreator.createAdmin("Ad","pass",subjects,users));
         users.add(AccountCreator.createUser("Kalle","pass",subjects,users));
         users.add(AccountCreator.createAdmin("Ad","pass",subjects,users));
-        System.out.println(users);
+        a4.printUsers();
+        System.out.println("-");
+        //a4.removeUser(5,"Hakim");
+        a4.removeUser(6,"Ad");
+        System.out.println("-");
+        a4.printUsers();
 
         //a2.addSubject("Övrigt");
         //a1.setUsers(users);
