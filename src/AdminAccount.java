@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class AdminAccount extends Account {
 
-
+/*
 
     public AdminAccount(String username, String pass, List<Subject> subjects, List<Account> users) {
         super(username,pass,0,subjects,users);
@@ -62,5 +62,5 @@ public class AdminAccount extends Account {
     @Override
     public void setActive(boolean active) {
         super.setActive(active);
-    }
+    }*/
 }
