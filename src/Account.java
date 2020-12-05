@@ -1,65 +1,90 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.*;
 
-/**
- * Created by Max Erling
- * Date: 2020-11-30
- * Copyright: MIT
- * Class: Java20B
- */
-abstract class Account {
-     private String username;
-     private String pass;
-     private int accountType;
-     private List<Subject> subjects;
-     private List<Account> users;
-     private static AtomicInteger uniqueId = new AtomicInteger();
-     private int id;
-     private boolean active;
-
-     public Account(String username, String pass, int accType, List<Subject> subjects, List<Account> users) {
-          this.username = username;
-          this.pass = pass;
-          this.accountType = accType;
-          this.subjects = subjects;
-          this.users = users;
-          this.id= uniqueId.getAndIncrement();
-          this.active = false;
-     }
-
-     public String getUsername() {
-          return username;
-     }
-
-     public String getPass() {
-          return pass;
-     }
-
-     public int getAccountType() {
-          return accountType;
-     }
-
-     public List<Subject> getSubjects() {
-          return subjects;
-     }
-
-     public List<Account> getUsers() {
-          return users;
-     }
-
-     public int getId() {
-          return id;
-     }
-
-     public void setActive(boolean active) {
-          this.active = active;
-     }
-
-     public boolean isActive() {
-          return active;
-     }
-
-     public abstract boolean auth(String user, String pass);
-
+public class Account
+{
+	private String
+		username ,
+		password;
+	
+	private int
+		id ,
+		accountType;
+	
+	private ArrayList<Account>
+		users;
+	
+	
+	public Account()
+	{
+		users = new ArrayList<Account>();
+		
+	}
+	
+	public Account(String username, String password, int id, int accountType)
+	{
+		users = new ArrayList<Account>();
+		
+		setUsername(username);
+		setPassword(password);
+		setId(id);;
+		setAccountType(accountType);
+		
+	}
+	
+	
+	public void setUsername(String username)
+	{
+		this.username = username;
+		
+	}
+	
+	public void setPassword(String password)
+	{
+		this.password = password;
+		
+	}
+	
+	public void setId(int id)
+	{
+		this.id = id;
+		
+	}
+	
+	public void setAccountType(int accountType)
+	{
+		this.accountType = accountType;
+		
+	}
+	
+	
+	public String getUsername()
+	{
+		return username;
+		
+	}
+	
+	public String getPassword()
+	{
+		return password;
+		
+	}
+	
+	public int getId()
+	{
+		return id;
+		
+	}
+	
+	public int getAccountType()
+	{
+		return accountType;
+		
+	}
+	
+	public ArrayList<Account> getUsers()
+	{
+		return users;
+		
+    }
+    
 }
