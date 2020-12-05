@@ -59,7 +59,6 @@ public class Main {
                                 if (user.getAccountType() == 0) {
                                     activeAdmin = (AdminAccount) user;
                                     activeAdmin.setActive(true);
-                                    activeAdmin.isActive();
                                     System.out.println("Välkommen " + activeAdmin.getUsername());
                                     break;
                                 } else if (user.getAccountType() == 1) {
@@ -94,7 +93,7 @@ public class Main {
                                     } catch (InputMismatchException in) {
                                         sc.next();
                                     }
-                                    System.out.println("Vad för användarnman?");
+                                    System.out.println("Vad för användarnamn?");
                                     username = sc.next();
                                     activeAdmin.removeUser(id,username);
 
