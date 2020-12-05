@@ -12,7 +12,8 @@ public class Main {
         subjects.add(s2);
 
         List<Account> users = new ArrayList<>();
-
+        users.add(new UserAccount("p","p",subjects,users));
+        users.add(new AdminAccount("q","q",subjects,users));
         //a5.printUsers();
 
         //a2.addSubject("Övrigt");

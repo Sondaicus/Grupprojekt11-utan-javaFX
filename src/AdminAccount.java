@@ -21,12 +21,12 @@ public class AdminAccount extends Account {
     public void removeUser(int id, String username) {
         for (Account user : super.getUsers()) {
 
-            if (user.getUsername().equals(username) && user.getId() == id && !(super.getUsername().equals(username) && super.getId() == id)) {
+            if ((user.getUsername().equals(username) && user.getId() == id) && !(super.getUsername().equals(username) && super.getId() == id)) {
                 super.getUsers().remove(user);
                 System.out.println(user.getUsername() + " borttagen");
                 break;
             } else {
-                System.out.println("Du kan inte ta bort denna användare för tillfället");
+                System.out.println("Felaktig inmatning eller så används detta konto just nu!");
                 break;
             }
         }
