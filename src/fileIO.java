@@ -1,10 +1,13 @@
+import java.io.*;
+
 public interface fileIO
 {
-	abstract void setDatabaseFolder();
-	abstract void readFromFile();
-	abstract void setFilecontentsToList();
-	abstract void writeToFile();
-	abstract void overwriteFile();
+	abstract void setDatabaseFolders();
+	abstract void readAllUserFiles();
+	abstract String[] getUserFilesFromID(int userID) throws IOException;
+	abstract void removeUser(int userID);
+	abstract void writeToIndividualUserFile(String userID, String userName, String[] information) throws IOException;
+	abstract void overwriteFile(String fullFilePath, String[] information) throws IOException;
 	abstract void addToList();
 	abstract void removeFromList();
 }

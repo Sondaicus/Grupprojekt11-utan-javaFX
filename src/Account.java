@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.*;
 
 public class Account
@@ -14,20 +15,14 @@ public class Account
 		users;
 	
 	
-	public Account()
-	{
-		users = new ArrayList<Account>();
-		
-	}
-	
-	public Account(String username, String password, int id, int accountType)
+	public Account(String username, String password, int accountType) throws IOException
 	{
 		users = new ArrayList<Account>();
 		
 		setUsername(username);
 		setPassword(password);
-		setId(id);;
 		setAccountType(accountType);
+		setId();
 		
 	}
 	
@@ -44,9 +39,9 @@ public class Account
 		
 	}
 	
-	public void setId(int id)
+	private void setId() throws IOException
 	{
-		this.id = id;
+		id = CreateNewUserID.getAndSetIDs();
 		
 	}
 	
