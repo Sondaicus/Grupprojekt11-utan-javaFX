@@ -1,0 +1,1 @@
+/*This file is used to identify the correct folder the program uses to find the place were it will place the folders and txt-files it creates and reads from.*/
