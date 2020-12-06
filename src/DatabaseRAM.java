@@ -12,7 +12,8 @@ public class DatabaseRAM implements fileIO
 	
 	private static String
 		dataBaseFolder ,
-		fullDatabseFile ,
+		currentFullDatabseFile ,
+		nextFullDatabseFile ,
 		fullProjectPath ,
 		fullFileNameString ,
 		filesFolderPath ,
@@ -70,6 +71,7 @@ public class DatabaseRAM implements fileIO
 		allAccounts = new ArrayList<Account>();
 		
 	}
+	
 	
 	
 	public String[] getUserFilesFromID(int userID) throws IOException
@@ -155,9 +157,107 @@ public class DatabaseRAM implements fileIO
 	
 	
 	
-	public void removeUser(int userID)
+	public void removeUser(int userID) throws IOException
 	{
-	
+		String
+			currentLineBeingRead ,
+			userIDString ,
+			newFilePart1 ,
+			newFilePart2 ,
+			completeNewFile;
+		
+		int
+			userIDBreaker ,
+			userIDInt ,
+			nextLineBreaker ,
+			newLineCheckStart;
+		
+		
+		currentFullDatabseFile = "";
+		newFilePart1 = "";
+		newFilePart2 = "";
+		
+		
+		inStream = new BufferedReader(new FileReader(usersListFile));
+		
+		
+		OVERLOADCHECKER1 = new long[1000000];
+		OVERLOADCHECKER2 = 0;
+		while(true)
+		{
+			currentLineBeingRead = inStream.readLine();
+			
+			if(currentLineBeingRead == null)
+			{
+				break;
+				
+			}
+			
+			currentFullDatabseFile += currentLineBeingRead;
+			currentFullDatabseFile += "\n";
+			
+			
+			OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
+			OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
+		}
+		
+		inStream.close();
+		
+		
+		newLineCheckStart = 0;
+		nextLineBreaker = currentFullDatabseFile.indexOf("\n");
+		
+		
+		OVERLOADCHECKER1 = new long[1000000];
+		OVERLOADCHECKER2 = 0;
+		while(true)
+		{
+			currentLineBeingRead = currentFullDatabseFile.substring(newLineCheckStart, nextLineBreaker);
+			userIDBreaker = currentLineBeingRead.indexOf("_");
+			userIDString = currentLineBeingRead.substring(0, userIDBreaker);
+			userIDInt = Integer.parseInt(userIDString);
+			
+			if(userIDInt == userID)
+			{
+				break;
+				
+			}
+			
+			else
+			{
+				newFilePart1 += currentLineBeingRead;
+				newLineCheckStart = currentLineBeingRead.indexOf("\n");
+				
+				if(newLineCheckStart != -1)
+				{
+					++newLineCheckStart;
+					newFilePart1 += "\n";
+					
+					currentLineBeingRead = currentFullDatabseFile.substring(newLineCheckStart);
+					nextLineBreaker = currentLineBeingRead.indexOf("\n");
+					
+					if(nextLineBreaker == -1)
+					{
+						nextLineBreaker = currentFullDatabseFile.length();
+						
+					}
+					
+				}
+				
+				else
+				{
+					break;
+					
+				}
+				
+			}
+			
+			
+			OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
+			OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
+		}
+		
+		outStream;
 	
 	}
 	
