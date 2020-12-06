@@ -4,9 +4,14 @@ import java.util.*;
 
 public class DatabaseRAM implements fileIO
 {
-	private static ArrayList<Account> allAccounts;
-	private static String dataBaseFolder;
-	private static String fullDatabseFile;
+	private static ArrayList<Account>
+		allAccounts;
+	
+	private static String
+		dataBaseFolder ,
+		fullDatabseFile ,
+		fullPath ,
+		fullFileName;
 	
 	
 	DatabaseRAM()
@@ -18,8 +23,14 @@ public class DatabaseRAM implements fileIO
 	
 	public void setDatabaseFolder()
 	{
+		int
+			setFolderLocation;
 		
-	
+		fullFileName = "MainFolderIdentifyerTextFile.txt";
+		fullPath = fullFileName.getAbsolutePath();
+		setFolderLocation = fullPath.indexOf(fullFileName);
+		fullPath = fullPath.substring(0, setFolderLocation);
+		
 	}
 	
 	public void readFromFile()
