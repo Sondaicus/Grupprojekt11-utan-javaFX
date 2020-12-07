@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.util.*;
 
-public class Account
+public abstract class Account
 {
 	private String
 		username ,
@@ -15,14 +15,19 @@ public class Account
 		users;
 	
 	
-	public Account(String username, String password, int accountType) throws IOException
+	public Account(String username, String password, int accountType)
 	{
 		users = new ArrayList<Account>();
 		
 		setUsername(username);
 		setPassword(password);
 		setAccountType(accountType);
-		setId();
+		try {
+			setId();
+		} catch (IOException io) {
+			io.printStackTrace();
+		}
+
 		
 	}
 	

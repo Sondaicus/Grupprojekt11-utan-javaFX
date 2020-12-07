@@ -1,5 +1,6 @@
 import jdk.jfr.Category;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,15 @@ import java.util.List;
  * Class: Java20B
  */
 public class AdminAccount extends Account {
+    private ArrayList<Account> users;
+    public AdminAccount(String username, String password,ArrayList<Account> users) {
+        super(username, password, 0); 
+        setUsers(users);
+    }
 
+    public void setUsers(ArrayList<Account> users) {
+        this.users = users;
+    }
 /*
 
     public AdminAccount(String username, String pass, List<Subject> subjects, List<Account> users) {

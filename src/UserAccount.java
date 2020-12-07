@@ -8,9 +8,9 @@ public class UserAccount extends Account
 		subjects;
 	
 	
-	public UserAccount(String username, String password, int accountType) throws IOException
+	public UserAccount(String username, String password)
 	{
-		super(username, password, accountType);
+		super(username, password, 1);
 		
 	}
 	
