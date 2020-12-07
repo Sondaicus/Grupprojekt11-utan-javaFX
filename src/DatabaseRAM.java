@@ -18,7 +18,12 @@ public class DatabaseRAM implements fileIO
 		fullFileNameString ,
 		filesFolderPath ,
 		userIDsFolderPath ,
-		usersListFile;
+		usersListFile ,
+	
+		nextOSFolder = "\\" ,
+		thisFolder = "src" ,
+		thisClass = "DatabaseRAM" ,
+		fullClassPathCollective = thisFolder + nextOSFolder + thisClass + nextOSFolder;
 	
 	private static BufferedReader
 		inStream;
@@ -76,6 +81,11 @@ public class DatabaseRAM implements fileIO
 	
 	public String[] getUserFilesFromID(int userID) throws IOException
 	{
+		String thisMethod = "getUserFilesFromID";
+		
+		System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+		
+		
 		String[]
 			userIDAndName;
 		
@@ -108,7 +118,8 @@ public class DatabaseRAM implements fileIO
 			
 			if(lineBeingRead.equals(null))
 			{
-				System.out.println("DatabaseRAM\\readIndividualUserFiles\\User not found (" + userID + ")");
+				System.out.println(thisClass + nextOSFolder + "readIndividualUserFiles" + nextOSFolder
+				                   + "User not found (" + userID + ")");
 				readIDString = "";
 				readNameString = "";
 				break;
@@ -151,6 +162,10 @@ public class DatabaseRAM implements fileIO
 			
 		}
 		
+		
+		System.out.println("End method: " + fullClassPathCollective + thisMethod);
+		
+		
 		return userIDAndName;
 		
 	}
@@ -165,6 +180,11 @@ public class DatabaseRAM implements fileIO
 	 are complete they are put together into a new String, and that String is overwritten to the users.txt file.*/
 	public void removeUser(int userID) throws IOException
 	{
+		String thisMethod = "removeUser";
+		
+		System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+		
+		
 		String
 			temporaryUsedDatabaseFile ,
 			currentLineBeingRead ,
@@ -271,6 +291,9 @@ public class DatabaseRAM implements fileIO
 				OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
 				OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
 			}
+			
+			System.out.println("newFilePart1 : " + "@" + newFilePart1 + "@");
+			
 		/*End: saving the files lines to a separate String up until it finds the user (if it finds it).*/
 		
 		
@@ -296,8 +319,13 @@ public class DatabaseRAM implements fileIO
 		/*End: saving the files lines after the specified user is found to a separate String.*/
 		
 		
+		System.out.println("newFilePart2 : " + "£" + newFilePart2 + "£");
+		
+		
 		//Combines the two files into a separate String to be written to the txt-file.
 			completeNewFile = newFilePart1 + newFilePart2;
+			
+		System.out.println("completeNewFile : " + "#" + completeNewFile + "#");
 			
 			
 		/*Start: if there are any blanks lines in the String they are removed here.*/
@@ -340,16 +368,27 @@ public class DatabaseRAM implements fileIO
 				OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
 				OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
 			}
+		
+		System.out.println("completeNewFile (excessive blanklines removed) : " + "?" + completeNewFile + "?");
+		
 		/*End: if there are any blanks lines in the String they are removed here.*/
 		
 		overwriteFile(usersListFile, completeNewFile);
-	
+		
+		
+		System.out.println("End method: " + fullClassPathCollective + thisMethod);
+		
 	}
 	
 	
 	
 	public void writeToIndividualUserFile(String userID, String userName, String[] information) throws IOException
 	{
+		String thisMethod = "writeToIndividualUserFile";
+		
+		System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+		
+		
 		String
 			userPersonalFolderAdress ,
 			userPersonalFolderFullPath ,
@@ -373,12 +412,20 @@ public class DatabaseRAM implements fileIO
 		
 		outStream.close();
 		
+		
+		System.out.println("End method: " + fullClassPathCollective + thisMethod);
+		
 	}
 	
 	
 	
 	public void overwriteFile(String fullFilePath, String[] information) throws IOException
 	{
+		String thisMethod = "overwriteFile (String information)";
+		
+		System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+		
+		
 		outStream = new PrintWriter(new BufferedWriter(new FileWriter(fullFilePath)));
 		
 		System.out.println("File being overwritten: " + fullFilePath);
@@ -391,6 +438,9 @@ public class DatabaseRAM implements fileIO
 		}
 		
 		outStream.close();
+		
+		
+		System.out.println("End method: " + fullClassPathCollective + thisMethod);
 	
 	}
 	
@@ -398,6 +448,11 @@ public class DatabaseRAM implements fileIO
 	
 	public void overwriteFile(String fullFilePath, String information) throws IOException
 	{
+		String thisMethod = "overwriteFile (single String information)";
+		
+		System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+		
+		
 		outStream = new PrintWriter(new BufferedWriter(new FileWriter(fullFilePath)));
 		
 		System.out.println("File being overwritten: " + fullFilePath);
@@ -405,6 +460,9 @@ public class DatabaseRAM implements fileIO
 		outStream.println(information);
 		
 		outStream.close();
+		
+		
+		System.out.println("End method:: " + fullClassPathCollective + thisMethod);
 		
 	}
 	

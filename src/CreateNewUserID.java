@@ -5,6 +5,17 @@ public interface CreateNewUserID
 {
 	public static int getAndSetIDs() throws IOException
 	{
+		String
+			thisFolder = "src" ,
+			thisClass = "CreateNewUserID" ,
+			thisMethod = "getAndSetIDs" ,
+			nextOSFolder = "\\" ,
+			fullClassPathCollective = thisFolder + nextOSFolder + thisClass + nextOSFolder + thisMethod;
+		
+		
+		System.out.println("Start method: " + fullClassPathCollective);
+		
+		
 		File
 			fullFileNameFile;
 		
@@ -76,6 +87,9 @@ public interface CreateNewUserID
 		outStream = new PrintWriter(new BufferedWriter(new FileWriter(nextUserIDPath)));
 		outStream.println(nextUserIDString);
 		outStream.close();
+		
+		
+		System.out.println("End method: " + fullClassPathCollective);
 		
 		
 		return currentIDInt;
