@@ -1,7 +1,4 @@
-import jdk.jfr.Category;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Max Erling
@@ -10,47 +7,40 @@ import java.util.List;
  * Class: Java20B
  */
 public class AdminAccount extends Account {
-
-/*
-
-    public AdminAccount(String username, String pass, List<Subject> subjects, List<Account> users) {
-        super(username,pass,0,subjects,users);
+    private ArrayList<Account> users;
+    public AdminAccount(String username, String password,ArrayList<Account> users,ArrayList <Subject>
+            subjects) {
+        super(username, password, 0,subjects);
+        setUsers(users);
 
     }
 
-    public void removeUser(int id, String username) {
-        for (Account user : super.getUsers()) {
-            if ((user.getUsername().equals(username) && user.getId() == id) && !(super.getUsername().equals(username) && super.getId() == id)) {
-                super.getUsers().remove(user);
-                System.out.println(user.getUsername() + " borttagen");
-                break;
-            }
+    public void setUsers(ArrayList<Account> users) {
+        this.users = users;
+    }
 
-            if (super.getUsers().indexOf(user) == super.getUsers().size()-1) {
-                System.out.println("Felaktig inmatning eller så används detta konto just nu!");
+    public void removeAccount(int id, String username) {
+        for (Account user : users) {
+            if (user.getUsername().equals(username) && user.getId() == id) {
+                users.remove(user);
+                System.out.println("Användarkonto " + user.getUsername() + " borttaget!");
             }
         }
-
     }
 
     public void addSubject(String subjectName) {
-        super.getSubjects().add(new Subject(subjectName));
+        subjects.add(new Subject(subjectName));
     }
-
 
     public void printUsers() {
         System.out.println("--------------");
-        for (Account user : super.getUsers()) {
-
+        for (Account user : users) {
             System.out.println(user);
         }
         System.out.println("--------------");
-    }
 
-    @Override
-    public String toString() {
-        return "ID:" + super.getId() + " " + super.getUsername() + " [Admin]";
     }
+ /*
 
     @Override
     public boolean auth(String user, String pass) {

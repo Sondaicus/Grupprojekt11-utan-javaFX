@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.util.*;
 
-public class Account
+public abstract class Account
 {
 	private String
 		username ,
@@ -11,21 +11,26 @@ public class Account
 		id ,
 		accountType;
 	
-	private ArrayList<Account>
-		users;
+
+	public ArrayList <Subject>
+			subjects;
 	
-	
-	public Account(String username, String password, int accountType) throws IOException
+	public Account(String username, String password, int accountType,ArrayList <Subject>
+			subjects)
 	{
-		users = new ArrayList<Account>();
 		
 		setUsername(username);
 		setPassword(password);
 		setAccountType(accountType);
-		setId();
+		try {
+			setId();
+		} catch (IOException io) {
+			io.printStackTrace();
+		}
+		setSubjects(subjects);
+
 		
 	}
-	
 	
 	public void setUsername(String username)
 	{
@@ -76,10 +81,14 @@ public class Account
 		
 	}
 	
-	public ArrayList<Account> getUsers()
-	{
-		return users;
-		
-    }
-    
+
+
+	public void setSubjects(ArrayList<Subject> subjects) {
+		this.subjects = subjects;
+	}
+
+	@Override
+	public String toString() {
+		return getId() + " " + getUsername();
+	}
 }
