@@ -11,13 +11,13 @@ public abstract class Account
 		id ,
 		accountType;
 	
-	private ArrayList<Account>
-		users;
+
+	public ArrayList <Subject>
+			subjects;
 	
-	
-	public Account(String username, String password, int accountType)
+	public Account(String username, String password, int accountType,ArrayList <Subject>
+			subjects)
 	{
-		users = new ArrayList<Account>();
 		
 		setUsername(username);
 		setPassword(password);
@@ -27,10 +27,10 @@ public abstract class Account
 		} catch (IOException io) {
 			io.printStackTrace();
 		}
+		setSubjects(subjects);
 
 		
 	}
-	
 	
 	public void setUsername(String username)
 	{
@@ -81,10 +81,14 @@ public abstract class Account
 		
 	}
 	
-	public ArrayList<Account> getUsers()
-	{
-		return users;
-		
-    }
-    
+
+
+	public void setSubjects(ArrayList<Subject> subjects) {
+		this.subjects = subjects;
+	}
+
+	@Override
+	public String toString() {
+		return getId() + " " + getUsername();
+	}
 }

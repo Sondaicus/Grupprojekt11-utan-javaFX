@@ -6,9 +6,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         ArrayList<Account> users = new ArrayList<>();
-        users.add(new UserAccount("p","p"));
-        users.add(new AdminAccount("q","q",users));
-
+        ArrayList<Subject> subjects = new ArrayList<>();
+        users.add(new UserAccount("p","p",subjects));
+        users.add(new AdminAccount("q","q",users,subjects));
+        AdminAccount a1 = (AdminAccount) users.get(1);
+        a1.printUsers();
 
 
     }

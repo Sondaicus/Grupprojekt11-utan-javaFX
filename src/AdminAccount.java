@@ -1,8 +1,4 @@
-import jdk.jfr.Category;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Max Erling
@@ -12,9 +8,11 @@ import java.util.List;
  */
 public class AdminAccount extends Account {
     private ArrayList<Account> users;
-    public AdminAccount(String username, String password,ArrayList<Account> users) {
-        super(username, password, 0);
+    public AdminAccount(String username, String password,ArrayList<Account> users,ArrayList <Subject>
+            subjects) {
+        super(username, password, 0,subjects);
         setUsers(users);
+
     }
 
     public void setUsers(ArrayList<Account> users) {
@@ -30,6 +28,11 @@ public class AdminAccount extends Account {
     }
 
     public void printUsers() {
+        System.out.println("--------------");
+        for (Account user : users) {
+            System.out.println(user);
+        }
+        System.out.println("--------------");
 
     }
  /*

@@ -12,9 +12,9 @@ public class AccountCreator {
     public static AdminAccount createAdmin(String username, String pass, ArrayList<Account> users) {
 
 
-        if (!(username == null && pass == null && subjects == null)) {
+        /*if (!(username == null && pass == null && subjects == null)) {
             return new AdminAccount(username,pass,users);
-        }
+        }*/
 
         return  null;
     }
