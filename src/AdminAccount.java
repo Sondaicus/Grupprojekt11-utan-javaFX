@@ -42,45 +42,6 @@ public class AdminAccount extends Account {
     }
  /*
 
-    public AdminAccount(String username, String pass, List<Subject> subjects, List<Account> users) {
-        super(username,pass,0,subjects,users);
-
-    }
-
-    public void removeUser(int id, String username) {
-        for (Account user : super.getUsers()) {
-            if ((user.getUsername().equals(username) && user.getId() == id) && !(super.getUsername().equals(username) && super.getId() == id)) {
-                super.getUsers().remove(user);
-                System.out.println(user.getUsername() + " borttagen");
-                break;
-            }
-
-            if (super.getUsers().indexOf(user) == super.getUsers().size()-1) {
-                System.out.println("Felaktig inmatning eller så används detta konto just nu!");
-            }
-        }
-
-    }
-
-    public void addSubject(String subjectName) {
-        super.getSubjects().add(new Subject(subjectName));
-    }
-
-
-    public void printUsers() {
-        System.out.println("--------------");
-        for (Account user : super.getUsers()) {
-
-            System.out.println(user);
-        }
-        System.out.println("--------------");
-    }
-
-    @Override
-    public String toString() {
-        return "ID:" + super.getId() + " " + super.getUsername() + " [Admin]";
-    }
-
     @Override
     public boolean auth(String user, String pass) {
         return super.getUsername().equals(user) && super.getPass().equals(pass);

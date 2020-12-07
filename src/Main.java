@@ -9,7 +9,6 @@ public class Main {
         ArrayList<Subject> subjects = new ArrayList<>();
         users.add(new UserAccount("p","p",subjects));
         users.add(new AdminAccount("q","q",users,subjects));
-        AdminAccount a1 = (AdminAccount) users.get(1);
 
 
     }
