@@ -29,7 +29,7 @@ public class AdminAccount extends Account {
     }
 
     public void addSubject(String subjectName) {
-
+        subjects.add(new Subject(subjectName));
     }
 
     public void printUsers() {

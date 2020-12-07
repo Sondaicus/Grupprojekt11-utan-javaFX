@@ -8,10 +8,10 @@ public class Subject
 	private ArrayList<Task>
 		tasks;
 	
-	public Subject()
+	public Subject(String subjectName)
 	{
 		tasks = new ArrayList<Task>();
-		
+		setSubjectName(subjectName);
 	}
 	
 	public void createTask(String taskName, String description)
@@ -28,5 +28,8 @@ public class Subject
 	{
 	
 	}
-	
+
+	public void setSubjectName(String subjectName) {
+		this.subjectName = subjectName;
+	}
 }
