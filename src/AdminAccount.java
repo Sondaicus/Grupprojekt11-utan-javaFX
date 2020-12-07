@@ -13,14 +13,26 @@ import java.util.List;
 public class AdminAccount extends Account {
     private ArrayList<Account> users;
     public AdminAccount(String username, String password,ArrayList<Account> users) {
-        super(username, password, 0); 
+        super(username, password, 0);
         setUsers(users);
     }
 
     public void setUsers(ArrayList<Account> users) {
         this.users = users;
     }
-/*
+
+    public void removeAccount() {
+
+    }
+
+    public void addSubject(String subjectName) {
+
+    }
+
+    public void printUsers() {
+
+    }
+ /*
 
     public AdminAccount(String username, String pass, List<Subject> subjects, List<Account> users) {
         super(username,pass,0,subjects,users);

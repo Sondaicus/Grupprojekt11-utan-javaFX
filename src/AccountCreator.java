@@ -23,7 +23,7 @@ public class AccountCreator {
 
 
          if (!(username == null && pass == null && subjects == null)) {
-            return new UserAccount(username,pas"",users);
+            return new UserAccount(username,pass);
         }
 
         return  null;
