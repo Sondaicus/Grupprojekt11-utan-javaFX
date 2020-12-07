@@ -10,7 +10,6 @@ public class Main {
         users.add(new UserAccount("p","p",subjects));
         users.add(new AdminAccount("q","q",users,subjects));
         AdminAccount a1 = (AdminAccount) users.get(1);
-        a1.printUsers();
 
 
     }

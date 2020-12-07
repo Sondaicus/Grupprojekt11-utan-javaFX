@@ -22,9 +22,9 @@ public class AccountCreator {
     public static UserAccount createUser(String username, String pass, List<Subject> subjects,ArrayList<Account> users) {
 
 
-         if (!(username == null && pass == null && subjects == null)) {
+        /* if (!(username == null && pass == null && subjects == null)) {
             return new UserAccount(username,pass);
-        }
+        }*/
 
         return  null;
     }

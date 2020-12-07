@@ -19,8 +19,13 @@ public class AdminAccount extends Account {
         this.users = users;
     }
 
-    public void removeAccount() {
-
+    public void removeAccount(int id, String username) {
+        for (Account user : users) {
+            if (user.getUsername().equals(username) && user.getId() == id) {
+                users.remove(user);
+                System.out.println("Användarkonto " + user.getUsername() + " borttaget!");
+            }
+        }
     }
 
     public void addSubject(String subjectName) {
