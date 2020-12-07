@@ -1,11 +1,9 @@
-import javax.sound.midi.SysexMessage;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
 
         Database database = new Database();
         String username;
@@ -31,6 +29,7 @@ public class Main {
                         if (u.getUsername().equals(username) && u.getPass().equals(password)) {
                             System.out.println("Välkommen " + u.getUsername());
                             String user = u.getUsername();
+
                             while (true) {
                                 if (u.getAccountType() == 0) {
                                     System.out.println("Välja alternativ:");
@@ -57,6 +56,14 @@ public class Main {
                                     } else if (answer == 2 ) {
 
                                     } else if (answer == 3 ) {
+                                        File file= new File("/Users/rakib/IdeaProjects/Grupprojekt11-utan-javaFX/Files/Erik.txt");
+                                        BufferedReader br = new BufferedReader(new FileReader(file));
+                                        if (database.getUsers().equals("Erik")) {
+                                            String st;
+                                            while ((st = br.readLine()) != null)
+                                                System.out.println(st);
+
+                                        }
 
                                     } else if (answer == 4) {
                                         System.exit(0);
@@ -88,7 +95,16 @@ public class Main {
 
                                     } else if (answer == 2) {
 
+
                                     } else if (answer == 3) {
+
+                                        /*System.out.println("Skriv ditt ämne");
+                                        Scanner scanner = new Scanner(System.in);
+                                        String userInput = scanner.next();
+                                        if (userInput.equals("Inköpslista")) {
+
+                                        }*/
+
 
                                     } else if (answer == 4) {
                                         System.exit(0);
@@ -136,7 +152,6 @@ public class Main {
 
             } else {
                 System.out.println("Välj mellan möjliga alternativ");
-
             }
 
         }

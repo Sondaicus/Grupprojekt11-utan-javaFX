@@ -15,7 +15,7 @@ public abstract class Account {
         this.username = username;
         this.pass = pass;
         this.accountType = accountType;
-        //this.d = new Database();
+        this.d = new Database();
     }
 
     public String getUsername() {
