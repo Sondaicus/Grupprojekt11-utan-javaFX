@@ -56,14 +56,7 @@ public class Main {
                                     } else if (answer == 2 ) {
 
                                     } else if (answer == 3 ) {
-                                        File file= new File("/Users/rakib/IdeaProjects/Grupprojekt11-utan-javaFX/Files/Erik.txt");
-                                        BufferedReader br = new BufferedReader(new FileReader(file));
-                                        if (database.getUsers().equals("Erik")) {
-                                            String st;
-                                            while ((st = br.readLine()) != null)
-                                                System.out.println(st);
 
-                                        }
 
                                     } else if (answer == 4) {
                                         System.exit(0);
@@ -98,12 +91,14 @@ public class Main {
 
                                     } else if (answer == 3) {
 
-                                        /*System.out.println("Skriv ditt ämne");
-                                        Scanner scanner = new Scanner(System.in);
-                                        String userInput = scanner.next();
-                                        if (userInput.equals("Inköpslista")) {
+                                        File file= new File("/Users/rakib/IdeaProjects/Grupprojekt11-utan-javaFX/Files/Erik.txt");
+                                        BufferedReader br = new BufferedReader(new FileReader(file));
+                                        if (database.getUsers().equals("Erik")) {
+                                            String st;
+                                            while ((st = br.readLine()) != null)
+                                                System.out.println(st);
 
-                                        }*/
+                                        }
 
 
                                     } else if (answer == 4) {
