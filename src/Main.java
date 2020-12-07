@@ -7,10 +7,6 @@ public class Main {
     public static void main(String[] args) {
         ArrayList<Account> users = new ArrayList<>();
         ArrayList<Subject> subjects = new ArrayList<>();
-        users.add(new UserAccount("p","p",subjects));
-        users.add(new AdminAccount("q","q",users,subjects));
-
-
     }
 
 }
