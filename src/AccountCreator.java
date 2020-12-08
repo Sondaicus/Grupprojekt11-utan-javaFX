@@ -15,15 +15,13 @@ public class AccountCreator {
             return new AdminAccount(username,pass,users);
     }
 
-    public static UserAccount createUser(String username, String pass,ArrayList <Task>
-            tasks) {
+    public static UserAccount createUser(String username, String pass) {
 
-            return new UserAccount(username,pass,tasks);
+            return new UserAccount(username,pass);
 
     }
 
-    public static Account createAccount(String username, String pass,ArrayList<Account> users,ArrayList <Task>
-            tasks, String accType) {
+    public static Account createAccount(String username, String pass,ArrayList<Account> users, String accType) {
 
         if (accType.equalsIgnoreCase("admin")) {
 
@@ -31,7 +29,7 @@ public class AccountCreator {
         }
 
         if (accType.equalsIgnoreCase("user")) {
-            return new UserAccount(username,pass,tasks);
+            return new UserAccount(username,pass);
         }
 
         return null;

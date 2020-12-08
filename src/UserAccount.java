@@ -4,11 +4,9 @@ public class UserAccount extends Account
 {
 	private ArrayList<Task> tasks;
 
-	public UserAccount(String username, String password,ArrayList <Task>
-			tasks)
+	public UserAccount(String username, String password)
 	{
 		super(username, password, 1);
-		setTasks(tasks);
 
 
 		

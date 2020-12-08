@@ -7,8 +7,9 @@ public class Main {
     public static void main(String[] args) {
         ArrayList<Account> users = new ArrayList<>();
         ArrayList<Task> tasks = new ArrayList<>();
-        UserAccount u = new UserAccount("q","q",tasks);
+        UserAccount u = new UserAccount("q","q");
         AdminAccount a = new AdminAccount("p","p",users);
+        u.setTasks(tasks);
 
         u.createTask("Handla","Handla ägg och lök");
         u.createTask("Städa","Städa rummet och köket");
