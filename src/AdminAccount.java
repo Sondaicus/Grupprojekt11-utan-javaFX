@@ -8,9 +8,8 @@ import java.util.ArrayList;
  */
 public class AdminAccount extends Account {
     private ArrayList<Account> users;
-    public AdminAccount(String username, String password,ArrayList<Account> users,ArrayList <Subject>
-            subjects) {
-        super(username, password, 0,subjects);
+    public AdminAccount(String username, String password,ArrayList<Account> users) {
+        super(username, password, 0);
         setUsers(users);
 
     }
@@ -28,9 +27,7 @@ public class AdminAccount extends Account {
         }
     }
 
-    public void createSubject(String subjectName) {
-        subjects.add(new Subject(subjectName));
-    }
+
 
     public void printUsers() {
         System.out.println("--------------");

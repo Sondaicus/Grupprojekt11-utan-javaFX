@@ -29,6 +29,10 @@ public class Subject
 	
 	}
 
+	public void setTasks(ArrayList<Task> tasks) {
+		this.tasks = tasks;
+	}
+
 	public String getSubjectName() {
 		return subjectName;
 	}

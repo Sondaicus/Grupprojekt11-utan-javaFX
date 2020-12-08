@@ -9,28 +9,29 @@ import java.util.List;
  */
 public class AccountCreator {
 
-    public static AdminAccount createAdmin(String username, String pass,ArrayList<Account> users,ArrayList <Subject> subjects) {
+    public static AdminAccount createAdmin(String username, String pass,ArrayList<Account> users) {
 
 
-            return new AdminAccount(username,pass,users,subjects);
+            return new AdminAccount(username,pass,users);
     }
 
-    public static UserAccount createUser(String username, String pass,ArrayList <Subject>
-            subjects) {
+    public static UserAccount createUser(String username, String pass,ArrayList <Task>
+            tasks) {
 
-            return new UserAccount(username,pass,subjects);
+            return new UserAccount(username,pass,tasks);
 
     }
 
-    public static Account createAccount(String username, String pass,ArrayList<Account> users,ArrayList <Subject> subjects, String accType) {
+    public static Account createAccount(String username, String pass,ArrayList<Account> users,ArrayList <Task>
+            tasks, String accType) {
 
         if (accType.equalsIgnoreCase("admin")) {
 
-            return new AdminAccount(username,pass,users,subjects);
+            return new AdminAccount(username,pass,users);
         }
 
         if (accType.equalsIgnoreCase("user")) {
-            return new UserAccount(username,pass,subjects);
+            return new UserAccount(username,pass,tasks);
         }
 
         return null;
