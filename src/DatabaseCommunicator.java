@@ -82,7 +82,7 @@ public class DatabaseCommunicator implements fileIO
 	
 	public void setLeapsInALoopToUser()
 	{
-		leapsInALoopToUser = tabular2 + "leapsInALoop " + leapsInALoop;
+		leapsInALoopToUser = tabular3 + "leapsInALoop " + leapsInALoop;
 		
 	}
 	
@@ -223,7 +223,7 @@ public class DatabaseCommunicator implements fileIO
 	values to a new string line by line, and when it comes to the specified user ID it stops reading. The it starts
 	reading from the next file after the specified user, and saves its values to a new string. Once these who Strings
 	 are complete they are put together into a new String, and that String is overwritten to the users.txt file.*/
-	public void removeUser(int userID) throws IOException
+	public void removeUser() throws IOException
 	{
 		String thisMethod = "removeUser";
 		
@@ -240,7 +240,8 @@ public class DatabaseCommunicator implements fileIO
 			userIDString ,
 			newFilePart1 ,
 			newFilePart2 ,
-			completeNewFile;
+			completeNewFile ,
+			excessiveBlankLineChecker;
 		
 		int
 			userIDBreaker ,
@@ -252,219 +253,21 @@ public class DatabaseCommunicator implements fileIO
 			newLineBlank2 ,
 			nextBlankLineCounter;
 		
-		
-		currentFullDatabseFile = "";
-		newFilePart1 = "";
-		newFilePart2 = "";
-		
-		
-		inStream = new BufferedReader(new FileReader(usersListFile));
-		
-		/*Begin: reading the full user.txt file and saving it to a single String.*/
-			leapsInALoop = 0;
-			OVERLOADCHECKER1 = new long[1000000];
-			OVERLOADCHECKER2 = 0;
-			while(true)
-			{
-				setLeapsInALoopToUser();
-				if(seeExecutionInfoInTerminal)
-				{
-					System.out.println(leapsInALoopToUser);
-				}
-				
-				
-				currentLineBeingRead = inStream.readLine();
-				
-				if(currentLineBeingRead == null)
-				{
-					break;
-					
-				}
-				
-				currentFullDatabseFile += currentLineBeingRead;
-				currentFullDatabseFile += "\n";
-				
-				
-				++leapsInALoop;
-				OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
-				OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
-			}
-		/*End: reading the full user.txt file and saving it to a single String.*/
-			
-			inStream.close();
-			
-			
-			newLineCheckStart = 0;
-			temporaryUsedDatabaseFile = currentFullDatabseFile;
-			nextLineBreaker = temporaryUsedDatabaseFile.indexOf("\n");
-			
-			
-		/*Begin: saving the files lines to a separate String up until it finds the user (if it finds it).*/
-			leapsInALoop = 0;
-			OVERLOADCHECKER1 = new long[1000000];
-			OVERLOADCHECKER2 = 0;
-			while(true)
-			{
-				setLeapsInALoopToUser();
-				if(seeExecutionInfoInTerminal)
-				{
-					System.out.println(leapsInALoopToUser);
-				}
-				
-				
-				currentLineBeingRead = temporaryUsedDatabaseFile.substring(newLineCheckStart, nextLineBreaker);
-				temporaryUsedDatabaseFile = temporaryUsedDatabaseFile.substring(newLineCheckStart, nextLineBreaker + 1);
-				userIDBreaker = currentLineBeingRead.indexOf("_");
-				userIDString = currentLineBeingRead.substring(0, userIDBreaker);
-				userIDInt = Integer.parseInt(userIDString);
-				
-				if(userIDInt == userID)
-				{
-					break;
-					
-				}
-				
-				else
-				{
-					newFilePart1 += currentLineBeingRead;
-					newLineCheckStart = temporaryUsedDatabaseFile.indexOf("\n");
-					
-					if(newLineCheckStart != -1)
-					{
-						++newLineCheckStart;
-						newFilePart1 += "\n";
-						
-						currentLineBeingRead = temporaryUsedDatabaseFile.substring(newLineCheckStart);
-						nextLineBreaker = currentLineBeingRead.indexOf("\n");
-						
-						if(nextLineBreaker == -1)
-						{
-							nextLineBreaker = currentFullDatabseFile.length();
-							
-						}
-						
-					}
-					
-					else
-					{
-						break;
-						
-					}
-					
-				}
-				
-				++leapsInALoop;
-				OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
-				OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
-			}
-		
-			
-			if(seeExecutionInfoInTerminal)
-			{
-				System.out.println("newFilePart1 : " + "@" + newFilePart1 + "@");
-			}
-			
-		
-		/*End: saving the files lines to a separate String up until it finds the user (if it finds it).*/
+		boolean
+			userFound ,
+			resetBlankCounter;
 		
 		
-		/*Start: saving the files lines after the specified user is found to a separate String.*/
-			temporaryUsedDatabaseFile = currentFullDatabseFile;
-			part2Start = temporaryUsedDatabaseFile.lastIndexOf(newFilePart1);
-			newFilePart2 = temporaryUsedDatabaseFile.substring(part2Start + 1);
-			
-			/*
-			part2Start = currentLineBeingRead.indexOf("\n");
-			
-			if(part2Start == -1)
-			{
-				newFilePart2 += currentLineBeingRead;
-				
-			}
-			
-			else
-			{
-				newFilePart2 = currentFullDatabseFile.substring(part2Start + 1);
-				
-			}*/
-		/*End: saving the files lines after the specified user is found to a separate String.*/
 		
-		
-		if(seeExecutionInfoInTerminal)
-		{
-			System.out.println("newFilePart2 : " + "£" + newFilePart2 + "£");
-		}
-		
-		
-		//Combines the two files into a separate String to be written to the txt-file.
-			completeNewFile = newFilePart1 + newFilePart2;
-		
-		
-			if(seeExecutionInfoInTerminal)
-			{
-				System.out.println("completeNewFile : " + "#" + completeNewFile + "#");
-			}
-		
+		currentFullDatabseFile = StringMethodInterfaces.readFullFile(usersListFile, seeExecutionInfoInTerminal);
+		completeNewFile = StringMethodInterfaces.removeSingleLineInString(currentFullDatabseFile,
+		"2" , seeExecutionInfoInTerminal);
 		
 		/*Start: if there are any blanks lines in the String they are removed here.*/
-			nextBlankLineCounter= 0;
-		
-			leapsInALoop = 0;
-			OVERLOADCHECKER1 = new long[1000000];
-			OVERLOADCHECKER2 = 0;
-			while(true)
-			{
-				setLeapsInALoopToUser();
-				if(seeExecutionInfoInTerminal)
-				{
-					System.out.println(leapsInALoopToUser);
-				}
-				
-				
-				newLineBlank1 = completeNewFile.indexOf("\n", nextBlankLineCounter);
-				
-				if(newLineBlank1 == -1)
-				{
-					break;
-					
-				}
-				
-				newLineBlank2 = completeNewFile.indexOf("\n", newLineBlank1 + 1);
-				
-				if(newLineBlank2 == -1)
-				{
-					break;
-					
-				}
-				
-				else if(newLineBlank2 == 0)
-				{
-					completeNewFile =
-					completeNewFile.substring(0, newLineBlank1) + completeNewFile.substring(newLineBlank2);
-					
-				}
-				
-				else
-				{
-					nextBlankLineCounter += newLineBlank1 + 1;
-					
-				}
-				
-				++leapsInALoop;
-				OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
-				OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
-			}
-			
-			
-			if(seeExecutionInfoInTerminal)
-			{
-				System.out.println("completeNewFile (excessive blanklines removed) : " + "?" + completeNewFile + "?");
-			}
-			
-			
+			completeNewFile = StringMethodInterfaces.removeExcessiveBlankLines(completeNewFile, seeExecutionInfoInTerminal );
 		/*End: if there are any blanks lines in the String they are removed here.*/
 		
-		overwriteFile(usersListFile, completeNewFile);
+	//	overwriteFile(usersListFile, completeNewFile);
 		
 		
 		if(seeExecutionInfoInTerminal)
