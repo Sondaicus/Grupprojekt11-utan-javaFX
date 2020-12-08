@@ -17,7 +17,7 @@ public class UserAccount extends Account
 
 		System.out.println("--------------");
 
-		System.out.println("Kategori:" + category);
+		System.out.println("Kategori: " + category);
 
 		System.out.println("--------------");
 
