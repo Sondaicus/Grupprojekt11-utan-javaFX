@@ -14,6 +14,8 @@ public class Main {
         u.createTask("Städa","Städa rummet och köket");
         u.createTask("Film","Kolla på The Desgin Pattern");
 
+        u.removeTask("film");
+
         u.printTasks();
 
     }

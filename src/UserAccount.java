@@ -18,6 +18,16 @@ public class UserAccount extends Account
 		tasks.add(new Task(taskName,desc));
 	}
 
+	public void removeTask(String taskName) {
+		for (Task task: tasks) {
+			if (task.getTaskName().equalsIgnoreCase(taskName)) {
+				tasks.remove(task);
+				System.out.println("Uppgift borttaget!");
+				break;
+			}
+		}
+	}
+
 	public void printTasks() {
 		for (Task task : tasks) {
 			System.out.println(task);
