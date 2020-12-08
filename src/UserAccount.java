@@ -38,4 +38,5 @@ public class UserAccount extends Account
 	public void setTasks(ArrayList<Task> tasks) {
 		this.tasks = tasks;
 	}
+
 }
