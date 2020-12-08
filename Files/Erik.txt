@@ -1,3 +1,5 @@
 Ägg,Inköpslista
 Kakor,Inköpslista
 Smör,Inköpslista
+Tvätta rummet,Hemmasysslor
+Putsa fönster,Hemmasysslor
