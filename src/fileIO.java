@@ -6,6 +6,7 @@ public interface fileIO
 	abstract void readAllUserFiles();
 	abstract String[] getUserFilesFromID(int userID) throws IOException;
 	abstract void removeUser(int userID) throws IOException;
+	abstract void setLeapsInALoopToUser();
 	abstract void writeToIndividualUserFile(String userID, String userName, String[] information) throws IOException;
 	abstract void overwriteFile(String fullFilePath, String[] information) throws IOException;
 	abstract void overwriteFile(String fullFilePath, String information) throws IOException;

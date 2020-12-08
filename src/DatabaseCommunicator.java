@@ -10,6 +10,7 @@ public class DatabaseCommunicator implements fileIO
 	private static File
 		fullFileNameFile;
 	
+	/*Strings used in program logic*/
 	private static String
 		dataBaseFolder ,
 		currentFullDatabseFile ,
@@ -18,12 +19,7 @@ public class DatabaseCommunicator implements fileIO
 		fullFileNameString ,
 		filesFolderPath ,
 		userIDsFolderPath ,
-		usersListFile ,
-		
-		nextOSFolder = "\\" ,
-		thisFolder = "src" ,
-		thisClass = "DatabaseCommunicator" ,
-		fullClassPathCollective = thisFolder + nextOSFolder + thisClass + nextOSFolder;
+		usersListFile;
 	
 	private static BufferedReader
 		inStream;
@@ -35,11 +31,22 @@ public class DatabaseCommunicator implements fileIO
 		OVERLOADCHECKER1[];
 	
 	private static int
-		OVERLOADCHECKER2;
+		OVERLOADCHECKER2 ,
+		leapsInALoop;
 	
-	private boolean
+	private static boolean
 		seeExecutionInfoInTerminal;
 	
+	/*Strings used in console-window for user to read.*/
+	private static String
+		nextOSFolder = "\\" ,
+		thisFolder = "src" ,
+		thisClass = "DatabaseCommunicator" ,
+		fullClassPathCollective = thisFolder + nextOSFolder + thisClass + nextOSFolder ,
+		leapsInALoopToUser ,
+		tabular1 = "    " ,
+		tabular2 = tabular1 + tabular1 ,
+		tabular3 = tabular2 + tabular1;
 	
 	
 	
@@ -69,6 +76,13 @@ public class DatabaseCommunicator implements fileIO
 		userIDsFolderPath = filesFolderPath + "\\UserIDsFolder";
 		
 		usersListFile = filesFolderPath + "\\users.txt";
+		
+	}
+	
+	
+	public void setLeapsInALoopToUser()
+	{
+		leapsInALoopToUser = tabular2 + "leapsInALoop " + leapsInALoop;
 		
 	}
 	
@@ -123,16 +137,23 @@ public class DatabaseCommunicator implements fileIO
 		userFound = false;
 		
 		
+		leapsInALoop = 0;
 		OVERLOADCHECKER1 = new long[1000000];
 		OVERLOADCHECKER2 = 0;
 		while(true)
 		{
+			setLeapsInALoopToUser();
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(leapsInALoopToUser);
+			}
+			
+			
 			lineBeingRead = inStream.readLine();
 			
 			
 			if(lineBeingRead.equals(null))
 			{
-				
 				if(seeExecutionInfoInTerminal)
 				{
 					System.out.println(thisClass + nextOSFolder + "readIndividualUserFiles" + nextOSFolder + "User not found (" + userID + ")");
@@ -162,6 +183,8 @@ public class DatabaseCommunicator implements fileIO
 				
 			}
 			
+			
+			++leapsInALoop;
 			OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
 			OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
 		}
@@ -238,10 +261,18 @@ public class DatabaseCommunicator implements fileIO
 		inStream = new BufferedReader(new FileReader(usersListFile));
 		
 		/*Begin: reading the full user.txt file and saving it to a single String.*/
+			leapsInALoop = 0;
 			OVERLOADCHECKER1 = new long[1000000];
 			OVERLOADCHECKER2 = 0;
 			while(true)
 			{
+				setLeapsInALoopToUser();
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(leapsInALoopToUser);
+				}
+				
+				
 				currentLineBeingRead = inStream.readLine();
 				
 				if(currentLineBeingRead == null)
@@ -254,6 +285,7 @@ public class DatabaseCommunicator implements fileIO
 				currentFullDatabseFile += "\n";
 				
 				
+				++leapsInALoop;
 				OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
 				OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
 			}
@@ -268,10 +300,18 @@ public class DatabaseCommunicator implements fileIO
 			
 			
 		/*Begin: saving the files lines to a separate String up until it finds the user (if it finds it).*/
+			leapsInALoop = 0;
 			OVERLOADCHECKER1 = new long[1000000];
 			OVERLOADCHECKER2 = 0;
 			while(true)
 			{
+				setLeapsInALoopToUser();
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(leapsInALoopToUser);
+				}
+				
+				
 				currentLineBeingRead = temporaryUsedDatabaseFile.substring(newLineCheckStart, nextLineBreaker);
 				temporaryUsedDatabaseFile = temporaryUsedDatabaseFile.substring(newLineCheckStart, nextLineBreaker + 1);
 				userIDBreaker = currentLineBeingRead.indexOf("_");
@@ -313,7 +353,7 @@ public class DatabaseCommunicator implements fileIO
 					
 				}
 				
-				
+				++leapsInALoop;
 				OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
 				OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
 			}
@@ -368,11 +408,19 @@ public class DatabaseCommunicator implements fileIO
 		
 		/*Start: if there are any blanks lines in the String they are removed here.*/
 			nextBlankLineCounter= 0;
-			
+		
+			leapsInALoop = 0;
 			OVERLOADCHECKER1 = new long[1000000];
 			OVERLOADCHECKER2 = 0;
 			while(true)
 			{
+				setLeapsInALoopToUser();
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(leapsInALoopToUser);
+				}
+				
+				
 				newLineBlank1 = completeNewFile.indexOf("\n", nextBlankLineCounter);
 				
 				if(newLineBlank1 == -1)
@@ -402,6 +450,7 @@ public class DatabaseCommunicator implements fileIO
 					
 				}
 				
+				++leapsInALoop;
 				OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
 				OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
 			}
