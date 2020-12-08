@@ -13,10 +13,10 @@ public class Subject
 		tasks = new ArrayList<Task>();
 		setSubjectName(subjectName);
 	}
-	
-	public void createTask(String taskName, String description)
+
+	public void addToTasks(Task task)
 	{
-	
+		tasks.add(task);
 	}
 	
 	public void removeTask(String taskName)
@@ -29,7 +29,16 @@ public class Subject
 	
 	}
 
+	public String getSubjectName() {
+		return subjectName;
+	}
+
 	public void setSubjectName(String subjectName) {
 		this.subjectName = subjectName;
+	}
+
+	@Override
+	public String toString() {
+		return subjectName;
 	}
 }

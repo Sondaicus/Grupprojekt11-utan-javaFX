@@ -17,7 +17,7 @@ public class Task
 		
 	}
 	
-	public Task(String taskName, String description)
+	public Task(String taskName)
 	{
 		setTaskName(taskName);
 		setDescription(description);
@@ -69,5 +69,9 @@ public class Task
 		return subject;
 		
 	}
-	
+
+	@Override
+	public String toString() {
+		return taskName;
+	}
 }

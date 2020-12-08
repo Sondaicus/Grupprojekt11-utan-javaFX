@@ -28,7 +28,7 @@ public class AdminAccount extends Account {
         }
     }
 
-    public void addSubject(String subjectName) {
+    public void createSubject(String subjectName) {
         subjects.add(new Subject(subjectName));
     }
 
