@@ -17,6 +17,10 @@ public class UserAccount extends Account
 
 		System.out.println("--------------");
 
+		System.out.println("Kategori:" + category);
+
+		System.out.println("--------------");
+
 		BufferedReader reader = new BufferedReader(new FileReader(userFile));
 
 		String[] userList;
