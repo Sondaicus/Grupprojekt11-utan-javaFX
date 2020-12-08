@@ -11,12 +11,7 @@ public abstract class Account
 		id ,
 		accountType;
 	
-
-	public ArrayList <Subject>
-			subjects;
-	
-	public Account(String username, String password, int accountType,ArrayList <Subject>
-			subjects)
+	public Account(String username, String password, int accountType)
 	{
 		
 		setUsername(username);
@@ -27,7 +22,6 @@ public abstract class Account
 		} catch (IOException io) {
 			io.printStackTrace();
 		}
-		setSubjects(subjects);
 
 		
 	}
@@ -80,12 +74,7 @@ public abstract class Account
 		return accountType;
 		
 	}
-	
 
-
-	public void setSubjects(ArrayList<Subject> subjects) {
-		this.subjects = subjects;
-	}
 
 	@Override
 	public String toString() {

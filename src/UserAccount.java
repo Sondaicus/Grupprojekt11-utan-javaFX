@@ -2,13 +2,30 @@ import java.util.*;
 
 public class UserAccount extends Account
 {
-	
-	
-	public UserAccount(String username, String password,ArrayList <Subject>
-			subjects)
+	private ArrayList<Task> tasks;
+
+	public UserAccount(String username, String password,ArrayList <Task>
+			tasks)
 	{
-		super(username, password, 1,subjects);
+		super(username, password, 1);
+		setTasks(tasks);
+
+
 		
 	}
-	
+
+	public void createTask(String taskName, String desc) {
+		tasks.add(new Task(taskName,desc));
+	}
+
+	public void printTasks() {
+		for (Task task : tasks) {
+			System.out.println(task);
+		}
+	}
+
+
+	public void setTasks(ArrayList<Task> tasks) {
+		this.tasks = tasks;
+	}
 }
