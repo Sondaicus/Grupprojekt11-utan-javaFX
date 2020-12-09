@@ -101,9 +101,8 @@ public interface StringMethodInterfaces
 	
 	
 	public static String removeSingleLineInString(String fullString, String objectLineIdentifier,
-	                                              boolean seeExecutionInfoInTerminal)
+	                                              int objectIndexIdentifier, boolean seeExecutionInfoInTerminal)
 	{
-		/*Begin: saving the files lines to a separate String up until it finds the user (if it finds it).*/
 		String thisMethod = "removeSingleLineInString";
 		if(seeExecutionInfoInTerminal)
 		{
@@ -114,12 +113,12 @@ public interface StringMethodInterfaces
 		
 		String
 			temporaryUsedDatabaseFile ,
-			currentLineBeingRead ,
+			currentLineBeingReadFull ,
+			currentLineBeingReadChopped ,
 			objectLineComparator ,
 			newFilePart1 ,
 			newFilePart2 ,
 			completeNewFile ,
-			excessiveBlankLineChecker ,
 			leapsInALoopToUser ,
 			currentFullDatabseFile;
 		
@@ -131,6 +130,7 @@ public interface StringMethodInterfaces
 			nextLineBreaker ,
 			newLineCheckStart ,
 			part2Start ,
+			objectIndexConvertor ,
 			leapsInALoop ,
 			OVERLOADCHECKER2;
 		
@@ -138,10 +138,9 @@ public interface StringMethodInterfaces
 			userFound;
 		
 		
-		
+		objectComparerLocation = 0;
 		currentFullDatabseFile = "";
 		newFilePart1 = "";
-		newFilePart2 = "";
 		userFound = false;
 		
 		
@@ -170,24 +169,130 @@ public interface StringMethodInterfaces
 				}
 				
 				nextLineBreaker = temporaryUsedDatabaseFile.indexOf("\n");
-				currentLineBeingRead = temporaryUsedDatabaseFile.substring(0, nextLineBreaker);
+				currentLineBeingReadFull = temporaryUsedDatabaseFile.substring(0, nextLineBreaker);
 				temporaryUsedDatabaseFile = temporaryUsedDatabaseFile.substring(nextLineBreaker + 1);
 				
 				
 				if(seeExecutionInfoInTerminal)
 				{
-					System.out.println(tabular2 + "currentLineBeingRead = " + "\n" + "$" + currentLineBeingRead + "$");
+					System.out.println(tabular2 + "currentLineBeingReadFull = " + "\n" + "$" + currentLineBeingReadFull + "$");
 					System.out.println(tabular2 + "temporaryUsedDatabaseFile = " + "\n" + "$" + temporaryUsedDatabaseFile + "$");
 				}
 				
 				
-				objectComparerLocation = currentLineBeingRead.indexOf("_");
-				objectLineComparator = currentLineBeingRead.substring(0, objectComparerLocation);
+				currentLineBeingReadChopped = currentLineBeingReadFull;
+				for(int i = 0; i < objectIndexIdentifier; i++)
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(leapsInALoopToUser);
+					}
+					
+					
+					objectComparerLocation = currentLineBeingReadChopped.indexOf("_");
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectIndexIdentifier = " + objectIndexIdentifier);
+						System.out.println(tabular2 + "objectComparerLocation = " + objectComparerLocation);
+					}
+					
+					
+					if(objectComparerLocation != -1)
+					{
+						currentLineBeingReadChopped = currentLineBeingReadChopped.substring(objectComparerLocation + 1);
+						if(seeExecutionInfoInTerminal)
+						{
+							System.out.println(tabular2 + "currentLineBeingReadChopped = " + "\n" + "$" +
+							                   currentLineBeingReadChopped + "$");
+						}
+						
+					}
+					
+				}
+				
+				
+				try
+				{
+					objectLineComparator = currentLineBeingReadChopped.substring(0 , objectComparerLocation + 1);
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectLineComparator substring attempt succeded, " + "\n" + "objectLineComparator = " + "$" + objectLineComparator + "$");
+					}
+				}
+				
+				catch(StringIndexOutOfBoundsException e)
+				{
+					objectLineComparator = null;
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectLineComparator substring attempt failed (StringIndexOutOfBoundsException)");
+					}
+				}
 				
 				
 				if(seeExecutionInfoInTerminal)
 				{
 					System.out.println(tabular2 + "objectComparerLocation = " + "$" + objectComparerLocation + "$");
+				}
+				
+				
+				try
+				{
+					if(objectLineComparator.length() > 1)
+					{
+						if(seeExecutionInfoInTerminal)
+						{
+							System.out.println(tabular2 + "objectLineComparator longer then 1 character.");
+						}
+						
+						if(objectLineComparator.endsWith("_"))
+						{
+							if(seeExecutionInfoInTerminal)
+							{
+								System.out.println(tabular2 + "objectLineComparator ends with \"_\".");
+							}
+							
+							
+							nextLineBreaker = objectLineComparator.indexOf("_");
+							objectLineComparator = objectLineComparator.substring(0, nextLineBreaker);
+							
+							
+							if(seeExecutionInfoInTerminal)
+							{
+								System.out.println(tabular2 + "objectLineComparator = " + "$" + objectLineComparator + "$");
+							}
+							
+						}
+						
+						else
+						{
+							if(seeExecutionInfoInTerminal)
+							{
+								System.out.println(tabular2 + "objectComparerLocation does not end with \"_\".");
+							}
+							
+						}
+						
+					}
+					
+					else
+					{
+						if(seeExecutionInfoInTerminal)
+						{
+							System.out.println(tabular2 + "objectComparerLocation not longer then 1 character.");
+						}
+						
+					}
+					
+				}
+				
+				catch(NullPointerException e)
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectComparerLocation NullPointerException.");
+					}
+					
 				}
 				
 				
@@ -204,12 +309,12 @@ public interface StringMethodInterfaces
 				
 				else
 				{
-					newFilePart1 += currentLineBeingRead;
+					newFilePart1 += currentLineBeingReadFull;
 					
 					
 					if(seeExecutionInfoInTerminal)
 					{
-						System.out.println(tabular2 + "newFilePart1 added a new line. Current String: " + "\n" + newFilePart1);
+						System.out.println(tabular2 + "newFilePart1 added a new line. Current String: " + "\n" + "$" +  newFilePart1 + "$");
 					}
 					
 					
@@ -225,16 +330,16 @@ public interface StringMethodInterfaces
 						
 						++newLineCheckStart;
 						newFilePart1 += "\n";
-						currentLineBeingRead = temporaryUsedDatabaseFile.substring(newLineCheckStart);
+						currentLineBeingReadFull = temporaryUsedDatabaseFile.substring(newLineCheckStart);
 						
 						
 						if(seeExecutionInfoInTerminal)
 						{
-							System.out.println(tabular2 + "currentLineBeingRead = " + "$" + currentLineBeingRead + "$");
+							System.out.println(tabular2 + "currentLineBeingReadFull = " + "\n" + "$" + currentLineBeingReadFull + "$");
 						}
 						
 						
-						nextLineBreaker = currentLineBeingRead.indexOf("\n");
+						nextLineBreaker = currentLineBeingReadFull.indexOf("\n");
 						
 						if(nextLineBreaker == -1)
 						{
@@ -270,7 +375,7 @@ public interface StringMethodInterfaces
 				{
 					System.out.println(tabular2 + "Comparative Strings by object not matched!");
 				}
-				System.out.println(tabular2 + "newFilePart1 : " + "$" + newFilePart1 + "$");
+				System.out.println(tabular2 + "newFilePart1 : " + "\n" + "$" + newFilePart1 + "$");
 				System.out.println(tabular1 + "End: creating section 1/2.");
 			}
 		/*End: part 1*/
@@ -353,7 +458,7 @@ public interface StringMethodInterfaces
 		
 		String
 			excessiveBlankLineChecker ,
-		
+			
 			leapsInALoopToUser;
 		
 		long
@@ -371,7 +476,6 @@ public interface StringMethodInterfaces
 			resetBlankCounter;
 		
 		
-		resetBlankCounter = false;
 		nextBlankLineCounter = 0;
 		
 		leapsInALoop = 0;
@@ -387,6 +491,7 @@ public interface StringMethodInterfaces
 			}
 			
 			
+			resetBlankCounter = false;
 			newLineBlank1 = object.indexOf("\n", nextBlankLineCounter);
 			if(seeExecutionInfoInTerminal)
 			{
@@ -438,7 +543,7 @@ public interface StringMethodInterfaces
 				
 				if(seeExecutionInfoInTerminal)
 				{
-					System.out.println(tabular2 + "excessiveBlankLineChecker = " + "$" + excessiveBlankLineChecker + "$");
+					System.out.println(tabular2 + "excessiveBlankLineChecker = " + "\n" +  "$" + excessiveBlankLineChecker + "$");
 				}
 				
 				
@@ -467,7 +572,10 @@ public interface StringMethodInterfaces
 				
 				else
 				{
-					System.out.println(tabular2 + "Excessive blank line not found.");
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "Excessive blank line not found.");
+					}
 					
 				}
 				
@@ -499,6 +607,14 @@ public interface StringMethodInterfaces
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println(tabular2 +"object (excessive blanklines removed): " + "\n" + "$" + object + "$");
+			
+		}
+		
+		
+		object = object.trim();
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular2 +"object (trimmed): " + "\n" + "$" + object + "$");
 			System.out.println("End: " + fullClassPathCollective + thisMethod);
 			
 		}

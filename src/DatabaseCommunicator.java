@@ -261,10 +261,11 @@ public class DatabaseCommunicator implements fileIO
 		
 		currentFullDatabseFile = StringMethodInterfaces.readFullFile(usersListFile, seeExecutionInfoInTerminal);
 		completeNewFile = StringMethodInterfaces.removeSingleLineInString(currentFullDatabseFile,
-		"2" , seeExecutionInfoInTerminal);
+		"b" , 1 , seeExecutionInfoInTerminal);
 		
 		/*Start: if there are any blanks lines in the String they are removed here.*/
-			completeNewFile = StringMethodInterfaces.removeExcessiveBlankLines(completeNewFile, seeExecutionInfoInTerminal );
+	/*		completeNewFile = StringMethodInterfaces.removeExcessiveBlankLines(completeNewFile,
+	seeExecutionInfoInTerminal );*/
 		/*End: if there are any blanks lines in the String they are removed here.*/
 		
 	//	overwriteFile(usersListFile, completeNewFile);
