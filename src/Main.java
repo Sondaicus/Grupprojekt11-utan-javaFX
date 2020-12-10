@@ -1,4 +1,5 @@
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -9,6 +10,7 @@ public class Main {
     private static String kontoTyp;
     private static AdminAccount admin;
     private static UserAccount user;
+    private static ArrayList<Account> users = new ArrayList<>();
 
     public static void main(String[] args) {
         sc = new Scanner(System.in);
@@ -29,6 +31,8 @@ public class Main {
 
             if (answer.equalsIgnoreCase("1")) { // logga in
                 setInfo();
+                // login
+
                 break;
             } else if (answer.equalsIgnoreCase("2")) { // skapa konto
                 setInfo();
@@ -42,17 +46,20 @@ public class Main {
                 } else if (kontoTyp.equalsIgnoreCase("2")) {
                     createAdmin(användarnamn, lösenord);
                 }
-                break;
+                //break;
+                System.out.println(users);
             }
         }
     }
 
     private static void createUser(String a, String l) {
         user = AccountCreator.createUser(a, l);
-        System.out.println("1. lägg till uppgift" + "\n"
+        /*System.out.println("1. lägg till uppgift" + "\n"
                 + "2. ta bort uppgift" + "\n"
                 + "3. se alla uppgifter" + "\n"
-                + "4. logga ut");
+                + "4. logga ut");*/
+        users.add(user);
+
     }
 
     private static void createAdmin(String a, String l) {
