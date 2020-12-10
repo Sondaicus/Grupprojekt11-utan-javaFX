@@ -33,9 +33,11 @@ public class UserAccount extends Account
 	}
 
 	public void printTasks() {
+		System.out.println("--------------");
 		for (Task task : tasks) {
 			System.out.println(task);
 		}
+		System.out.println("--------------");
 	}
 
 

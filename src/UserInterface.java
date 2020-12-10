@@ -27,7 +27,7 @@ public class UserInterface {
             System.out.println("Vill du logga in eller skapa konto?");
             System.out.println("1. Logga in");
             System.out.println("2. Skapa ett konto");
-            String answer = sc.nextLine();
+            String answer = sc.next();
 
             if (answer.equalsIgnoreCase("1")) {
                 Account user = login(users);
@@ -49,25 +49,18 @@ public class UserInterface {
         }
     }
 
-    public void logInOrCreateAccount() {
-        System.out.println("Vill du logga in eller skapa konto?");
-        System.out.println("1. Logga in");
-        System.out.println("2. Skapa ett konto");
-        String answer = sc.nextLine();
-    }
-
 
 
     public void createAccount(ArrayList<Account> users) {
         while (true) {
         System.out.println("Ange användarnamn:");
-        String username = sc.nextLine();
+        String username = sc.next();
         System.out.println("Ange Lösenord:");
-        String pass = sc.nextLine();
+        String pass = sc.next();
         System.out.println("Ange kontotyp:");
         System.out.println("1. Admin");
         System.out.println("2. Vanlig användare");
-        String accType = sc.nextLine();
+        String accType = sc.next();
 
         if (accType.equals("1")) {
             users.add(AccountCreator.createAdmin(username,pass,users));
@@ -90,16 +83,17 @@ public class UserInterface {
             System.out.println("2. Ta bort en uppgift");
             System.out.println("3. Se alla uppgifter");
             System.out.println("4. Logga ut");
-            String answer = sc.nextLine();
+            String answer = sc.next();
             if (answer.equals("1")) {
                 System.out.println("Ange namn på upggiften:");
-                String taskName = sc.nextLine();
+                String taskName = sc.next();
                 System.out.println("Ange beskriving på upggiften");
+                sc.nextLine();
                 String desc = sc.nextLine();
                 userAccount.createTask(taskName,desc);
             } else if (answer.equals("2")) {
                 System.out.println("Ange namn på upggiften:");
-                String taskName = sc.nextLine();
+                String taskName = sc.next();
                 userAccount.removeTask(taskName);
             } else if (answer.equals("3")) {
                 userAccount.printTasks();
@@ -117,9 +111,9 @@ public class UserInterface {
 
     public Account login(ArrayList<Account> users) {
         System.out.println("Ange användarnamn:");
-        String username = sc.nextLine();
+        String username = sc.next();
         System.out.println("Ange lösenord:");
-        String pass = sc.nextLine();
+        String pass = sc.next();
 
         for (Account user : users) {
             if (user.getUsername().equals(username) && user.getPassword().equals(pass)) {
