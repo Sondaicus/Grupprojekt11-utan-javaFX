@@ -23,6 +23,10 @@ public class UserAccount extends Account
 				System.out.println("Uppgift borttaget!");
 				break;
 			}
+
+			if (tasks.indexOf(task) == tasks.size()-1) {
+				System.out.println("Uppgiften finns inte!");
+			}
 			
 		}
 
