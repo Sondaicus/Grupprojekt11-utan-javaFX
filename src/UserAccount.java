@@ -7,7 +7,6 @@ public class UserAccount extends Account
 	public UserAccount(String username, String password)
 	{
 		super(username, password, 1);
-		setTasks(tasks);
 
 
 		

@@ -21,8 +21,7 @@ public class AccountCreator {
 
     }
 
-    public static Account createAccount(String username, String pass,ArrayList<Account> users,ArrayList <Task>
-            tasks, String accType) {
+    public static Account createAccount(String username, String pass,ArrayList<Account> users, String accType) {
 
         if (accType.equalsIgnoreCase("admin")) {
 
