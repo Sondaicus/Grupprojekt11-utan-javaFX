@@ -58,16 +58,15 @@ public class Main {
     }
 
     private static void logInValidator(String namn, String pass) {
-        boolean userFinns = false;
+        boolean finns = false;
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUsername().equalsIgnoreCase(namn) && users.get(i).getPassword().equalsIgnoreCase(pass)) {
-                userFinns = true;
-                if (userFinns) {
-                    System.out.println("Välkommen: " + users.get(i).getUsername());
-                } else {
-                    System.out.println("User finns inte");
-                }
+                finns = true;
+                System.out.println("Välkommen " + namn);
             }
+        }
+        if (!finns) {
+            System.out.println("User finns inte");
         }
     }
 
