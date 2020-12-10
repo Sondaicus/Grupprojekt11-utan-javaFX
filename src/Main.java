@@ -17,10 +17,6 @@ public class Main {
         UI();
 
 
-
-
-
-
     }
 
     private static void UI() {
@@ -32,7 +28,6 @@ public class Main {
             if (answer.equalsIgnoreCase("1")) { // logga in
                 setInfo();
                 logInValidator(användarnamn, lösenord);
-
                 break;
             } else if (answer.equalsIgnoreCase("2")) { // skapa konto
                 setInfo();
@@ -62,10 +57,16 @@ public class Main {
 
     }
 
-    private static void logInValidator(String namn,String pass) {
+    private static void logInValidator(String namn, String pass) {
+        boolean userFinns = false;
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUsername().equalsIgnoreCase(namn) && users.get(i).getPassword().equalsIgnoreCase(pass)) {
-                System.out.println("Välkommen: "+users.get(i).getUsername());
+                userFinns = true;
+                if (userFinns) {
+                    System.out.println("Välkommen: " + users.get(i).getUsername());
+                } else {
+                    System.out.println("User finns inte");
+                }
             }
         }
     }
