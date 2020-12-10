@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -8,9 +9,13 @@ import java.util.Scanner;
  */
 public class UserInterface {
     private Scanner sc;
-    public UserInterface(Scanner sc) {
+    private ArrayList<Account> users;
+    public UserInterface(Scanner sc,ArrayList<Account> users) {
         this.sc = sc;
+        this.users = users;
     }
+
+
 
 
     public void start() {
@@ -21,7 +26,7 @@ public class UserInterface {
             String answer = sc.next();
 
             if (answer.equalsIgnoreCase("1")) {
-                login();
+                login(users);
             } else if (answer.equalsIgnoreCase("2")) {
                 createAccount();
             } else {
@@ -36,6 +41,16 @@ public class UserInterface {
         System.out.println("2. Skapa ett konto");
         String answer = sc.next();
 
+        mainMenuOptions(answer);
+    }
+
+
+
+    public void createAccount() {
+
+    }
+
+    public void mainMenuOptions(String answer) {
         if (answer.equalsIgnoreCase("1")) {
             login();
         } else if (answer.equalsIgnoreCase("2")) {
@@ -45,7 +60,15 @@ public class UserInterface {
         }
     }
 
-    public Account login() {
+    public void userOptions() {
+
+    }
+
+    public void adminOptions() {
+
+    }
+
+    public Account login(ArrayList<Account> users) {
         System.out.println("Ange användarnamn:");
         String username = sc.next();
         System.out.println("Ange Lösenord:");
@@ -59,20 +82,6 @@ public class UserInterface {
         System.out.println("Konto existerar inte");
         return null;
     }
-
-    public void createAccount() {
-
-    }
-
-    public void userOptions() {
-
-    }
-
-    public void adminOptions() {
-
-    }
-
-
 
 
 }

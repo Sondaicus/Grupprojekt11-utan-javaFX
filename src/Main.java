@@ -9,7 +9,7 @@ public class Main {
         ArrayList<Task> tasks = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
 
-        UserInterface ui = new UserInterface(sc)
+        UserInterface ui = new UserInterface(sc);
     }
 
 }
