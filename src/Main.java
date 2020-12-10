@@ -31,7 +31,7 @@ public class Main {
 
             if (answer.equalsIgnoreCase("1")) { // logga in
                 setInfo();
-                // login
+                logInValidator(användarnamn, lösenord);
 
                 break;
             } else if (answer.equalsIgnoreCase("2")) { // skapa konto
@@ -60,6 +60,14 @@ public class Main {
                 + "4. logga ut");*/
         users.add(user);
 
+    }
+
+    private static void logInValidator(String namn,String pass) {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUsername().equalsIgnoreCase(namn) && users.get(i).getPassword().equalsIgnoreCase(pass)) {
+                System.out.println("Välkommen: "+users.get(i).getUsername());
+            }
+        }
     }
 
     private static void createAdmin(String a, String l) {
