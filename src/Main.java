@@ -39,7 +39,7 @@ public class Main {
                     createUser(användarnamn, lösenord);
 
                 } else if (kontoTyp.equalsIgnoreCase("2")) {
-                    createAdmin(användarnamn, lösenord);
+                    createAdmin(användarnamn, lösenord, users);
                 }
                 //break;
                 System.out.println(users);
@@ -49,12 +49,23 @@ public class Main {
 
     private static void createUser(String a, String l) {
         user = AccountCreator.createUser(a, l);
-        /*System.out.println("1. lägg till uppgift" + "\n"
+        users.add(user);
+    }
+    private static void createAdmin(String a, String l, ArrayList<Account> al) {
+        admin = AccountCreator.createAdmin(a, l, al);
+        users.add(admin);
+    }
+    private static void omUser() {
+        System.out.println("1. lägg till uppgift" + "\n"
                 + "2. ta bort uppgift" + "\n"
                 + "3. se alla uppgifter" + "\n"
-                + "4. logga ut");*/
-        users.add(user);
+                + "4. logga ut");
+    }
 
+    private static void omAdmin() {
+        System.out.println("1. Ta bort ett konto" + "\n"
+                + "2. Se alla användare" + "\n"
+                + "3. logga ut");
     }
 
     private static void logInValidator(String namn, String pass) {
@@ -68,13 +79,6 @@ public class Main {
         if (!finns) {
             System.out.println("User finns inte");
         }
-    }
-
-    private static void createAdmin(String a, String l) {
-        //admin = AccountCreator.createAdmin(a,l);
-        System.out.println("1. Ta bort ett konto" + "\n"
-                + "2. Se alla användare" + "\n"
-                + "3. logga ut");
     }
 
     private static void setInfo() {
