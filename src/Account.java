@@ -17,11 +17,11 @@ public abstract class Account
 		setUsername(username);
 		setPassword(password);
 		setAccountType(accountType);
-		try {
+		/*try {
 			setId();
 		} catch (IOException io) {
 			io.printStackTrace();
-		}
+		}*/
 
 		
 	}
