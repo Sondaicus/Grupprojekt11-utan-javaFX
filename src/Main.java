@@ -7,18 +7,9 @@ public class Main {
     public static void main(String[] args) {
         ArrayList<Account> users = new ArrayList<>();
         ArrayList<Task> tasks = new ArrayList<>();
-        UserAccount u = new UserAccount("q","q");
-        AdminAccount a = new AdminAccount("p","p",users);
-        u.setTasks(tasks);
+        Scanner sc = new Scanner(System.in);
 
-        u.createTask("Handla","Handla ägg och lök");
-        u.createTask("Städa","Städa rummet och köket");
-        u.createTask("Film","Kolla på The Desgin Pattern");
-
-        u.removeTask("film");
-
-        u.printTasks();
-
+        UserInterface ui = new UserInterface(sc)
     }
 
 }
