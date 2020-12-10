@@ -9,13 +9,19 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        String användarnamn = null;
-        String lösenord = null;
-        String kontoTyp = null;
+        String användarnamn;
+        String lösenord;
+        String kontoTyp;
+        AdminAccount admin;
+        UserAccount user;
+
+
 
 
         while (true) {
-            System.out.println("Vill du logga in skriv 1" + "\n" + "vill du skapa konto skriv 2");
+
+            System.out.println("1. logga in" + "\n"
+                    + "2. skapa konto");
             String answer = sc.next();
 
             if (answer.equalsIgnoreCase("1")) {
@@ -29,8 +35,11 @@ public class Main {
                 användarnamn = sc.next();
                 System.out.println("Ange lösenord.");
                 lösenord = sc.next();
-                System.out.println("För vanlig användare skriv 1" + "\n" + "För admin skriv 2");
+                System.out.println("1. vanlig användare" + "\n"
+                        + "2. admin");
                 kontoTyp = sc.next();
+
+                AccountCreator.
 
                 if (kontoTyp.equalsIgnoreCase("1")) {
                     kontoTyp = "user";
