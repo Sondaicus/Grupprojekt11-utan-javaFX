@@ -23,6 +23,7 @@ public class AdminAccount extends Account {
             if (user.getUsername().equals(username) && user.getId() == id) {
                 users.remove(user);
                 System.out.println("Användarkonto " + user.getUsername() + " borttaget!");
+                break;
             }
         }
     }
