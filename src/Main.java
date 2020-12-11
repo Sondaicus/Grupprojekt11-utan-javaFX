@@ -30,7 +30,7 @@ public class Main {
                 if (userType == 1) {
                     omUser();
                 } else if (userType == 0) {
-                    omAdmin();
+                    ifAdmin();
                 }
             } else if (answer.equalsIgnoreCase("2")) { // skapa konto
                 setInfo();
@@ -91,10 +91,38 @@ public class Main {
 
     }
 
-    private static void omAdmin() {
-        System.out.println("1. Ta bort ett konto" + "\n"
-                + "2. Se alla användare" + "\n"
-                + "3. logga ut");
+    private static void ifAdmin() {
+
+        while (true) {
+
+            System.out.println("1. Ta bort ett konto" + "\n"
+                    + "2. Se alla användare" + "\n"
+                    + "3. logga ut");
+            String answer = sc.next();
+
+            if (answer.equalsIgnoreCase("1")) {
+
+                System.out.println("Ange ID: ");
+                int userId = sc.nextInt();
+                System.out.println("Ange användarnamn: ");
+                String userName = sc.next();
+
+                admin.removeAccount(userId, userName);
+
+            } else if (answer.equals("2")) {
+
+                admin.printUsers();
+
+            } else if (answer.equals("3")) {
+
+                System.out.println("Loggar ut...");
+                break;
+
+            } else {
+                System.out.println("Felaktig inmatning!");
+            }
+
+        }
     }
 
     private static int logInValidator(String namn, String pass) {
