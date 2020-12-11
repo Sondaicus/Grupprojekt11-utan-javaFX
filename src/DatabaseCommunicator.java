@@ -235,13 +235,7 @@ public class DatabaseCommunicator implements fileIO
 		
 		
 		String
-			temporaryUsedDatabaseFile ,
-			currentLineBeingRead ,
-			userIDString ,
-			newFilePart1 ,
-			newFilePart2 ,
-			completeNewFile ,
-			excessiveBlankLineChecker;
+			lineRemoved;
 		
 		int
 			userIDBreaker ,
@@ -257,11 +251,22 @@ public class DatabaseCommunicator implements fileIO
 			userFound ,
 			resetBlankCounter;
 		
+		ArrayList<Object> fffff = new ArrayList<Object>(2);
+		
+		currentFullDatabseFile = StringMethodInterfaces.readFullFile(usersListFile, false);
 		
 		
-		currentFullDatabseFile = StringMethodInterfaces.readFullFile(usersListFile, seeExecutionInfoInTerminal);
-		completeNewFile = StringMethodInterfaces.removeSingleLineInString(currentFullDatabseFile,
-		"b" , 1 , seeExecutionInfoInTerminal);
+		fffff = StringMethodInterfaces.identifyLineBySubstring(currentFullDatabseFile,
+		"a" , 2 , seeExecutionInfoInTerminal);
+		
+		
+		userFound = (Boolean) fffff.get(0);
+		lineRemoved = (String) fffff.get(1);
+		
+		if(userFound)
+		{
+			StringMethodInterfaces.removeSingleLineInString(currentFullDatabseFile , lineRemoved , seeExecutionInfoInTerminal);
+		}
 		
 		/*Start: if there are any blanks lines in the String they are removed here.*/
 	/*		completeNewFile = StringMethodInterfaces.removeExcessiveBlankLines(completeNewFile,
