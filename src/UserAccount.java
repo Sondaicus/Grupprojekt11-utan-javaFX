@@ -2,7 +2,7 @@ import java.util.*;
 
 public class UserAccount extends Account
 {
-	private ArrayList<Task> tasks;
+	private ArrayList<Task> tasks = new ArrayList<>(); // ändrade till new här
 
 	public UserAccount(String username, String password)
 	{

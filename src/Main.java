@@ -27,7 +27,16 @@ public class Main {
 
             if (answer.equalsIgnoreCase("1")) { // logga in
                 setInfo();
-                logInValidator(användarnamn, lösenord);
+                int userType = logInValidator(användarnamn, lösenord);
+                if (userType == 1 ) {
+                    omUser();
+                }
+                else if (userType == 0){
+                    omAdmin();
+                }
+                else {
+                    // här om user är ogiltig
+                }
                 break;
             } else if (answer.equalsIgnoreCase("2")) { // skapa konto
                 setInfo();
@@ -56,10 +65,23 @@ public class Main {
         users.add(admin);
     }
     private static void omUser() {
+
         System.out.println("1. lägg till uppgift" + "\n"
                 + "2. ta bort uppgift" + "\n"
                 + "3. se alla uppgifter" + "\n"
                 + "4. logga ut");
+        String answer = sc.next();
+        String taskName;
+        String desc;
+
+        if (answer.equalsIgnoreCase("1")) {
+            System.out.println("Skriv ämne");
+            taskName = answer;
+            System.out.println("Skriv beskrining");
+            desc = answer;
+            user.createTask(taskName, desc);
+            user.printTasks(); // testar att skriva ut
+        }
     }
 
     private static void omAdmin() {
@@ -68,17 +90,20 @@ public class Main {
                 + "3. logga ut");
     }
 
-    private static void logInValidator(String namn, String pass) {
+    private static int logInValidator(String namn, String pass) {
         boolean finns = false;
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUsername().equalsIgnoreCase(namn) && users.get(i).getPassword().equalsIgnoreCase(pass)) {
                 finns = true;
                 System.out.println("Välkommen " + namn);
+                return users.get(i).getAccountType();
             }
         }
         if (!finns) {
             System.out.println("User finns inte");
+            return 2; // om user är ogiltig
         }
+        return 0;
     }
 
     private static void setInfo() {
