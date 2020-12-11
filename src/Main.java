@@ -10,7 +10,7 @@ public class Main {
     private static AdminAccount admin;
     private static UserAccount user;
     private static ArrayList<Account> users = new ArrayList<>();
-
+    private ArrayList<Task> tasks = new ArrayList<>();
     public static void main(String[] args) {
         sc = new Scanner(System.in);
         UI();
