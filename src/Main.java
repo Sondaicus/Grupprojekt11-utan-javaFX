@@ -31,10 +31,7 @@ public class Main {
                     omUser();
                 } else if (userType == 0) {
                     omAdmin();
-                } else {
-                    // här om user är ogiltig
                 }
-                break;
             } else if (answer.equalsIgnoreCase("2")) { // skapa konto
                 setInfo();
                 System.out.println("1. vanlig användare" + "\n" // vanligt eller admin
@@ -47,8 +44,6 @@ public class Main {
                 } else if (kontoTyp.equalsIgnoreCase("2")) {
                     createAdmin(användarnamn, lösenord, users);
                 }
-                //break;
-                System.out.println(users);
             }
         }
     }
@@ -64,22 +59,36 @@ public class Main {
     }
 
     private static void omUser() {
+        while (true) {
+
         System.out.println("1. lägg till uppgift" + "\n"
                 + "2. ta bort uppgift" + "\n"
                 + "3. se alla uppgifter" + "\n"
                 + "4. logga ut");
-        //String answer = sc.next();
+        String answer = sc.next();
         //String taskName;
-        String desc = "";
-        if (sc.next().equalsIgnoreCase("1")) {
+        if (answer.equalsIgnoreCase("1")) {
             System.out.println("Skriv ämne");
             String taskName = sc.next();
-            System.out.println("Skriv beskrining");
+            System.out.println("Skriv beskrivning");
             sc.nextLine();
-            desc = sc.nextLine();
+            String desc = sc.nextLine();
             user.createTask(taskName, desc);
-            user.printTasks(); // testar att skriva ut
+            System.out.println("Uppgift tillagd!");
+        } else if (answer.equals("2")) {
+            System.out.println("Ange namn på upggiften");
+            String taskName = sc.next();
+            user.removeTask(taskName);
+        } else if (answer.equals("3")) {
+            user.printTasks();
+        } else if (answer.equals("4")) {
+            System.out.println("Loggar ut...");
+            break;
+        } else {
+            System.out.println("Felaktig inmatning!");
         }
+        }
+
     }
 
     private static void omAdmin() {
@@ -93,12 +102,12 @@ public class Main {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUsername().equalsIgnoreCase(namn) && users.get(i).getPassword().equalsIgnoreCase(pass)) {
                 finns = true;
-                System.out.println("Välkommen " + namn);
+                System.out.println("Välkommen " + namn + "!");
                 return users.get(i).getAccountType();
             }
         }
         if (!finns) {
-            System.out.println("User finns inte");
+            System.out.println("Använadre finns inte!");
             return 2; // om user är ogiltig
         }
         return 0;
