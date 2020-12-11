@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,13 +27,11 @@ public class Main {
             if (answer.equalsIgnoreCase("1")) { // logga in
                 setInfo();
                 int userType = logInValidator(användarnamn, lösenord);
-                if (userType == 1 ) {
+                if (userType == 1) {
                     omUser();
-                }
-                else if (userType == 0){
+                } else if (userType == 0) {
                     omAdmin();
-                }
-                else {
+                } else {
                     // här om user är ogiltig
                 }
                 break;
@@ -60,25 +57,26 @@ public class Main {
         user = AccountCreator.createUser(a, l);
         users.add(user);
     }
+
     private static void createAdmin(String a, String l, ArrayList<Account> al) {
         admin = AccountCreator.createAdmin(a, l, al);
         users.add(admin);
     }
-    private static void omUser() {
 
+    private static void omUser() {
         System.out.println("1. lägg till uppgift" + "\n"
                 + "2. ta bort uppgift" + "\n"
                 + "3. se alla uppgifter" + "\n"
                 + "4. logga ut");
-        String answer = sc.next();
-        String taskName;
-        String desc;
-
-        if (answer.equalsIgnoreCase("1")) {
+        //String answer = sc.next();
+        //String taskName;
+        String desc = "";
+        if (sc.next().equalsIgnoreCase("1")) {
             System.out.println("Skriv ämne");
-            taskName = answer;
+            String taskName = sc.next();
             System.out.println("Skriv beskrining");
-            desc = answer;
+            sc.nextLine();
+            desc = sc.nextLine();
             user.createTask(taskName, desc);
             user.printTasks(); // testar att skriva ut
         }
