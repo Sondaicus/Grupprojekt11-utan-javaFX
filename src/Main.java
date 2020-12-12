@@ -1,8 +1,5 @@
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main
 {
@@ -11,7 +8,7 @@ public class Main
         DatabaseCommunicator test = new DatabaseCommunicator();
         
         test.seeTerminalInformation(true);
-        test.removeUser();
+        test.readAllUserFiles();
         
     }
 

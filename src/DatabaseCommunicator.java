@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 
-public class DatabaseCommunicator implements fileIO
+public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagrams , StringMethodInterfaces
 {
 	private static ArrayList<Account>
 		allAccounts;
@@ -12,17 +12,16 @@ public class DatabaseCommunicator implements fileIO
 	
 	/*Strings used in program logic*/
 	private static String
-		dataBaseFolder ,
-		currentFullDatabseFile ,
-		nextFullDatabseFile ,
 		fullProjectPath ,
 		fullFileNameString ,
 		filesFolderPath ,
-		userIDsFolderPath ,
-		usersListFile;
+		usersFolderPath ,
+		usersListFilePath ,
+		usersTxtFileDatabase;
 	
-	private static BufferedReader
-		inStream;
+	private static String[]
+		allUsersDatabaseFiles;
+	
 	
 	private static PrintWriter
 		outStream;
@@ -39,6 +38,7 @@ public class DatabaseCommunicator implements fileIO
 	
 	/*Strings used in console-window for user to read.*/
 	private static String
+		txtFile = ".txt" ,
 		nextOSFolder = "\\" ,
 		thisFolder = "src" ,
 		thisClass = "DatabaseCommunicator" ,
@@ -50,13 +50,29 @@ public class DatabaseCommunicator implements fileIO
 	
 	
 	
-	DatabaseCommunicator()
+	DatabaseCommunicator() throws IOException
 	{
 		setDatabaseFolders();
 		readAllUserFiles();
 		
 	}
 	
+	
+	DatabaseCommunicator(boolean seeExecutionInfoInTerminal) throws IOException
+	{
+		setSeeExecutionInfoInTerminal(seeExecutionInfoInTerminal);
+		setDatabaseFolders();
+		readAllUserFiles();
+		
+	}
+	
+	
+	
+	public void setSeeExecutionInfoInTerminal(boolean seeExecutionInfoInTerminal)
+	{
+		this.seeExecutionInfoInTerminal = seeExecutionInfoInTerminal;
+		
+	}
 	
 	
 	
@@ -73,11 +89,28 @@ public class DatabaseCommunicator implements fileIO
 		
 		filesFolderPath = fullProjectPath + "\\Files";
 		
-		userIDsFolderPath = filesFolderPath + "\\UserIDsFolder";
+		usersFolderPath = filesFolderPath + "\\Users";
 		
-		usersListFile = filesFolderPath + "\\users.txt";
+		usersListFilePath = filesFolderPath + "\\users.txt";
 		
 	}
+	
+	
+	
+	public String getUserTxtFileDatabase()
+	{
+		return usersTxtFileDatabase;
+		
+	}
+	
+	
+	
+	public void setUserTxtFileDatabase(String usersTxtFileDatabase)
+	{
+		this.usersTxtFileDatabase = usersTxtFileDatabase;
+		
+	}
+	
 	
 	
 	public void setLeapsInALoopToUser()
@@ -88,13 +121,6 @@ public class DatabaseCommunicator implements fileIO
 	
 	
 	
-	public void readAllUserFiles()
-	{
-		allAccounts = new ArrayList<Account>();
-		
-	}
-	
-	
 	public void seeTerminalInformation(boolean status)
 	{
 		seeExecutionInfoInTerminal = status;
@@ -103,105 +129,104 @@ public class DatabaseCommunicator implements fileIO
 	
 	
 	
-	public String[] getUserFilesFromID(int userID) throws IOException
+	public void readAllUserFiles() throws IOException
 	{
-		String thisMethod = "getUserFilesFromID";
-		
-		
+		String thisMethod = "readAllUserFiles";
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
 		}
 		
 		
-		String[]
-			userIDAndName;
+		ArrayList<Object>
+			resultHolder;
 		
 		String
-			readIDString ,
-			readNameString ,
-			restLineHolder ,
-			lineBeingRead;
-		
-		int
-			idBreak ,
-			nameBreak ,
-			readIDToInt;
+			allUserTxtFile;
 		
 		boolean
-			userFound;
+			allUserTxtFound;
+		
+		int
+			userFilesQuantity;
+		
+		File
+			currentTemporaryUserFile;
+		
+		ArrayList<File>
+			allIndividualUserFiles;
 		
 		
-		inStream = new BufferedReader(new FileReader(usersListFile));
-		userIDAndName = new String[2];
-		userFound = false;
+		allIndividualUserFiles = new ArrayList <File>(0);
+		resultHolder = StringMethodInterfaces.readFullFile(usersListFilePath , seeExecutionInfoInTerminal);
+		allUserTxtFound = (boolean) resultHolder.get(0);
+		allUserTxtFile = (String) resultHolder.get(1);
 		
-		
-		leapsInALoop = 0;
-		OVERLOADCHECKER1 = new long[1000000];
-		OVERLOADCHECKER2 = 0;
-		while(true)
+		if(allUserTxtFound)
 		{
-			setLeapsInALoopToUser();
-			if(seeExecutionInfoInTerminal)
-			{
-				System.out.println(leapsInALoopToUser);
-			}
-			
-			
-			lineBeingRead = inStream.readLine();
-			
-			
-			if(lineBeingRead.equals(null))
-			{
-				if(seeExecutionInfoInTerminal)
-				{
-					System.out.println(thisClass + nextOSFolder + "readIndividualUserFiles" + nextOSFolder + "User not found (" + userID + ")");
-				}
-				
-				
-				readIDString = "";
-				readNameString = "";
-				break;
-				
-			}
-			
-			
-			idBreak = lineBeingRead.indexOf("_");
-			readIDString = lineBeingRead.substring(0, idBreak);
-			restLineHolder = lineBeingRead.substring(idBreak + 1);
-			nameBreak = restLineHolder.indexOf("_");
-			readNameString = restLineHolder.substring(0, nameBreak);
-			readIDToInt = Integer.parseInt(readIDString);
-			
-			
-			if(readIDToInt == userID)
-			{
-				userFound = true;
-				readNameString = readNameString + ".txt";
-				break;
-				
-			}
-			
-			
-			++leapsInALoop;
-			OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
-			OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
-		}
-		
-		
-		if(userFound)
-		{
-			userIDAndName[0] = readIDString;
-			userIDAndName[1] = readNameString;
-			
+			setUserTxtFileDatabase(allUserTxtFile);
 		}
 		
 		else
 		{
-			userIDAndName[0] = null;
-			userIDAndName[1] = null;
-			
+			setUserTxtFileDatabase(null);
+		}
+		
+		
+		userFilesQuantity = new File(usersFolderPath).list().length;
+		for(int i = 0; i < userFilesQuantity; i++)
+		{
+		
+		}
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular1 + "userFilesQuantity =  " + userFilesQuantity);
+		}
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("End method: " + fullClassPathCollective + thisMethod);
+		}
+		
+	}
+	
+	
+	
+	public String getUserFile(String username) throws IOException
+	{
+		String thisMethod = "getUserFile";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		String
+			userFilePath ,
+			userFileContents;
+		
+		ArrayList<Object>
+			resultHolder;
+		
+		boolean
+			fileReadResult;
+		
+		
+		userFilePath = usersFolderPath + nextOSFolder + username + txtFile;
+		resultHolder = StringMethodInterfaces.readFullFile(userFilePath, seeExecutionInfoInTerminal);
+		
+		fileReadResult = (boolean) resultHolder.get(0);
+		
+		if(fileReadResult)
+		{
+			userFileContents = (String) resultHolder.get(1);
+		}
+		
+		else
+		{
+			userFileContents = null;
 		}
 		
 		
@@ -211,7 +236,7 @@ public class DatabaseCommunicator implements fileIO
 		}
 		
 		
-		return userIDAndName;
+		return userFileContents;
 		
 	}
 	
@@ -223,57 +248,78 @@ public class DatabaseCommunicator implements fileIO
 	values to a new string line by line, and when it comes to the specified user ID it stops reading. The it starts
 	reading from the next file after the specified user, and saves its values to a new string. Once these who Strings
 	 are complete they are put together into a new String, and that String is overwritten to the users.txt file.*/
-	public void removeUser() throws IOException
+	public boolean removeUser(String username) throws IOException
 	{
 		String thisMethod = "removeUser";
-		
-		
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
 		}
 		
 		
-		String
-			lineRemoved;
-		
-		int
-			userIDBreaker ,
-			userIDInt ,
-			nextLineBreaker ,
-			newLineCheckStart ,
-			part2Start ,
-			newLineBlank1 ,
-			newLineBlank2 ,
-			nextBlankLineCounter;
-		
 		boolean
+			proceed ,
 			userFound ,
-			resetBlankCounter;
+			fileFound;
 		
-		ArrayList<Object> fffff = new ArrayList<Object>(2);
+		String
+			lineRemoved ,
+			fileContents ,
+			completeDatabseFile;
 		
-		currentFullDatabseFile = StringMethodInterfaces.readFullFile(usersListFile, false);
+		ArrayList<Object>
+			resultHolder;
 		
 		
-		fffff = StringMethodInterfaces.identifyLineBySubstring(currentFullDatabseFile,
-		"a" , 2 , seeExecutionInfoInTerminal);
+		fileContents = null;
+		proceed = true;
+		resultHolder = new ArrayList<Object>(2);
 		
-		
-		userFound = (Boolean) fffff.get(0);
-		lineRemoved = (String) fffff.get(1);
-		
-		if(userFound)
+		if(proceed)
 		{
-			StringMethodInterfaces.removeSingleLineInString(currentFullDatabseFile , lineRemoved , seeExecutionInfoInTerminal);
+			resultHolder = StringMethodInterfaces.readFullFile(usersListFilePath , seeExecutionInfoInTerminal);
+			
+			fileFound = (Boolean) resultHolder.get(0);
+			fileContents = (String) resultHolder.get(1);
+			
+			if(fileFound)
+			{
+				proceed = true;
+				
+			}
+			
+			else
+			{
+				proceed = false;
+				
+			}
+			
 		}
 		
-		/*Start: if there are any blanks lines in the String they are removed here.*/
-	/*		completeNewFile = StringMethodInterfaces.removeExcessiveBlankLines(completeNewFile,
-	seeExecutionInfoInTerminal );*/
-		/*End: if there are any blanks lines in the String they are removed here.*/
+		resultHolder = new ArrayList<Object>(2);
 		
-	//	overwriteFile(usersListFile, completeNewFile);
+		if(proceed)
+		{
+			resultHolder = StringMethodInterfaces.returnFullLineBySubstring(fileContents , username , 0 , seeExecutionInfoInTerminal);
+			userFound = (Boolean) resultHolder.get(0);
+			lineRemoved = (String) resultHolder.get(1);
+			
+			if(userFound)
+			{
+				completeDatabseFile = StringMethodInterfaces.removeSingleLineInString(fileContents , lineRemoved , seeExecutionInfoInTerminal);
+				overwriteFile(usersListFilePath , completeDatabseFile);
+				
+			}
+			
+			else
+			{
+				proceed = false;
+				
+			}
+			
+		}
+		
+		
 		
 		
 		if(seeExecutionInfoInTerminal)
@@ -281,6 +327,8 @@ public class DatabaseCommunicator implements fileIO
 			System.out.println("End method: " + fullClassPathCollective + thisMethod);
 		}
 		
+		
+		return proceed;
 		
 	}
 	
@@ -304,7 +352,7 @@ public class DatabaseCommunicator implements fileIO
 		
 		
 		userPersonalFolderAdress = "\\" + userID;
-		userPersonalFolderFullPath = userIDsFolderPath + userPersonalFolderAdress;
+		userPersonalFolderFullPath = usersFolderPath + userPersonalFolderAdress;
 		userPersonalCompleteFile = userPersonalFolderFullPath + userName;
 		outStream = new PrintWriter(new BufferedWriter(new FileWriter(userPersonalCompleteFile , true)));
 		

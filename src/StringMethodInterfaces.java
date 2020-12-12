@@ -14,6 +14,7 @@ public interface StringMethodInterfaces
 		static String tabular3 = tabular2 + tabular1;
 		
 		
+		
 	public static String setLeapsInALoopToUser(int leapsInALoop)
 	{
 		String
@@ -27,7 +28,7 @@ public interface StringMethodInterfaces
 	
 	
 	/*Reads a full file and saves it to a single String.*/
-	public static String readFullFile(String filePath, boolean seeExecutionInfoInTerminal) throws IOException
+	public static ArrayList<Object> readFullFile(String filePath, boolean seeExecutionInfoInTerminal) throws IOException
 	{
 		String thisMethod = "readFullFile";
 		if(seeExecutionInfoInTerminal)
@@ -37,13 +38,19 @@ public interface StringMethodInterfaces
 		}
 		
 		
+		ArrayList<Object>
+			returnList;
+		
 		BufferedReader
 			inStream;
 		
 		String
 			leapsInALoopToUser ,
 			currentLineBeingRead ,
-			currentFullDatabseFile;
+			fullFile;
+		
+		Boolean
+			filePathLegitamate;
 		
 		long
 			OVERLOADCHECKER1[];
@@ -53,56 +60,91 @@ public interface StringMethodInterfaces
 			OVERLOADCHECKER2;
 		
 		
-		inStream = new BufferedReader(new FileReader(filePath));
-		currentFullDatabseFile = "";
+		returnList = new ArrayList<Object>(2);
+		fullFile = null;
 		
-		leapsInALoop = 0;
-		OVERLOADCHECKER1 = new long[1000000];
-		OVERLOADCHECKER2 = 0;
-		while(true)
+		
+		try
 		{
-			leapsInALoopToUser = setLeapsInALoopToUser(leapsInALoop);
+			inStream = new BufferedReader(new FileReader(filePath));
 			if(seeExecutionInfoInTerminal)
 			{
-				System.out.println(leapsInALoopToUser);
+				System.out.println(tabular2 + "File found through path: " + filePath + ", file is being read.");
 			}
 			
+			filePathLegitamate = true;
 			
-			currentLineBeingRead = inStream.readLine();
-			
-			if(currentLineBeingRead == null)
-			{
-				break;
-				
-			}
-			
-			currentFullDatabseFile += currentLineBeingRead;
-			currentFullDatabseFile += "\n";
-			
-			
-			++leapsInALoop;
-			OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
-			OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
 		}
 		
-		inStream.close();
+		catch(java.io.FileNotFoundException e)
+		{
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "File not found through path: " + filePath + ", process aborted.");
+			}
+			
+			filePathLegitamate = false;
+			
+		}
 		
+		if(filePathLegitamate)
+		{
+			inStream = new BufferedReader(new FileReader(filePath));
+			fullFile = "";
+			
+			leapsInALoop = 0;
+			OVERLOADCHECKER1 = new long[1000000];
+			OVERLOADCHECKER2 = 0;
+			while(true)
+			{
+				leapsInALoopToUser = setLeapsInALoopToUser(leapsInALoop);
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(leapsInALoopToUser);
+				}
+				
+				
+				currentLineBeingRead = inStream.readLine();
+				
+				if(currentLineBeingRead == null)
+				{
+					break;
+					
+				}
+				
+				fullFile += currentLineBeingRead;
+				fullFile += "\n";
+				
+				
+				++leapsInALoop;
+				OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
+				OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
+			}
+			
+			inStream.close();
+			
+		}
+		
+		
+		returnList.add(0, filePathLegitamate);
+		returnList.add(1, fullFile);
 		
 		if(seeExecutionInfoInTerminal)
 		{
-			System.out.println(tabular2 + "Full " + filePath + " file: " + "\n" + "$"+ currentFullDatabseFile + "$");
+			System.out.println(tabular2 + "Full " + filePath + " file: " + "\n" + "$"+ fullFile + "$");
 			System.out.println(tabular1 + "End: read full " + filePath + " file.");
 		}
 		
-		return currentFullDatabseFile;
+		return returnList;
 		
 	}
 	
 	
-	public static ArrayList<Object> identifyLineBySubstring(String fullString, String objectLineIdentifier,
+	
+	public static ArrayList<Object> returnFullLineBySubstring(String fullString, String objectLineIdentifier,
 	                                              int objectIndexIdentifier, boolean seeExecutionInfoInTerminal)
 	{
-		String thisMethod = "identifyLineBySubstring";
+		String thisMethod = "returnFullLineBySubstring";
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println("Start: " + fullClassPathCollective + thisMethod);
@@ -121,7 +163,7 @@ public interface StringMethodInterfaces
 			currentLineBeingReadChopped ,
 			objectLineComparator ,
 			leapsInALoopToUser ,
-			currentFullDatabseFile;
+			fullDatabseFile;
 		
 		Boolean
 			lineFound;
@@ -139,7 +181,7 @@ public interface StringMethodInterfaces
 		
 		returnList = new ArrayList<Object>(2);
 		objectComparerLocation = 0;
-		currentFullDatabseFile = "";
+		fullDatabseFile = "";
 		finalLine = null;
 		lineFound = false;
 		
@@ -354,7 +396,7 @@ public interface StringMethodInterfaces
 					
 					if(nextLineBreaker == -1)
 					{
-						nextLineBreaker = currentFullDatabseFile.length();
+						nextLineBreaker = fullDatabseFile.length();
 						
 					}
 					
@@ -408,6 +450,441 @@ public interface StringMethodInterfaces
 	
 	
 	
+	public static String returnSubstringByLine(String fullString, int lineIndex,
+	                                                          int objectIndexIdentifier, boolean seeExecutionInfoInTerminal)
+	{
+		String thisMethod = "returnSubstringByLine (long String, int index)";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start: " + fullClassPathCollective + thisMethod);
+			System.out.println(tabular1 + "lineIndex: " + lineIndex);
+			System.out.println(tabular1 + "objectIndexIdentifier: " + objectIndexIdentifier);
+		}
+		
+		
+		String
+			returnedSubstring ,
+			temporaryUsedDatabaseFile ,
+			currentLineBeingReadFull ,
+			currentLineBeingReadChopped ,
+			objectLineComparator ,
+			leapsInALoopToUser ,
+			fullDatabseFile;
+		
+		boolean
+			lineFound;
+		
+		long
+			OVERLOADCHECKER1[];
+		
+		int
+			objectComparerLocation ,
+			nextLineBreaker ,
+			newLineCheckStart ,
+			leapsInALoop ,
+			totalLinesChecked ,
+			OVERLOADCHECKER2;
+		
+		
+		objectComparerLocation = 0;
+		fullDatabseFile = "";
+		returnedSubstring = null;
+		lineFound = false;
+		
+		
+		totalLinesChecked = 0;
+		temporaryUsedDatabaseFile = fullString;
+		nextLineBreaker = temporaryUsedDatabaseFile.indexOf("\n");
+		leapsInALoop = 0;
+		
+		for(int i = 0; i < lineIndex; i++)
+		{
+			leapsInALoopToUser = setLeapsInALoopToUser(leapsInALoop);
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(leapsInALoopToUser);
+				System.out.println(tabular2 + "nextLineBreaker = " + nextLineBreaker);
+			}
+			
+			
+			nextLineBreaker = temporaryUsedDatabaseFile.indexOf("\n");
+			temporaryUsedDatabaseFile = temporaryUsedDatabaseFile.substring(nextLineBreaker + 1);
+			
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "temporaryUsedDatabaseFile = " + "\n" + "$" + temporaryUsedDatabaseFile + "$");
+			}
+			
+			
+			++totalLinesChecked;
+			++leapsInALoop;
+		}
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular2 + "totalLinesChecked = " + totalLinesChecked);
+		}
+		
+		
+		nextLineBreaker = temporaryUsedDatabaseFile.indexOf("\n");
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular2 + "nextLineBreaker = " + nextLineBreaker);
+		}
+		
+		
+		currentLineBeingReadFull = temporaryUsedDatabaseFile.substring(0, nextLineBreaker);
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular2 + "currentLineBeingReadFull = " + "\n" + "$" + currentLineBeingReadFull + "$");
+		}
+		
+		
+		leapsInALoop = 0;
+		currentLineBeingReadChopped = currentLineBeingReadFull;
+		for(int i = 0; i < objectIndexIdentifier; i++)
+		{
+			leapsInALoopToUser = setLeapsInALoopToUser(leapsInALoop);
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(leapsInALoopToUser);
+			}
+			
+			
+			objectComparerLocation = currentLineBeingReadChopped.indexOf("_");
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "objectComparerLocation = " + objectComparerLocation);
+			}
+			
+			
+			if(objectComparerLocation != -1)
+			{
+				currentLineBeingReadChopped = currentLineBeingReadChopped.substring(objectComparerLocation + 1);
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "currentLineBeingReadChopped = " + "\n" + "$" +
+					                   currentLineBeingReadChopped + "$");
+				}
+				
+			}
+			
+			else
+			{
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectComparerLocation = -1, chop aborted.");
+				}
+				
+			}
+			
+			++leapsInALoop;
+		}
+		
+		try
+		{
+			objectLineComparator = currentLineBeingReadChopped.substring(0 , objectComparerLocation + 1);
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "objectLineComparator substring attempt succeded, " + "\n" + "objectLineComparator = " + "$" + objectLineComparator + "$");
+			}
+		}
+		
+		catch(StringIndexOutOfBoundsException e)
+		{
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "objectLineComparator substring attempt failed " +
+				                   "(StringIndexOutOfBoundsException). objectLineComparator will be " +
+				                   "set to complete currentLineBeingReadChopped String.");
+			}
+			
+			
+			objectLineComparator = currentLineBeingReadChopped;
+			
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "objectLineComparator = " + "\n" + "$" + objectLineComparator + "$");
+			}
+			
+		}
+		
+		
+		try
+		{
+			if(objectLineComparator.length() > 1)
+			{
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectLineComparator longer then 1 character.");
+				}
+				
+				if(objectLineComparator.endsWith("_"))
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectLineComparator ends with \"_\".");
+					}
+					
+					
+					nextLineBreaker = objectLineComparator.indexOf("_");
+					objectLineComparator = objectLineComparator.substring(0, nextLineBreaker);
+					
+					
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectLineComparator = " + "$" + objectLineComparator + "$");
+					}
+					
+				}
+				
+				else
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectComparerLocation does not end with \"_\".");
+					}
+					
+				}
+				
+			}
+			
+			else
+			{
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectComparerLocation not longer then 1 character.");
+				}
+				
+			}
+			
+			returnedSubstring = objectLineComparator;
+			
+		}
+		
+		catch(NullPointerException e)
+		{
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "objectComparerLocation NullPointerException.");
+			}
+			
+		}
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("End: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		return returnedSubstring;
+		
+	}
+	
+	
+	
+	public static String returnSubstringByLine(String lineString,
+	                                           int objectIndexIdentifier, boolean seeExecutionInfoInTerminal)
+	{
+		String thisMethod = "returnSubstringByLine (single line)";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start: " + fullClassPathCollective + thisMethod);
+			System.out.println(tabular1 + "objectIndexIdentifier: " + objectIndexIdentifier);
+		}
+		
+		
+		String
+		returnedSubstring ,
+		temporaryUsedDatabaseFile ,
+		currentLineBeingReadFull ,
+		currentLineBeingReadChopped ,
+		objectLineComparator ,
+		leapsInALoopToUser ,
+		fullDatabseFile;
+		
+		boolean
+		lineFound;
+		
+		long
+		OVERLOADCHECKER1[];
+		
+		int
+		objectComparerLocation ,
+		nextLineBreaker ,
+		newLineCheckStart ,
+		leapsInALoop ,
+		totalLinesChecked ,
+		OVERLOADCHECKER2;
+		
+		
+		objectComparerLocation = 0;
+		fullDatabseFile = "";
+		returnedSubstring = null;
+		lineFound = false;
+		
+		
+		totalLinesChecked = 0;
+		leapsInALoop = 0;
+		
+	
+		
+		
+		leapsInALoop = 0;
+		currentLineBeingReadChopped = lineString;
+		for(int i = 0; i < objectIndexIdentifier; i++)
+		{
+			leapsInALoopToUser = setLeapsInALoopToUser(leapsInALoop);
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(leapsInALoopToUser);
+			}
+			
+			
+			objectComparerLocation = currentLineBeingReadChopped.indexOf("_");
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "objectComparerLocation = " + objectComparerLocation);
+			}
+			
+			
+			if(objectComparerLocation != -1)
+			{
+				currentLineBeingReadChopped = currentLineBeingReadChopped.substring(objectComparerLocation + 1);
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "currentLineBeingReadChopped = " + "\n" + "$" +
+					                   currentLineBeingReadChopped + "$");
+				}
+				
+			}
+			
+			else
+			{
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectComparerLocation = -1, chop aborted.");
+				}
+				
+			}
+			
+			++leapsInALoop;
+		}
+		
+		try
+		{
+			objectLineComparator = currentLineBeingReadChopped.substring(0 , objectComparerLocation + 1);
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "objectLineComparator substring attempt succeded, " + "\n" + "objectLineComparator = " + "$" + objectLineComparator + "$");
+			}
+		}
+		
+		catch(StringIndexOutOfBoundsException e)
+		{
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "objectLineComparator substring attempt failed " +
+				                   "(StringIndexOutOfBoundsException). objectLineComparator will be " +
+				                   "set to complete currentLineBeingReadChopped String.");
+			}
+			
+			
+			objectLineComparator = currentLineBeingReadChopped;
+			
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "objectLineComparator = " + "\n" + "$" + objectLineComparator + "$");
+			}
+			
+		}
+		
+		
+		try
+		{
+			if(objectLineComparator.length() > 1)
+			{
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectLineComparator longer then 1 character.");
+				}
+				
+				if(objectLineComparator.endsWith("_"))
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectLineComparator ends with \"_\".");
+					}
+					
+					
+					nextLineBreaker = objectLineComparator.indexOf("_");
+					objectLineComparator = objectLineComparator.substring(0, nextLineBreaker);
+					
+					
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectLineComparator = " + "$" + objectLineComparator + "$");
+					}
+					
+				}
+				
+				else
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectComparerLocation does not end with \"_\".");
+					}
+					
+				}
+				
+			}
+			
+			else
+			{
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectComparerLocation not longer then 1 character.");
+				}
+				
+			}
+			
+			returnedSubstring = objectLineComparator;
+			
+		}
+		
+		catch(NullPointerException e)
+		{
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "objectComparerLocation NullPointerException.");
+			}
+			
+		}
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("End: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		return returnedSubstring;
+		
+		
+	}
+	
+	
+	
+	
 	public static String removeSingleLineInString(String fullString, String lineToRemove, boolean seeExecutionInfoInTerminal)
 	{
 		String thisMethod = "removeSingleLineInString";
@@ -425,12 +902,8 @@ public interface StringMethodInterfaces
 			completeNewFile;
 		
 		int
-			objectComparerLocation ,
-			nextLineBreaker ,
-			newLineCheckStart ,
 			part1End ,
-			part2Start ,
-			objectIndexConvertor;
+			part2Start;
 		
 		boolean
 			proceed;
@@ -568,6 +1041,289 @@ public interface StringMethodInterfaces
 		return completeNewFile;
 		
 	}
+	
+	
+	
+	public static int countInstancesBySubstring(String fullString, String objectLineIdentifier,
+	                                                          int objectIndexIdentifier, boolean seeExecutionInfoInTerminal)
+	{
+		String thisMethod = "countInstancesBySubstring";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start: " + fullClassPathCollective + thisMethod);
+			System.out.println(tabular1 + "objectLineIdentifier: " + objectLineIdentifier);
+			System.out.println(tabular1 + "objectIndexIdentifier: " + objectIndexIdentifier);
+		}
+		
+		
+		String
+			temporaryUsedDatabaseFile ,
+			currentLineBeingReadFull ,
+			currentLineBeingReadChopped ,
+			objectLineComparator ,
+			leapsInALoopToUser ,
+			fullDatabseFile;
+		
+		long
+			OVERLOADCHECKER1[];
+		
+		int
+			resultInt ,
+			objectComparerLocation ,
+			nextLineBreaker ,
+			newLineCheckStart ,
+			leapsInALoop ,
+			OVERLOADCHECKER2;
+		
+		
+		resultInt = 0;
+		objectComparerLocation = 0;
+		fullDatabseFile = "";
+		
+		
+		temporaryUsedDatabaseFile = fullString;
+		nextLineBreaker = temporaryUsedDatabaseFile.indexOf("\n");
+		leapsInALoop = 0;
+		
+		OVERLOADCHECKER1 = new long[1000000];
+		OVERLOADCHECKER2 = 0;
+		while(true)
+		{
+			leapsInALoopToUser = setLeapsInALoopToUser(leapsInALoop);
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(leapsInALoopToUser);
+				System.out.println(tabular2 + "nextLineBreaker = " + nextLineBreaker);
+			}
+			
+			nextLineBreaker = temporaryUsedDatabaseFile.indexOf("\n");
+			currentLineBeingReadFull = temporaryUsedDatabaseFile.substring(0, nextLineBreaker);
+			temporaryUsedDatabaseFile = temporaryUsedDatabaseFile.substring(nextLineBreaker + 1);
+			
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "currentLineBeingReadFull = " + "\n" + "$" + currentLineBeingReadFull + "$");
+				System.out.println(tabular2 + "temporaryUsedDatabaseFile = " + "\n" + "$" + temporaryUsedDatabaseFile + "$");
+			}
+			
+			
+			currentLineBeingReadChopped = currentLineBeingReadFull;
+			for(int i = 0; i < objectIndexIdentifier; i++)
+			{
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(leapsInALoopToUser);
+				}
+				
+				
+				objectComparerLocation = currentLineBeingReadChopped.indexOf("_");
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectComparerLocation = " + objectComparerLocation);
+				}
+				
+				
+				if(objectComparerLocation != -1)
+				{
+					currentLineBeingReadChopped = currentLineBeingReadChopped.substring(objectComparerLocation + 1);
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "currentLineBeingReadChopped = " + "\n" + "$" +
+						                   currentLineBeingReadChopped + "$");
+					}
+					
+				}
+				
+				else
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectComparerLocation = -1, chop aborted.");
+					}
+					
+				}
+				
+			}
+			
+			
+			try
+			{
+				objectLineComparator = currentLineBeingReadChopped.substring(0 , objectComparerLocation + 1);
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectLineComparator substring attempt succeded, " + "\n" + "objectLineComparator = " + "$" + objectLineComparator + "$");
+				}
+			}
+			
+			catch(StringIndexOutOfBoundsException e)
+			{
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectLineComparator substring attempt failed " +
+					                   "(StringIndexOutOfBoundsException). objectLineComparator will be " +
+					                   "set to complete currentLineBeingReadChopped String.");
+				}
+				
+				
+				objectLineComparator = currentLineBeingReadChopped;
+				
+				
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectLineComparator = " + "\n" + "$" + objectLineComparator + "$");
+				}
+				
+				
+			}
+			
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "objectComparerLocation = " + "$" + objectComparerLocation + "$");
+			}
+			
+			
+			try
+			{
+				if(objectLineComparator.length() > 1)
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectLineComparator longer then 1 character.");
+					}
+					
+					if(objectLineComparator.endsWith("_"))
+					{
+						if(seeExecutionInfoInTerminal)
+						{
+							System.out.println(tabular2 + "objectLineComparator ends with \"_\".");
+						}
+						
+						
+						nextLineBreaker = objectLineComparator.indexOf("_");
+						objectLineComparator = objectLineComparator.substring(0, nextLineBreaker);
+						
+						
+						if(seeExecutionInfoInTerminal)
+						{
+							System.out.println(tabular2 + "objectLineComparator = " + "$" + objectLineComparator + "$");
+						}
+						
+					}
+					
+					else
+					{
+						if(seeExecutionInfoInTerminal)
+						{
+							System.out.println(tabular2 + "objectComparerLocation does not end with \"_\".");
+						}
+						
+					}
+					
+				}
+				
+				else
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectComparerLocation not longer then 1 character.");
+					}
+					
+				}
+				
+			}
+			
+			catch(NullPointerException e)
+			{
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectComparerLocation NullPointerException.");
+				}
+				
+			}
+			
+			
+			if(objectLineIdentifier.equals(objectLineComparator))
+			{
+				++resultInt;
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "Strings succesfully matched by object, resultInt = " + resultInt);
+				}
+				
+			}
+			
+			else
+			{
+				
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "Strings did not match by object.");
+					System.out.println(tabular2 + "objectLineIdentifier: " + "\n" + "$" +  objectLineIdentifier + "$");
+					System.out.println(tabular2 + "objectIndexIdentifier: " + "\n" + "$" +  objectIndexIdentifier + "$");
+				}
+				
+				
+				newLineCheckStart = temporaryUsedDatabaseFile.indexOf("\n");
+				
+				if(newLineCheckStart != -1)
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "Next line found");
+					}
+					
+					
+					++newLineCheckStart;
+					currentLineBeingReadFull = temporaryUsedDatabaseFile.substring(newLineCheckStart);
+					
+					
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "currentLineBeingReadFull = " + "\n" + "$" + currentLineBeingReadFull + "$");
+					}
+					
+					
+					nextLineBreaker = currentLineBeingReadFull.indexOf("\n");
+					
+					if(nextLineBreaker == -1)
+					{
+						nextLineBreaker = fullDatabseFile.length();
+						
+					}
+					
+				}
+				
+				else
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "Next line not found");
+					}
+					break;
+					
+				}
+				
+			}
+			
+			++leapsInALoop;
+			OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
+			OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
+		}
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular2 + "Iteration loop complete, resultInt = " + resultInt);
+			System.out.println("End: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		return resultInt;
+		
+	}
+	
 	
 	
 	/*Method removes excessive blank lines from any String*/
