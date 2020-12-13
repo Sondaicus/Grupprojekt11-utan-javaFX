@@ -7,24 +7,17 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	private static ArrayList<Account>
 		allAccounts;
 	
-	private static File
-		fullFileNameFile;
-	
 	/*Strings used in program logic*/
 	private static String
 		fullProjectPath ,
-		fullFileNameString ,
 		filesFolderPath ,
 		usersFolderPath ,
 		usersListFilePath ,
 		usersTxtFileDatabase;
 	
 	private static String[]
+		allUsersDatabasePaths ,
 		allUsersDatabaseFiles;
-	
-	
-	private static PrintWriter
-		outStream;
 	
 	private static long
 		OVERLOADCHECKER1[];
@@ -78,6 +71,12 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	
 	public void setDatabaseFolders()
 	{
+		File
+			fullFileNameFile;
+		
+		String
+			fullFileNameString;
+		
 		int
 			setFolderLocation;
 		
@@ -137,33 +136,36 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
 		}
 		
-		
+			
 		ArrayList<Object>
 			resultHolder;
 		
 		String
-			allUserTxtFile;
+			allUserTxtFile ,
+			currentCheckedUserName ,
+			currentUserTxtFile;
 		
 		boolean
-			allUserTxtFound;
+			allUserTxtFound ,
+			individualUserTxtFound;
 		
 		int
 			userFilesQuantity;
 		
-		File
-			currentTemporaryUserFile;
 		
-		ArrayList<File>
-			allIndividualUserFiles;
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular1 + "Start: reading users.txt.");
+		}
 		
 		
-		allIndividualUserFiles = new ArrayList <File>(0);
-		resultHolder = StringMethodInterfaces.readFullFile(usersListFilePath , seeExecutionInfoInTerminal);
+		resultHolder = StringMethodInterfaces.readFullFile(usersListFilePath, seeExecutionInfoInTerminal);
 		allUserTxtFound = (boolean) resultHolder.get(0);
 		allUserTxtFile = (String) resultHolder.get(1);
 		
 		if(allUserTxtFound)
 		{
+			allUserTxtFile = StringMethodInterfaces.removeExcessiveBlankLines(allUserTxtFile, seeExecutionInfoInTerminal);
 			setUserTxtFileDatabase(allUserTxtFile);
 		}
 		
@@ -173,9 +175,36 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		}
 		
 		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular1 + "End: reading users.txt.");
+		}
+		
+		
 		userFilesQuantity = new File(usersFolderPath).list().length;
+		allUsersDatabasePaths = new String[userFilesQuantity];
+		allUsersDatabaseFiles = new String[userFilesQuantity];
 		for(int i = 0; i < userFilesQuantity; i++)
 		{
+			currentCheckedUserName = StringMethodInterfaces.returnSubstringByLine(allUserTxtFile, i, 0,
+			seeExecutionInfoInTerminal);
+			
+			allUsersDatabasePaths[i] = usersFolderPath + nextOSFolder + currentCheckedUserName + txtFile;
+			resultHolder = StringMethodInterfaces.readFullFile(allUsersDatabasePaths[i],
+			seeExecutionInfoInTerminal);
+			
+			individualUserTxtFound = (boolean) resultHolder.get(0);
+			if(individualUserTxtFound)
+			{
+				currentUserTxtFile = (String) resultHolder.get(1);
+			}
+			
+			else
+			{
+				currentUserTxtFile = null;
+			}
+			
+			allUsersDatabaseFiles[i] = currentUserTxtFile;
 		
 		}
 		
@@ -183,12 +212,18 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println(tabular1 + "userFilesQuantity =  " + userFilesQuantity);
-		}
-		
-		if(seeExecutionInfoInTerminal)
-		{
+			
+			for(int i = 0; i < userFilesQuantity; i++)
+			{
+				System.out.println(tabular2 + "allUsersDatabasePaths[" + i + "] = " + "\n" +  allUsersDatabasePaths[i]);
+				System.out.println(tabular2 + "allUsersDatabaseFiles[" + i + "] = " + "\n" + "$" +
+				                   allUsersDatabaseFiles[i] + "$");
+			}
+			
 			System.out.println("End method: " + fullClassPathCollective + thisMethod);
 		}
+		
+	
 		
 	}
 	
@@ -242,6 +277,14 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	
 	
 	
+/*	public String getUserData(String username) throws IOException
+	{
+	
+	}*/
+	
+	
+	
+	
 	/*This method reads in the main- users.txt file, and other user related filed to the specific user. creates a
 	temporary copy of the users.txt file, where it then removes the line with the specified user and then overrites
 	the users.txt file, now without the specified user. To do this it reads the whole file first, then, it adds its
@@ -265,15 +308,16 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		String
 			lineRemoved ,
 			fileContents ,
-			completeDatabseFile;
+			allUsersTxtFile ,
+			subjectsPersonalFilePath;
 		
 		ArrayList<Object>
 			resultHolder;
 		
 		
+		subjectsPersonalFilePath = usersFolderPath + username + txtFile;
 		fileContents = null;
 		proceed = true;
-		resultHolder = new ArrayList<Object>(2);
 		
 		if(proceed)
 		{
@@ -296,8 +340,6 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			
 		}
 		
-		resultHolder = new ArrayList<Object>(2);
-		
 		if(proceed)
 		{
 			resultHolder = StringMethodInterfaces.returnFullLineBySubstring(fileContents , username , 0 , seeExecutionInfoInTerminal);
@@ -306,8 +348,10 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			
 			if(userFound)
 			{
-				completeDatabseFile = StringMethodInterfaces.removeSingleLineInString(fileContents , lineRemoved , seeExecutionInfoInTerminal);
-				overwriteFile(usersListFilePath , completeDatabseFile);
+				allUsersTxtFile = StringMethodInterfaces.removeSingleLineInString(fileContents , lineRemoved , seeExecutionInfoInTerminal);
+				allUsersTxtFile =  StringMethodInterfaces.removeExcessiveBlankLines(allUsersTxtFile, seeExecutionInfoInTerminal);
+				overwriteFile(usersListFilePath , allUsersTxtFile);
+				deleteFile(subjectsPersonalFilePath);
 				
 			}
 			
@@ -318,8 +362,6 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			}
 			
 		}
-		
-		
 		
 		
 		if(seeExecutionInfoInTerminal)
@@ -334,40 +376,29 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	
 	
 	
-	public void writeToIndividualUserFile(String userID, String userName, String[] information) throws IOException
+	public void writeToFile(String fullFilePath, String information) throws IOException
 	{
-		String thisMethod = "writeToIndividualUserFile";
-		
-		
+		String thisMethod = "writeToFile";
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
 		}
 		
 		
-		String
-			userPersonalFolderAdress ,
-			userPersonalFolderFullPath ,
-			userPersonalCompleteFile;
+		PrintWriter
+			outStream;
+	
 		
-		
-		userPersonalFolderAdress = "\\" + userID;
-		userPersonalFolderFullPath = usersFolderPath + userPersonalFolderAdress;
-		userPersonalCompleteFile = userPersonalFolderFullPath + userName;
-		outStream = new PrintWriter(new BufferedWriter(new FileWriter(userPersonalCompleteFile , true)));
+		outStream = new PrintWriter(new BufferedWriter(new FileWriter(information , true)));
+		outStream.println(information);
 		
 		
 		if(seeExecutionInfoInTerminal)
 		{
-			System.out.println("File being written to: " + userPersonalCompleteFile);
+			System.out.println("File being written to: " + fullFilePath);
+			System.out.println("Information being written: " + "\n" + "$" + information + "$");
 		}
 		
-		
-		for(int i = 0; i < information.length; i++)
-		{
-			outStream.println(information[i]);
-			
-		}
 		
 		outStream.close();
 		
@@ -383,13 +414,15 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	
 	public void overwriteFile(String fullFilePath, String[] information) throws IOException
 	{
-		String thisMethod = "overwriteFile (String information)";
-		
-		
+		String thisMethod = "overwriteFile (String[] information)";
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
 		}
+		
+		
+		PrintWriter
+			outStream;
 		
 		
 		outStream = new PrintWriter(new BufferedWriter(new FileWriter(fullFilePath)));
@@ -422,15 +455,18 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	public void overwriteFile(String fullFilePath, String information) throws IOException
 	{
 		String thisMethod = "overwriteFile (single String information)";
-		
-		
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
 		}
 		
 		
+		PrintWriter
+			outStream;
+		
+		
 		outStream = new PrintWriter(new BufferedWriter(new FileWriter(fullFilePath)));
+		outStream.println(information);
 		
 		
 		if(seeExecutionInfoInTerminal)
@@ -438,8 +474,6 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			System.out.println("File being overwritten: " + fullFilePath);
 		}
 		
-		
-		outStream.println(information);
 		
 		outStream.close();
 		
@@ -452,10 +486,100 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	}
 	
 	
-	
-	public void addToList()
+	public void deleteFile(String fullFilePath)
 	{
+		String thisMethod = "deleteFile";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		File
+			fullFileNameFile;
+		
+		boolean
+			result;
+		
+		
+		fullFileNameFile = new File(fullFilePath);
+		result = fullFileNameFile.delete();
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			if(result)
+			{
+				System.out.println(tabular1 + "The file at " + fullFilePath + " was succesfully deleted, result = " + result);
+			}
+			
+			else
+			{
+				System.out.println(tabular1 + "The file at " + fullFilePath + " was not deleted, result = " + result);
+			}
+			
+			System.out.println("End method: " + fullClassPathCollective + thisMethod);
+		}
+		
+	}
 	
+	
+	
+	public boolean createUser(String username, String password) throws IOException
+	{
+		String thisMethod = "createUser";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		boolean
+			success;
+		
+		int
+			usersFound;
+		
+		String
+			userAddOnString;
+		
+		
+		success = true;
+		if(success)
+		{
+			usersFound = StringMethodInterfaces.countInstancesBySubstring(usersTxtFileDatabase , username , 1 , seeExecutionInfoInTerminal);
+			
+			if(usersFound == 0)
+			{
+				success = true;
+				
+			}
+			
+			else
+			{
+				success = false;
+				
+			}
+			
+		}
+		
+		if(success)
+		{
+			userAddOnString = username + "_" + password + "_";
+			usersTxtFileDatabase = usersTxtFileDatabase + userAddOnString;
+			usersTxtFileDatabase = StringMethodInterfaces.removeExcessiveBlankLines(usersTxtFileDatabase, seeExecutionInfoInTerminal);
+			writeToFile(usersListFilePath, userAddOnString);
+			
+		}
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("End method: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		return success;
 	
 	}
 	
@@ -464,8 +588,13 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	public void removeFromList()
 	{
 	
-	
 	}
 	
+	
+	
+	public void testMethod() throws IOException
+	{
+	
+	}
 	
 }

@@ -5,10 +5,8 @@ public class Main
 {
     public static void main(String[] args) throws IOException
     {
-        DatabaseCommunicator test = new DatabaseCommunicator();
+        DatabaseCommunicator test = new DatabaseCommunicator(true);
         
-        test.seeTerminalInformation(true);
-        test.readAllUserFiles();
         
     }
 

@@ -1,3 +1,2 @@
-1_a_a
-2_b_b
-3_c_c
+hej_lösenord1
+dig_lösenord3

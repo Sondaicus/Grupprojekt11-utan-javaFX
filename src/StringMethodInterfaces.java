@@ -212,13 +212,15 @@ public interface StringMethodInterfaces
 				System.out.println(tabular2 + "temporaryUsedDatabaseFile = " + "\n" + "$" + temporaryUsedDatabaseFile + "$");
 			}
 			
-			
 			currentLineBeingReadChopped = currentLineBeingReadFull;
-			for(int i = 0; i < objectIndexIdentifier; i++)
+			
+			
+			if(objectIndexIdentifier == 0)
 			{
 				if(seeExecutionInfoInTerminal)
 				{
-					System.out.println(leapsInALoopToUser);
+					System.out.println(tabular2 + "objectIndexIdentifier == 0, single read instance initiated, loop " +
+					                   "skipped.");
 				}
 				
 				
@@ -231,11 +233,11 @@ public interface StringMethodInterfaces
 				
 				if(objectComparerLocation != -1)
 				{
-					currentLineBeingReadChopped = currentLineBeingReadChopped.substring(objectComparerLocation + 1);
+					currentLineBeingReadChopped = currentLineBeingReadChopped.substring(0, objectComparerLocation);
 					if(seeExecutionInfoInTerminal)
 					{
 						System.out.println(tabular2 + "currentLineBeingReadChopped = " + "\n" + "$" +
-						                   currentLineBeingReadChopped + "$");
+						                   currentLineBeingReadChopped +  "$");
 					}
 					
 				}
@@ -251,6 +253,51 @@ public interface StringMethodInterfaces
 				
 			}
 			
+			else
+			{
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectIndexIdentifier > 0, single read instance skipped, loop " + "starts.");
+				}
+				
+				
+				for(int i = 0; i < objectIndexIdentifier; i++)
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(leapsInALoopToUser);
+					}
+					
+					
+					objectComparerLocation = currentLineBeingReadChopped.indexOf("_");
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectComparerLocation = " + objectComparerLocation);
+					}
+					
+					
+					if(objectComparerLocation != -1)
+					{
+						currentLineBeingReadChopped = currentLineBeingReadChopped.substring(objectComparerLocation + 1);
+						if(seeExecutionInfoInTerminal)
+						{
+							System.out.println(tabular2 + "currentLineBeingReadChopped = " + "\n" + "$" + currentLineBeingReadChopped + "$");
+						}
+						
+					}
+					
+					else
+					{
+						if(seeExecutionInfoInTerminal)
+						{
+							System.out.println(tabular2 + "objectComparerLocation = -1, chop aborted.");
+						}
+						
+					}
+					
+				}
+				
+			}
 			
 			try
 			{
@@ -453,7 +500,7 @@ public interface StringMethodInterfaces
 	public static String returnSubstringByLine(String fullString, int lineIndex,
 	                                                          int objectIndexIdentifier, boolean seeExecutionInfoInTerminal)
 	{
-		String thisMethod = "returnSubstringByLine (long String, int index)";
+		String thisMethod = "returnSubstringByLine (full String, int index)";
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println("Start: " + fullClassPathCollective + thisMethod);
@@ -468,28 +515,18 @@ public interface StringMethodInterfaces
 			currentLineBeingReadFull ,
 			currentLineBeingReadChopped ,
 			objectLineComparator ,
-			leapsInALoopToUser ,
-			fullDatabseFile;
-		
-		boolean
-			lineFound;
-		
-		long
-			OVERLOADCHECKER1[];
+			leapsInALoopToUser;
 		
 		int
 			objectComparerLocation ,
 			nextLineBreaker ,
-			newLineCheckStart ,
 			leapsInALoop ,
-			totalLinesChecked ,
-			OVERLOADCHECKER2;
+			totalLinesChecked;
+		
 		
 		
 		objectComparerLocation = 0;
-		fullDatabseFile = "";
 		returnedSubstring = null;
-		lineFound = false;
 		
 		
 		totalLinesChecked = 0;
@@ -537,6 +574,23 @@ public interface StringMethodInterfaces
 		}
 		
 		
+		if(nextLineBreaker ==-1)
+		{
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "nextLineBreaker illogical value, is set to full String length.");
+			}
+			
+			
+			nextLineBreaker = temporaryUsedDatabaseFile.length();
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "nextLineBreaker = " + nextLineBreaker);
+			}
+			
+		}
+		
+		
 		currentLineBeingReadFull = temporaryUsedDatabaseFile.substring(0, nextLineBreaker);
 		
 		
@@ -546,14 +600,13 @@ public interface StringMethodInterfaces
 		}
 		
 		
-		leapsInALoop = 0;
 		currentLineBeingReadChopped = currentLineBeingReadFull;
-		for(int i = 0; i < objectIndexIdentifier; i++)
+		if(objectIndexIdentifier == 0)
 		{
-			leapsInALoopToUser = setLeapsInALoopToUser(leapsInALoop);
 			if(seeExecutionInfoInTerminal)
 			{
-				System.out.println(leapsInALoopToUser);
+				System.out.println(tabular2 + "objectIndexIdentifier == 0, single read instance initiated, loop " +
+				                   "skipped.");
 			}
 			
 			
@@ -566,7 +619,7 @@ public interface StringMethodInterfaces
 			
 			if(objectComparerLocation != -1)
 			{
-				currentLineBeingReadChopped = currentLineBeingReadChopped.substring(objectComparerLocation + 1);
+				currentLineBeingReadChopped = currentLineBeingReadChopped.substring(0, objectComparerLocation);
 				if(seeExecutionInfoInTerminal)
 				{
 					System.out.println(tabular2 + "currentLineBeingReadChopped = " + "\n" + "$" +
@@ -583,9 +636,58 @@ public interface StringMethodInterfaces
 				}
 				
 			}
-			
-			++leapsInALoop;
 		}
+		
+		else
+		{
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "objectIndexIdentifier > 0, single read instance skipped, loop " +
+				                   "starts.");
+			}
+			
+			
+			leapsInALoop = 0;
+			for(int i = 0; i < objectIndexIdentifier; i++)
+			{
+				leapsInALoopToUser = setLeapsInALoopToUser(leapsInALoop);
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(leapsInALoopToUser);
+				}
+				
+				
+				objectComparerLocation = currentLineBeingReadChopped.indexOf("_");
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectComparerLocation = " + objectComparerLocation);
+				}
+				
+				
+				if(objectComparerLocation != -1)
+				{
+					currentLineBeingReadChopped = currentLineBeingReadChopped.substring(objectComparerLocation + 1);
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "currentLineBeingReadChopped = " + "\n" + "$" + currentLineBeingReadChopped + "$");
+					}
+					
+				}
+				
+				else
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectComparerLocation = -1, chop aborted.");
+					}
+					
+				}
+				
+				++leapsInALoop;
+			}
+			
+		}
+		
 		
 		try
 		{
@@ -681,6 +783,7 @@ public interface StringMethodInterfaces
 		
 		if(seeExecutionInfoInTerminal)
 		{
+			System.out.println(tabular2 + "returnedSubstring = " + "\n" + "$" + returnedSubstring + "$");
 			System.out.println("End: " + fullClassPathCollective + thisMethod);
 		}
 		
@@ -703,53 +806,31 @@ public interface StringMethodInterfaces
 		
 		
 		String
-		returnedSubstring ,
-		temporaryUsedDatabaseFile ,
-		currentLineBeingReadFull ,
-		currentLineBeingReadChopped ,
-		objectLineComparator ,
-		leapsInALoopToUser ,
-		fullDatabseFile;
-		
-		boolean
-		lineFound;
-		
-		long
-		OVERLOADCHECKER1[];
+			returnedSubstring ,
+			lineStringChopped ,
+			objectLineComparator ,
+			leapsInALoopToUser;
 		
 		int
-		objectComparerLocation ,
-		nextLineBreaker ,
-		newLineCheckStart ,
-		leapsInALoop ,
-		totalLinesChecked ,
-		OVERLOADCHECKER2;
+			objectComparerLocation ,
+			nextLineBreaker ,
+			leapsInALoop;
 		
 		
 		objectComparerLocation = 0;
-		fullDatabseFile = "";
 		returnedSubstring = null;
-		lineFound = false;
+		lineStringChopped = lineString;
 		
-		
-		totalLinesChecked = 0;
-		leapsInALoop = 0;
-		
-	
-		
-		
-		leapsInALoop = 0;
-		currentLineBeingReadChopped = lineString;
-		for(int i = 0; i < objectIndexIdentifier; i++)
+		if(objectIndexIdentifier == 0)
 		{
-			leapsInALoopToUser = setLeapsInALoopToUser(leapsInALoop);
 			if(seeExecutionInfoInTerminal)
 			{
-				System.out.println(leapsInALoopToUser);
+				System.out.println(tabular2 + "objectIndexIdentifier == 0, single read instance initiated, loop " +
+				                   "skipped.");
 			}
 			
 			
-			objectComparerLocation = currentLineBeingReadChopped.indexOf("_");
+			objectComparerLocation = lineStringChopped.indexOf("_");
 			if(seeExecutionInfoInTerminal)
 			{
 				System.out.println(tabular2 + "objectComparerLocation = " + objectComparerLocation);
@@ -758,11 +839,11 @@ public interface StringMethodInterfaces
 			
 			if(objectComparerLocation != -1)
 			{
-				currentLineBeingReadChopped = currentLineBeingReadChopped.substring(objectComparerLocation + 1);
+				lineStringChopped = lineStringChopped.substring(0, objectComparerLocation);
 				if(seeExecutionInfoInTerminal)
 				{
-					System.out.println(tabular2 + "currentLineBeingReadChopped = " + "\n" + "$" +
-					                   currentLineBeingReadChopped + "$");
+					System.out.println(tabular2 + "lineStringChopped = " + "\n" + "$" +
+					                   lineStringChopped+ "$");
 				}
 				
 			}
@@ -776,12 +857,62 @@ public interface StringMethodInterfaces
 				
 			}
 			
-			++leapsInALoop;
 		}
+		
+		else
+		{
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "objectIndexIdentifier > 0, single read instance skipped, loop " +
+				                   "starts.");
+			}
+			
+			
+			leapsInALoop = 0;
+			for(int i = 0; i < objectIndexIdentifier; i++)
+			{
+				leapsInALoopToUser = setLeapsInALoopToUser(leapsInALoop);
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(leapsInALoopToUser);
+				}
+				
+				
+				objectComparerLocation = lineStringChopped.indexOf("_");
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "objectComparerLocation = " + objectComparerLocation);
+				}
+				
+				
+				if(objectComparerLocation != -1)
+				{
+					lineStringChopped = lineStringChopped.substring(objectComparerLocation + 1);
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "lineStringChopped = " + "\n" + "$" + lineStringChopped + "$");
+					}
+					
+				}
+				
+				else
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "objectComparerLocation = -1, chop aborted.");
+					}
+					
+				}
+				
+				++leapsInALoop;
+			}
+			
+		}
+		
 		
 		try
 		{
-			objectLineComparator = currentLineBeingReadChopped.substring(0 , objectComparerLocation + 1);
+			objectLineComparator = lineStringChopped.substring(0 , objectComparerLocation + 1);
 			if(seeExecutionInfoInTerminal)
 			{
 				System.out.println(tabular2 + "objectLineComparator substring attempt succeded, " + "\n" + "objectLineComparator = " + "$" + objectLineComparator + "$");
@@ -798,7 +929,7 @@ public interface StringMethodInterfaces
 			}
 			
 			
-			objectLineComparator = currentLineBeingReadChopped;
+			objectLineComparator = lineStringChopped;
 			
 			
 			if(seeExecutionInfoInTerminal)
@@ -873,12 +1004,12 @@ public interface StringMethodInterfaces
 		
 		if(seeExecutionInfoInTerminal)
 		{
+			System.out.println(tabular2 + "returnedSubstring = " + "\n" + "$" + returnedSubstring + "$");
 			System.out.println("End: " + fullClassPathCollective + thisMethod);
 		}
 		
 		
 		return returnedSubstring;
-		
 		
 	}
 	
