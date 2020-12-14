@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
@@ -1126,9 +1127,13 @@ public interface StringMethodInterfaces
 				if(objectComparerLocation != -1)
 				{
 					lineStringChopped = lineStringChopped.substring(objectComparerLocation + 1);
+					objectComparerLocation = lineStringChopped.indexOf("_");
+					
 					if(seeExecutionInfoInTerminal)
 					{
-						System.out.println(tabular2 + "lineStringChopped = " + "\n" + "$" + lineStringChopped + "$");
+						System.out.println(tabular2 + "lineStringChopped: " + "\n" + "$" + lineStringChopped + "$");
+						System.out.println(tabular2 + "New objectComparerLocation = " + objectComparerLocation);
+						
 					}
 					
 				}
@@ -2022,7 +2027,108 @@ public interface StringMethodInterfaces
 	
 	
 	
-	
+	public static int countTotalNumberOfLines(String fullFile, boolean seeExecutionInfoInTerminal)
+	{
+		String thisMethod = "countTotalNumberOfLines";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start: " + fullClassPathCollective + thisMethod);
+			System.out.println(tabular2 + "fullFile: " + "\n" + "$" + fullFile + "$");
+		}
+		
+		
+		int
+		resultCounts ,
+		nextLineBreaker ,
+		leapsInALoop ,
+		OVERLOADCHECKER2;
+		
+		long
+		OVERLOADCHECKER1[];
+		
+		boolean
+		repeatIteration ,
+		exitLoop;
+		
+		String
+		remainderOfFile ,
+		leapsInALoopToUser;
+		
+		
+		exitLoop = false;
+		repeatIteration = false;
+		resultCounts = 0;
+		remainderOfFile = fullFile;
+		
+		leapsInALoop = 0;
+		OVERLOADCHECKER1 = new long[1000000];
+		OVERLOADCHECKER2 = 0;
+		while(true)
+		{
+			leapsInALoopToUser = setLeapsInALoopToUser(leapsInALoop);
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(leapsInALoopToUser);
+			}
+			
+			
+			nextLineBreaker = remainderOfFile.indexOf("\n");
+			
+			if(nextLineBreaker == -1)
+			{
+				if(!repeatIteration)
+				{
+					repeatIteration = true;
+					
+				}
+				
+				else
+				{
+					break;
+					
+				}
+				
+			}
+			
+			else
+			{
+				try
+				{
+					remainderOfFile = remainderOfFile.substring(nextLineBreaker + 1);
+					
+				}
+				
+				catch(StringIndexOutOfBoundsException e)
+				{
+					exitLoop = true;
+					
+				}
+				
+			}
+			
+			++resultCounts;
+			
+			if(exitLoop)
+			{
+				break;
+				
+			}
+			
+			++leapsInALoop;
+			OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
+			OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
+		}
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular2 + "resultCounts = " + resultCounts);
+			System.out.println("End: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		return resultCounts;
+		
+	}
 	
 	
 	
@@ -2042,7 +2148,6 @@ public interface StringMethodInterfaces
 		
 		String
 		newFile ,
-		
 		currentLineBeingReadFull ,
 		leapsInALoopToUser;
 		
@@ -2051,12 +2156,11 @@ public interface StringMethodInterfaces
 		
 		int
 		iterationsCounter ,
-		
 		leapsInALoop ,
 		OVERLOADCHECKER2;
 		
 		boolean
-		successLinePrint,
+		successLinePrint ,
 		successLineContinue;
 		
 		
