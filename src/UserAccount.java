@@ -7,7 +7,6 @@ public class UserAccount extends Account
 	public UserAccount(String username, String password)
 	{
 		super(username, password, 1);
-		this.tasks = new ArrayList<>();
 
 		
 	}
@@ -32,6 +31,9 @@ public class UserAccount extends Account
 		}
 	}
 
+	public ArrayList<Task> getTasks() {
+		return tasks;
+	}
 
 	public void setTasks(ArrayList<Task> tasks) {
 		this.tasks = tasks;

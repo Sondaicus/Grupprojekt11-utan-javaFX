@@ -11,14 +11,23 @@ public class Main {
     private static UserAccount user;
     private static ArrayList<Account> users = new ArrayList<>();
     private static ArrayList<Task> tasks = new ArrayList<>();
+    private static DatabaseCommunicator db;
+
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        users.add(new UserAccount("x","x"));
         try {
-            DatabaseCommunicator db = new DatabaseCommunicator();
-            UI(sc,db);
+            db = new DatabaseCommunicator();
         } catch (IOException io) {
             io.printStackTrace();
         }
+        UI(sc);
+
+
+
+
+
 
 
 
@@ -26,7 +35,7 @@ public class Main {
 
     }
 
-    private static void UI(Scanner sc, DatabaseCommunicator db) {
+    private static void UI(Scanner sc) {
         while (true) {
             System.out.println("1. logga in" + "\n" // välj
                     + "2. skapa konto");
@@ -34,11 +43,12 @@ public class Main {
 
             if (answer.equalsIgnoreCase("1")) { // logga in
                 setInfo(sc);
-                int userType = logInValidator(användarnamn, lösenord, sc);
+                int userType = logInValidator(användarnamn, lösenord);
                 if (userType == 1) {
-                    omUser(sc, db);
+
+                    omUser(sc);
                 } else if (userType == 0) {
-                    ifAdmin(sc,db);
+                    ifAdmin(sc);
                 }
             } else if (answer.equalsIgnoreCase("2")) { // skapa konto
                 setInfo(sc);
@@ -47,16 +57,16 @@ public class Main {
                 kontoTyp = sc.next(); // sätter kontotyp
 
                 if (kontoTyp.equalsIgnoreCase("1")) {
-                    createUser(användarnamn, lösenord,db);
+                    createUser(användarnamn, lösenord);
 
                 } else if (kontoTyp.equalsIgnoreCase("2")) {
-                    createAdmin(användarnamn, lösenord, users,db);
+                    createAdmin(användarnamn, lösenord, users);
                 }
             }
         }
     }
 
-    private static void createUser(String a, String l,DatabaseCommunicator db) {
+    private static void createUser(String a, String l) {
         user = AccountCreator.createUser(a, l);
         try {
             boolean isSuccessful = db.createUser(a,l);
@@ -74,7 +84,7 @@ public class Main {
 
     }
 
-    private static void createAdmin(String a, String l, ArrayList<Account> users,DatabaseCommunicator db) {
+    private static void createAdmin(String a, String l, ArrayList<Account> users) {
         admin = AccountCreator.createAdmin(a, l, users);
         try {
             boolean isSuccessful = db.createUser(a,l);
@@ -91,7 +101,7 @@ public class Main {
         }
     }
 
-    private static void omUser(Scanner sc, DatabaseCommunicator db) {
+    private static void omUser(Scanner sc) {
         while (true) {
 
         System.out.println("1. lägg till uppgift" + "\n"
@@ -130,7 +140,7 @@ public class Main {
 
     }
 
-    private static void ifAdmin(Scanner sc, DatabaseCommunicator db) {
+    private static void ifAdmin(Scanner sc) {
 
         while (true) {
 
@@ -173,13 +183,16 @@ public class Main {
         }
     }
 
-    private static int logInValidator(String namn, String pass, Scanner sc) {
+    private static int logInValidator(String namn, String pass) {
         boolean finns = false;
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUsername().equalsIgnoreCase(namn) && users.get(i).getPassword().equalsIgnoreCase(pass)) {
                 finns = true;
-                //tasks = readfile
-                //setTask
+                addTasksFromFile(users.get(i).getUsername());
+                user = (UserAccount) users.get(i);
+                user.setTasks(tasks);
+
+
                 System.out.println("Välkommen " + namn + "!");
                 return users.get(i).getAccountType();
             }
@@ -189,6 +202,21 @@ public class Main {
             return 2; // om user är ogiltig
         }
         return 0;
+    }
+
+    public static void addTasksFromFile(String username) {
+        try {
+            ArrayList<Object> getUserFile = db.getUserFile(username);
+            String str = (String) getUserFile.get(1);
+            String[] parts = str.split("_");
+            for (int j = 0; j < parts.length - 1; j += 2) {
+                tasks.add(new Task(parts[j], parts[j+1]));
+
+            }
+
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
     }
 
     private static void setInfo(Scanner sc) {
