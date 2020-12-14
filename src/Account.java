@@ -38,12 +38,6 @@ public abstract class Account
 		
 	}
 	
-	private void setId() throws IOException
-	{
-		id = CreateNewUserID.getAndSetIDs();
-		
-	}
-	
 	public void setAccountType(int accountType)
 	{
 		this.accountType = accountType;
@@ -63,12 +57,6 @@ public abstract class Account
 		
 	}
 	
-	public int getId()
-	{
-		return id;
-		
-	}
-	
 	public int getAccountType()
 	{
 		return accountType;
@@ -78,6 +66,6 @@ public abstract class Account
 
 	@Override
 	public String toString() {
-		return getId() + " " + getUsername();
+		return "Användarnamn: " + getUsername();
 	}
 }

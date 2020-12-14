@@ -1,64 +1,97 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
-    private static Scanner sc;
     private static String användarnamn;
     private static String lösenord;
     private static String kontoTyp;
     private static AdminAccount admin;
     private static UserAccount user;
     private static ArrayList<Account> users = new ArrayList<>();
-    private ArrayList<Task> tasks = new ArrayList<>();
+    private static ArrayList<Task> tasks = new ArrayList<>();
     public static void main(String[] args) {
-        sc = new Scanner(System.in);
-        UI();
+        Scanner sc = new Scanner(System.in);
+        try {
+            DatabaseCommunicator db = new DatabaseCommunicator();
+            UI(sc,db);
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
+
+
+
 
 
     }
 
-    private static void UI() {
+    private static void UI(Scanner sc, DatabaseCommunicator db) {
         while (true) {
             System.out.println("1. logga in" + "\n" // välj
                     + "2. skapa konto");
             String answer = sc.next();
 
             if (answer.equalsIgnoreCase("1")) { // logga in
-                setInfo();
-                int userType = logInValidator(användarnamn, lösenord);
+                setInfo(sc);
+                int userType = logInValidator(användarnamn, lösenord, sc);
                 if (userType == 1) {
-                    omUser();
+                    omUser(sc, db);
                 } else if (userType == 0) {
-                    ifAdmin();
+                    ifAdmin(sc,db);
                 }
             } else if (answer.equalsIgnoreCase("2")) { // skapa konto
-                setInfo();
+                setInfo(sc);
                 System.out.println("1. vanlig användare" + "\n" // vanligt eller admin
                         + "2. admin");
                 kontoTyp = sc.next(); // sätter kontotyp
 
                 if (kontoTyp.equalsIgnoreCase("1")) {
-                    createUser(användarnamn, lösenord);
+                    createUser(användarnamn, lösenord,db);
 
                 } else if (kontoTyp.equalsIgnoreCase("2")) {
-                    createAdmin(användarnamn, lösenord, users);
+                    createAdmin(användarnamn, lösenord, users,db);
                 }
             }
         }
     }
 
-    private static void createUser(String a, String l) {
+    private static void createUser(String a, String l,DatabaseCommunicator db) {
         user = AccountCreator.createUser(a, l);
-        users.add(user);
+        try {
+            boolean isSuccessful = db.createUser(a,l);
+
+
+        if (isSuccessful) {
+            users.add(user);
+        } else {
+            System.out.println("Användarnamn finns redan");
+        }
+
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
+
     }
 
-    private static void createAdmin(String a, String l, ArrayList<Account> al) {
-        admin = AccountCreator.createAdmin(a, l, al);
-        users.add(admin);
+    private static void createAdmin(String a, String l, ArrayList<Account> users,DatabaseCommunicator db) {
+        admin = AccountCreator.createAdmin(a, l, users);
+        try {
+            boolean isSuccessful = db.createUser(a,l);
+
+
+            if (isSuccessful) {
+                users.add(admin);
+            } else {
+                System.out.println("Användarnamn finns redan");
+            }
+
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
     }
 
-    private static void omUser() {
+    private static void omUser(Scanner sc, DatabaseCommunicator db) {
         while (true) {
 
         System.out.println("1. lägg till uppgift" + "\n"
@@ -68,12 +101,18 @@ public class Main {
         String answer = sc.next();
         //String taskName;
         if (answer.equalsIgnoreCase("1")) {
-            System.out.println("Skriv ämne");
+            try {
+            System.out.println("Skriv uppgiftsnamn");
             String taskName = sc.next();
             System.out.println("Skriv beskrivning");
             sc.nextLine();
             String desc = sc.nextLine();
             user.createTask(taskName, desc);
+            db.addTaskToUser(user.getUsername(),taskName,desc);
+            } catch (IOException io) {
+                io.printStackTrace();
+            }
+
             System.out.println("Uppgift tillagd!");
         } else if (answer.equals("2")) {
             System.out.println("Ange namn på upggiften");
@@ -91,7 +130,7 @@ public class Main {
 
     }
 
-    private static void ifAdmin() {
+    private static void ifAdmin(Scanner sc, DatabaseCommunicator db) {
 
         while (true) {
 
@@ -102,12 +141,21 @@ public class Main {
 
             if (answer.equalsIgnoreCase("1")) {
 
-                System.out.println("Ange ID: ");
-                int userId = sc.nextInt();
                 System.out.println("Ange användarnamn: ");
                 String userName = sc.next();
+                try {
 
-                admin.removeAccount(userId, userName);
+
+                    boolean[] isTrue = db.removeUser(userName);
+                    System.out.println(isTrue[1]);
+                    if (!isTrue[1]) {
+                        admin.removeAccount(userName);
+                    } else {
+                        System.out.println("Fel uppstod");
+                    }
+                } catch (IOException io) {
+                    io.printStackTrace();
+                }
 
             } else if (answer.equals("2")) {
 
@@ -125,11 +173,13 @@ public class Main {
         }
     }
 
-    private static int logInValidator(String namn, String pass) {
+    private static int logInValidator(String namn, String pass, Scanner sc) {
         boolean finns = false;
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUsername().equalsIgnoreCase(namn) && users.get(i).getPassword().equalsIgnoreCase(pass)) {
                 finns = true;
+                //tasks = readfile
+                //setTask
                 System.out.println("Välkommen " + namn + "!");
                 return users.get(i).getAccountType();
             }
@@ -141,7 +191,7 @@ public class Main {
         return 0;
     }
 
-    private static void setInfo() {
+    private static void setInfo(Scanner sc) {
         System.out.println("Ange användarnam.");
         användarnamn = sc.next();
         System.out.println("Ange lösenord.");
