@@ -1,37 +1,27 @@
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 
-public class DatabaseCommunicator implements fileIO
+public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagrams , DatabaseToRestOfProgramDiagram , StringMethodInterfaces
 {
 	private static ArrayList<Account>
 		allAccounts;
 	
-	private static File
-		fullFileNameFile;
-	
 	/*Strings used in program logic*/
 	private static String
-		dataBaseFolder ,
-		currentFullDatabseFile ,
-		nextFullDatabseFile ,
 		fullProjectPath ,
-		fullFileNameString ,
 		filesFolderPath ,
-		userIDsFolderPath ,
-		usersListFile;
+		usersFolderPath ,
+		usersListFilePath ,
+		usersTxtFileDatabase;
 	
-	private static BufferedReader
-		inStream;
-	
-	private static PrintWriter
-		outStream;
-	
-	private static long
-		OVERLOADCHECKER1[];
+	private static String[]
+		allUserNames ,
+		allUsersDatabasePaths ,
+		allUsersDatabaseFiles;
 	
 	private static int
-		OVERLOADCHECKER2 ,
 		leapsInALoop;
 	
 	private static boolean
@@ -39,6 +29,7 @@ public class DatabaseCommunicator implements fileIO
 	
 	/*Strings used in console-window for user to read.*/
 	private static String
+		txtFile = ".txt" ,
 		nextOSFolder = "\\" ,
 		thisFolder = "src" ,
 		thisClass = "DatabaseCommunicator" ,
@@ -50,8 +41,18 @@ public class DatabaseCommunicator implements fileIO
 	
 	
 	
-	DatabaseCommunicator()
+	DatabaseCommunicator() throws IOException
 	{
+		setSeeExecutionInfoInTerminal(false);
+		setDatabaseFolders();
+		readAllUserFiles();
+		
+	}
+	
+	
+	DatabaseCommunicator(boolean seeExecutionInfoInTerminal) throws IOException
+	{
+		setSeeExecutionInfoInTerminal(seeExecutionInfoInTerminal);
 		setDatabaseFolders();
 		readAllUserFiles();
 		
@@ -59,9 +60,22 @@ public class DatabaseCommunicator implements fileIO
 	
 	
 	
+	public void setSeeExecutionInfoInTerminal(boolean seeExecutionInfoInTerminal)
+	{
+		this.seeExecutionInfoInTerminal = seeExecutionInfoInTerminal;
+		
+	}
+	
+	
 	
 	public void setDatabaseFolders()
 	{
+		File
+			fullFileNameFile;
+		
+		String
+			fullFileNameString;
+		
 		int
 			setFolderLocation;
 		
@@ -73,26 +87,51 @@ public class DatabaseCommunicator implements fileIO
 		
 		filesFolderPath = fullProjectPath + "\\Files";
 		
-		userIDsFolderPath = filesFolderPath + "\\UserIDsFolder";
+		usersFolderPath = filesFolderPath + "\\Users";
 		
-		usersListFile = filesFolderPath + "\\users.txt";
+		usersListFilePath = filesFolderPath + "\\users.txt";
 		
 	}
+	
+	
+	
+	public String getUserTxtFileDatabase()
+	{
+		return usersTxtFileDatabase;
+		
+	}
+	
+	
+	
+	public void setUserTxtFileDatabase(String oldFile)
+	{
+		String
+			newFile;
+		
+		boolean
+			correctFormat;
+		
+		
+		newFile = oldFile;
+		correctFormat = newFile.endsWith("\n");
+		
+		if(!correctFormat)
+		{
+			newFile = newFile + "\n";
+		}
+		
+		usersTxtFileDatabase = newFile;
+		
+	}
+	
 	
 	
 	public void setLeapsInALoopToUser()
 	{
-		leapsInALoopToUser = tabular2 + "leapsInALoop " + leapsInALoop;
+		leapsInALoopToUser = tabular3 + "leapsInALoop " + leapsInALoop;
 		
 	}
 	
-	
-	
-	public void readAllUserFiles()
-	{
-		allAccounts = new ArrayList<Account>();
-		
-	}
 	
 	
 	public void seeTerminalInformation(boolean status)
@@ -103,44 +142,66 @@ public class DatabaseCommunicator implements fileIO
 	
 	
 	
-	public String[] getUserFilesFromID(int userID) throws IOException
+	public void readAllUserFiles() throws IOException
 	{
-		String thisMethod = "getUserFilesFromID";
-		
-		
+		String thisMethod = "readAllUserFiles";
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
 		}
 		
-		
-		String[]
-			userIDAndName;
+			
+		ArrayList<Object>
+			resultHolder;
 		
 		String
-			readIDString ,
-			readNameString ,
-			restLineHolder ,
-			lineBeingRead;
-		
-		int
-			idBreak ,
-			nameBreak ,
-			readIDToInt;
+			allUserTxtFile ,
+			currentCheckedUserName ,
+			currentUserTxtFile;
 		
 		boolean
-			userFound;
+			allUserTxtFound ,
+			individualUserTxtFound;
+		
+		int
+			userFilesQuantity;
 		
 		
-		inStream = new BufferedReader(new FileReader(usersListFile));
-		userIDAndName = new String[2];
-		userFound = false;
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular1 + "Start: reading users.txt.");
+		}
 		
+		
+		resultHolder = StringMethodInterfaces.readFullFile(usersListFilePath, seeExecutionInfoInTerminal);
+		allUserTxtFound = (boolean) resultHolder.get(0);
+		allUserTxtFile = (String) resultHolder.get(1);
+		
+		if(allUserTxtFound)
+		{
+			allUserTxtFile = StringMethodInterfaces.removeExcessiveBlankLines(allUserTxtFile, seeExecutionInfoInTerminal);
+			setUserTxtFileDatabase(allUserTxtFile);
+		}
+		
+		else
+		{
+			setUserTxtFileDatabase(null);
+		}
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular1 + "End: reading users.txt.");
+		}
+		
+		
+		userFilesQuantity = new File(usersFolderPath).list().length;
+		allUserNames = new String[userFilesQuantity];
+		allUsersDatabasePaths = new String[userFilesQuantity];
+		allUsersDatabaseFiles = new String[userFilesQuantity];
 		
 		leapsInALoop = 0;
-		OVERLOADCHECKER1 = new long[1000000];
-		OVERLOADCHECKER2 = 0;
-		while(true)
+		for(int i = 0; i < userFilesQuantity; i++)
 		{
 			setLeapsInALoopToUser();
 			if(seeExecutionInfoInTerminal)
@@ -149,59 +210,85 @@ public class DatabaseCommunicator implements fileIO
 			}
 			
 			
-			lineBeingRead = inStream.readLine();
+			currentCheckedUserName = StringMethodInterfaces.returnSubstringByLine(allUserTxtFile, i, 0,
+			seeExecutionInfoInTerminal);
 			
+			allUserNames[i] = currentCheckedUserName;
+			allUsersDatabasePaths[i] = usersFolderPath + nextOSFolder + currentCheckedUserName + txtFile;
+			resultHolder = StringMethodInterfaces.readFullFile(allUsersDatabasePaths[i],
+			seeExecutionInfoInTerminal);
 			
-			if(lineBeingRead.equals(null))
+			individualUserTxtFound = (boolean) resultHolder.get(0);
+			if(individualUserTxtFound)
 			{
-				if(seeExecutionInfoInTerminal)
-				{
-					System.out.println(thisClass + nextOSFolder + "readIndividualUserFiles" + nextOSFolder + "User not found (" + userID + ")");
-				}
-				
-				
-				readIDString = "";
-				readNameString = "";
-				break;
-				
+				allUserNames[i] = currentCheckedUserName;
+				currentUserTxtFile = (String) resultHolder.get(1);
 			}
 			
-			
-			idBreak = lineBeingRead.indexOf("_");
-			readIDString = lineBeingRead.substring(0, idBreak);
-			restLineHolder = lineBeingRead.substring(idBreak + 1);
-			nameBreak = restLineHolder.indexOf("_");
-			readNameString = restLineHolder.substring(0, nameBreak);
-			readIDToInt = Integer.parseInt(readIDString);
-			
-			
-			if(readIDToInt == userID)
+			else
 			{
-				userFound = true;
-				readNameString = readNameString + ".txt";
-				break;
-				
+				currentUserTxtFile = null;
 			}
 			
+			allUsersDatabaseFiles[i] = currentUserTxtFile;
 			
 			++leapsInALoop;
-			OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
-			OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
 		}
 		
 		
-		if(userFound)
+		if(seeExecutionInfoInTerminal)
 		{
-			userIDAndName[0] = readIDString;
-			userIDAndName[1] = readNameString;
+			System.out.println(tabular1 + "userFilesQuantity =  " + userFilesQuantity);
 			
+			for(int i = 0; i < userFilesQuantity; i++)
+			{
+				System.out.println(tabular2 + "allUsersDatabasePaths[" + i + "] = " + "\n" +  allUsersDatabasePaths[i]);
+				System.out.println(tabular2 + "allUsersDatabaseFiles[" + i + "] = " + "\n" + "$" +
+				                   allUsersDatabaseFiles[i] + "$");
+			}
+			
+			System.out.println("End method: " + fullClassPathCollective + thisMethod);
+		}
+		
+	
+		
+	}
+	
+	
+	
+	public ArrayList<Object> getUserFile(String username) throws IOException
+	{
+		String thisMethod = "getUserFile";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		String
+			userFilePath ,
+			userFileContents;
+		
+		ArrayList<Object>
+			resultHolder;
+		
+		Boolean
+			fileReadResult;
+		
+		
+		userFilePath = usersFolderPath + nextOSFolder + username + txtFile;
+		resultHolder = StringMethodInterfaces.readFullFile(userFilePath, seeExecutionInfoInTerminal);
+		
+		fileReadResult = (Boolean) resultHolder.get(0);
+		
+		if(fileReadResult)
+		{
+			userFileContents = (String) resultHolder.get(1);
 		}
 		
 		else
 		{
-			userIDAndName[0] = null;
-			userIDAndName[1] = null;
-			
+			userFileContents = null;
 		}
 		
 		
@@ -211,260 +298,102 @@ public class DatabaseCommunicator implements fileIO
 		}
 		
 		
-		return userIDAndName;
+		return resultHolder;
 		
 	}
 	
 	
 	
-	/*This method reads in the main- users.txt file, and other user related filed to the specific user. creates a
-	temporary copy of the users.txt file, where it then removes the line with the specified user and then overrites
-	the users.txt file, now without the specified user. To do this it reads the whole file first, then, it adds its
-	values to a new string line by line, and when it comes to the specified user ID it stops reading. The it starts
-	reading from the next file after the specified user, and saves its values to a new string. Once these who Strings
-	 are complete they are put together into a new String, and that String is overwritten to the users.txt file.*/
-	public void removeUser(int userID) throws IOException
+	public boolean[] removeUser(String username) throws IOException
 	{
 		String thisMethod = "removeUser";
-		
-		
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+			System.out.println(tabular1 + "username: " + "\n" + "$" + username + "$");
+		}
+		
+		boolean[]
+			allResults;
+		
+		boolean
+			proceed ,
+			userFound ,
+			fileFound;
+		
+		String
+			lineRemoved ,
+			fileContents ,
+			allUsersTxtFile ,
+			subjectsPersonalFilePath;
+		
+		ArrayList<Object>
+			resultHolder;
+		
+		
+		allResults = new boolean[2];
+		subjectsPersonalFilePath = usersFolderPath + nextOSFolder + username + txtFile;
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular2 + "subjectsPersonalFilePath: " + subjectsPersonalFilePath);
 		}
 		
 		
-		String
-			temporaryUsedDatabaseFile ,
-			currentLineBeingRead ,
-			userIDString ,
-			newFilePart1 ,
-			newFilePart2 ,
-			completeNewFile;
+		fileContents = null;
+		proceed = true;
 		
-		int
-			userIDBreaker ,
-			userIDInt ,
-			nextLineBreaker ,
-			newLineCheckStart ,
-			part2Start ,
-			newLineBlank1 ,
-			newLineBlank2 ,
-			nextBlankLineCounter;
-		
-		
-		currentFullDatabseFile = "";
-		newFilePart1 = "";
-		newFilePart2 = "";
-		
-		
-		inStream = new BufferedReader(new FileReader(usersListFile));
-		
-		/*Begin: reading the full user.txt file and saving it to a single String.*/
-			leapsInALoop = 0;
-			OVERLOADCHECKER1 = new long[1000000];
-			OVERLOADCHECKER2 = 0;
-			while(true)
+		if(proceed)
+		{
+			resultHolder = StringMethodInterfaces.readFullFile(usersListFilePath , seeExecutionInfoInTerminal);
+			
+			fileFound = (Boolean) resultHolder.get(0);
+			fileContents = (String) resultHolder.get(1);
+			
+			if(fileFound)
 			{
-				setLeapsInALoopToUser();
-				if(seeExecutionInfoInTerminal)
-				{
-					System.out.println(leapsInALoopToUser);
-				}
-				
-				
-				currentLineBeingRead = inStream.readLine();
-				
-				if(currentLineBeingRead == null)
-				{
-					break;
-					
-				}
-				
-				currentFullDatabseFile += currentLineBeingRead;
-				currentFullDatabseFile += "\n";
-				
-				
-				++leapsInALoop;
-				OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
-				OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
-			}
-		/*End: reading the full user.txt file and saving it to a single String.*/
-			
-			inStream.close();
-			
-			
-			newLineCheckStart = 0;
-			temporaryUsedDatabaseFile = currentFullDatabseFile;
-			nextLineBreaker = temporaryUsedDatabaseFile.indexOf("\n");
-			
-			
-		/*Begin: saving the files lines to a separate String up until it finds the user (if it finds it).*/
-			leapsInALoop = 0;
-			OVERLOADCHECKER1 = new long[1000000];
-			OVERLOADCHECKER2 = 0;
-			while(true)
-			{
-				setLeapsInALoopToUser();
-				if(seeExecutionInfoInTerminal)
-				{
-					System.out.println(leapsInALoopToUser);
-				}
-				
-				
-				currentLineBeingRead = temporaryUsedDatabaseFile.substring(newLineCheckStart, nextLineBreaker);
-				temporaryUsedDatabaseFile = temporaryUsedDatabaseFile.substring(newLineCheckStart, nextLineBreaker + 1);
-				userIDBreaker = currentLineBeingRead.indexOf("_");
-				userIDString = currentLineBeingRead.substring(0, userIDBreaker);
-				userIDInt = Integer.parseInt(userIDString);
-				
-				if(userIDInt == userID)
-				{
-					break;
-					
-				}
-				
-				else
-				{
-					newFilePart1 += currentLineBeingRead;
-					newLineCheckStart = temporaryUsedDatabaseFile.indexOf("\n");
-					
-					if(newLineCheckStart != -1)
-					{
-						++newLineCheckStart;
-						newFilePart1 += "\n";
-						
-						currentLineBeingRead = temporaryUsedDatabaseFile.substring(newLineCheckStart);
-						nextLineBreaker = currentLineBeingRead.indexOf("\n");
-						
-						if(nextLineBreaker == -1)
-						{
-							nextLineBreaker = currentFullDatabseFile.length();
-							
-						}
-						
-					}
-					
-					else
-					{
-						break;
-						
-					}
-					
-				}
-				
-				++leapsInALoop;
-				OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
-				OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
-			}
-		
-			
-			if(seeExecutionInfoInTerminal)
-			{
-				System.out.println("newFilePart1 : " + "@" + newFilePart1 + "@");
-			}
-			
-		
-		/*End: saving the files lines to a separate String up until it finds the user (if it finds it).*/
-		
-		
-		/*Start: saving the files lines after the specified user is found to a separate String.*/
-			temporaryUsedDatabaseFile = currentFullDatabseFile;
-			part2Start = temporaryUsedDatabaseFile.lastIndexOf(newFilePart1);
-			newFilePart2 = temporaryUsedDatabaseFile.substring(part2Start + 1);
-			
-			/*
-			part2Start = currentLineBeingRead.indexOf("\n");
-			
-			if(part2Start == -1)
-			{
-				newFilePart2 += currentLineBeingRead;
+				proceed = true;
 				
 			}
 			
 			else
 			{
-				newFilePart2 = currentFullDatabseFile.substring(part2Start + 1);
+				proceed = false;
 				
-			}*/
-		/*End: saving the files lines after the specified user is found to a separate String.*/
-		
-		
-		if(seeExecutionInfoInTerminal)
-		{
-			System.out.println("newFilePart2 : " + "£" + newFilePart2 + "£");
+			}
+			
 		}
 		
-		
-		//Combines the two files into a separate String to be written to the txt-file.
-			completeNewFile = newFilePart1 + newFilePart2;
-		
-		
-			if(seeExecutionInfoInTerminal)
+		if(proceed)
+		{
+			resultHolder = StringMethodInterfaces.returnFullLineBySubstring(fileContents , username , 0 , seeExecutionInfoInTerminal);
+			userFound = (Boolean) resultHolder.get(0);
+			lineRemoved = (String) resultHolder.get(1);
+			
+			if(userFound)
 			{
-				System.out.println("completeNewFile : " + "#" + completeNewFile + "#");
-			}
-		
-		
-		/*Start: if there are any blanks lines in the String they are removed here.*/
-			nextBlankLineCounter= 0;
-		
-			leapsInALoop = 0;
-			OVERLOADCHECKER1 = new long[1000000];
-			OVERLOADCHECKER2 = 0;
-			while(true)
-			{
-				setLeapsInALoopToUser();
-				if(seeExecutionInfoInTerminal)
-				{
-					System.out.println(leapsInALoopToUser);
-				}
+				allUsersTxtFile = StringMethodInterfaces.removeSingleLineInString(fileContents , lineRemoved , seeExecutionInfoInTerminal);
+				allUsersTxtFile =  StringMethodInterfaces.removeExcessiveBlankLines(allUsersTxtFile, seeExecutionInfoInTerminal);
+				overwriteFile(usersListFilePath , allUsersTxtFile);
 				
-				
-				newLineBlank1 = completeNewFile.indexOf("\n", nextBlankLineCounter);
-				
-				if(newLineBlank1 == -1)
-				{
-					break;
-					
-				}
-				
-				newLineBlank2 = completeNewFile.indexOf("\n", newLineBlank1 + 1);
-				
-				if(newLineBlank2 == -1)
-				{
-					break;
-					
-				}
-				
-				else if(newLineBlank2 == 0)
-				{
-					completeNewFile =
-					completeNewFile.substring(0, newLineBlank1) + completeNewFile.substring(newLineBlank2);
-					
-				}
-				
-				else
-				{
-					nextBlankLineCounter += newLineBlank1 + 1;
-					
-				}
-				
-				++leapsInALoop;
-				OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
-				OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
 			}
 			
-			
-			if(seeExecutionInfoInTerminal)
+			else
 			{
-				System.out.println("completeNewFile (excessive blanklines removed) : " + "?" + completeNewFile + "?");
+				proceed = false;
+				
 			}
 			
+			allResults = deleteFile(subjectsPersonalFilePath);
 			
-		/*End: if there are any blanks lines in the String they are removed here.*/
+		}
 		
-		overwriteFile(usersListFile, completeNewFile);
+		else
+		{
+			allResults[0] = false;
+			allResults[1] = false;
+			
+		}
 		
 		
 		if(seeExecutionInfoInTerminal)
@@ -473,90 +402,38 @@ public class DatabaseCommunicator implements fileIO
 		}
 		
 		
+		return allResults;
+		
 	}
 	
 	
 	
-	public void writeToIndividualUserFile(String userID, String userName, String[] information) throws IOException
+	public void writeToFile(String fullFilePath, String information) throws IOException
 	{
-		String thisMethod = "writeToIndividualUserFile";
-		
-		
+		String thisMethod = "writeToFile";
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
 		}
 		
 		
-		String
-			userPersonalFolderAdress ,
-			userPersonalFolderFullPath ,
-			userPersonalCompleteFile;
+		PrintWriter
+			outStream;
 		
 		
-		userPersonalFolderAdress = "\\" + userID;
-		userPersonalFolderFullPath = userIDsFolderPath + userPersonalFolderAdress;
-		userPersonalCompleteFile = userPersonalFolderFullPath + userName;
-		outStream = new PrintWriter(new BufferedWriter(new FileWriter(userPersonalCompleteFile , true)));
+		information = "\n" + information;
+		outStream = new PrintWriter(new BufferedWriter(new FileWriter(fullFilePath , true)));
+		outStream.println(information);
 		
 		
 		if(seeExecutionInfoInTerminal)
 		{
-			System.out.println("File being written to: " + userPersonalCompleteFile);
+			System.out.println("File being written to: " + fullFilePath);
+			System.out.println("Information being written: " + "\n" + "$" + information + "$");
 		}
 		
-		
-		for(int i = 0; i < information.length; i++)
-		{
-			outStream.println(information[i]);
-			
-		}
 		
 		outStream.close();
-		
-		
-		if(seeExecutionInfoInTerminal)
-		{
-			System.out.println("End method: " + fullClassPathCollective + thisMethod);
-		}
-		
-	}
-	
-	
-	
-	public void overwriteFile(String fullFilePath, String[] information) throws IOException
-	{
-		String thisMethod = "overwriteFile (String information)";
-		
-		
-		if(seeExecutionInfoInTerminal)
-		{
-			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
-		}
-		
-		
-		outStream = new PrintWriter(new BufferedWriter(new FileWriter(fullFilePath)));
-		
-		
-		if(seeExecutionInfoInTerminal)
-		{
-			System.out.println("File being overwritten: " + fullFilePath);
-		}
-		
-		
-		for(int i = 0; i < information.length; i++)
-		{
-			outStream.println(information[i]);
-			
-		}
-		
-		outStream.close();
-		
-		
-		if(seeExecutionInfoInTerminal)
-		{
-			System.out.println("End method: " + fullClassPathCollective + thisMethod);
-		}
 		
 	}
 	
@@ -565,15 +442,18 @@ public class DatabaseCommunicator implements fileIO
 	public void overwriteFile(String fullFilePath, String information) throws IOException
 	{
 		String thisMethod = "overwriteFile (single String information)";
-		
-		
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
 		}
 		
 		
-		outStream = new PrintWriter(new BufferedWriter(new FileWriter(fullFilePath)));
+		PrintWriter
+			outStream;
+		
+		
+		outStream = new PrintWriter(new BufferedWriter(new FileWriter(fullFilePath, false)));
+		outStream.println(information);
 		
 		
 		if(seeExecutionInfoInTerminal)
@@ -582,10 +462,7 @@ public class DatabaseCommunicator implements fileIO
 		}
 		
 		
-		outStream.println(information);
-		
 		outStream.close();
-		
 		
 		if(seeExecutionInfoInTerminal)
 		{
@@ -596,19 +473,354 @@ public class DatabaseCommunicator implements fileIO
 	
 	
 	
-	public void addToList()
+	public boolean[] deleteFile(String fullFilePathString) throws IOException
 	{
+		String thisMethod = "deleteFile";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		File fullFileNameFile;
+		
+		boolean resultDeleted, resultThrowable;
+		
+		boolean[] allResults;
+		
+		Path fullFilePathPath;
+		
+		Throwable failedDeleteCauseThrowable;
+		
+		
+		allResults = new boolean[2];
+		resultThrowable = false;
+		fullFilePathPath = Paths.get(fullFilePathString);
+		fullFileNameFile = new File(fullFilePathString);
+		resultDeleted = fullFileNameFile.delete();
+		
+		if(!resultDeleted)
+		{
+			try
+			{
+				resultDeleted = java.nio.file.Files.deleteIfExists(fullFilePathPath);
+				
+			}
+			
+			catch(java.nio.file.FileSystemException e)
+			{
+				failedDeleteCauseThrowable = e.getCause();
+				
+				if(failedDeleteCauseThrowable == null)
+				{
+					resultThrowable = true;
+				}
+				
+			}
+			
+		}
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			if(resultDeleted)
+			{
+				System.out.println(tabular1 + "The file at " + fullFilePathString + " was succesfully deleted, result = " + resultDeleted);
+			}
+			
+			else
+			{
+				System.out.println(tabular1 + "The file at " + fullFilePathString + " was not deleted, result = " + resultDeleted);
+			}
+			
+			
+			if(resultThrowable)
+			{
+				System.out.println(tabular1 + "The file at " + fullFilePathString + " was could not be deleted (java" + ".nio.file.FileSystemException, cause = null). resultThrowable = " + resultThrowable);
+			}
+			
+			else
+			{
+				System.out.println(tabular1 + "resultThrowable = " + resultThrowable);
+			}
+			
+		}
+		
+		allResults[0] = resultDeleted;
+		allResults[1] = resultThrowable;
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("End method: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		return allResults;
+		
+	}
 	
+	
+	
+	public boolean createUser(String username, String password) throws IOException
+	{
+		String thisMethod = "createUser";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		boolean
+			success;
+		
+		int
+			usersFound;
+		
+		String
+			userAddOnString ,
+			userFileLocation;
+		
+		
+		userFileLocation = usersFolderPath + nextOSFolder + username + txtFile;
+		
+		
+		success = true;
+		if(success)
+		{
+			usersFound = StringMethodInterfaces.countInstancesBySubstring(usersTxtFileDatabase, username, 0, seeExecutionInfoInTerminal);
+			
+			if(usersFound == 0)
+			{
+				success = true;
+				
+			}
+			
+			else
+			{
+				success = false;
+				
+			}
+			
+		}
+		
+		if(success)
+		{
+			userAddOnString = username + "_" + password + "_";
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "userAddOnString = " + "\n" + "$" + userAddOnString + "$");
+			}
+			
+			
+			usersTxtFileDatabase = usersTxtFileDatabase + userAddOnString;
+			usersTxtFileDatabase = StringMethodInterfaces.removeExcessiveBlankLines(usersTxtFileDatabase,
+			seeExecutionInfoInTerminal);
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "usersTxtFileDatabase = " + "\n" + "$" + usersTxtFileDatabase + "$");
+			}
+			
+			
+			overwriteFile(usersListFilePath, usersTxtFileDatabase);
+			overwriteFile(userFileLocation, "");
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "usersTxtFileDatabase = " + "\n" + "$" + usersTxtFileDatabase + "$");
+			}
+			
+			
+			readAllUserFiles();
+			
+		}
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("End method: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		return success;
 	
 	}
 	
 	
 	
-	public void removeFromList()
+	public boolean[] addTaskToUser(String username, String taskInstance, String taskSubject) throws IOException
 	{
-	
-	
+		String thisMethod = "addTaskToUser";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+			System.out.println(tabular1 + "username: " + "\n" + "$" + username + "$");
+		}
+		
+		
+		boolean
+			procceed;
+		
+		boolean[]
+			successes;
+		
+		int
+			userID ,
+			taskDuplicates;
+		
+		String
+			lineToPrint ,
+			pathToUse ,
+			fullString;
+		
+		
+		successes = new boolean[2];
+		pathToUse = null;
+		lineToPrint = taskInstance + "_" + taskSubject + "_";
+		procceed = true;
+		userID = -1;
+		
+		for(int i = 0; i < successes.length; i++)
+		{
+			successes[i] = false;
+			
+		}
+		
+		leapsInALoop = 0;
+		if(procceed)
+		{
+			for(int i = 0; i < allUserNames.length; i++)
+			{
+				setLeapsInALoopToUser();
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(leapsInALoopToUser);
+				}
+				
+				
+				if(username.equals(allUserNames[i]))
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular1 + "User found in database, exiting loop.");
+					}
+					
+					
+					userID = i;
+					pathToUse = allUsersDatabasePaths[userID];
+					procceed = true;
+					successes[0] = true;
+					break;
+					
+				}
+				
+				else
+				{
+					procceed = false;
+					
+				}
+				
+				++leapsInALoop;
+			}
+			
+		}
+		
+		if(procceed)
+		{
+			taskDuplicates = StringMethodInterfaces.countInstancesByFullLine(allUsersDatabaseFiles[userID],
+			lineToPrint, seeExecutionInfoInTerminal);
+			
+			if(taskDuplicates == 0)
+			{
+				procceed = true;
+				successes[1] = true;
+				
+			}
+			
+			else
+			{
+				procceed = false;
+				
+			}
+			
+		}
+		
+		if(procceed)
+		{
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular1 + "pathToUse = " + pathToUse);
+				System.out.println(tabular1 + "lineToPrint = " + "\n" + "$" + lineToPrint + "$");
+			}
+			
+			allUsersDatabaseFiles[userID] = allUsersDatabaseFiles[userID] + lineToPrint;
+			
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular1 + "allUsersDatabaseFiles[" + userID + "]: " + "\n" + "$" + allUsersDatabaseFiles[userID] + "$");
+			}
+			
+			
+			fullString = allUsersDatabaseFiles[userID];
+			fullString = StringMethodInterfaces.removeExcessiveBlankLines(fullString, seeExecutionInfoInTerminal);
+			
+			overwriteFile(pathToUse, fullString);
+			
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular1 + "allUsersDatabaseFiles[" + userID + "] = " + "\n" + "$" + allUsersDatabaseFiles[userID] + "$");
+			}
+			
+		}
+		
+		else
+		{
+			System.out.println(tabular1 + "User not found in database, return value will be false.");
+		}
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("End method: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		return successes;
+		
 	}
 	
+	
+	
+	public void printClassVariables()
+	{
+		String thisMethod = "printClassVariables";
+		System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+		
+		System.out.println(tabular1 + "fullProjectPath: " + fullProjectPath);
+		System.out.println(tabular1 + "filesFolderPath: " + filesFolderPath);
+		System.out.println(tabular1 + "usersFolderPath: " + usersFolderPath);
+		System.out.println(tabular1 + "usersListFilePath: " + usersListFilePath);
+		System.out.println(tabular1 + "usersTxtFileDatabase: " + "\n" + "$" + usersTxtFileDatabase + "$");
+		
+		for(int i = 0; i < allUserNames.length; i++)
+		{
+			System.out.println(tabular2 + "allUserNames[" + i + "]: " + "\n" + "$" + allUserNames[i] + "$");
+		}
+		
+		for(int i = 0; i < allUsersDatabasePaths.length; i++)
+		{
+			System.out.println(tabular2 + "allUsersDatabasePaths[" + i + "]: " + allUsersDatabasePaths[i]);
+		}
+	
+		for(int i = 0; i < allUsersDatabaseFiles.length; i++)
+		{
+			System.out.println(tabular2 + "allUsersDatabaseFiles[" + i + "]: " + "\n" + "$" + allUsersDatabaseFiles[i] + "$");
+		}
+		
+		System.out.println("End method: " + fullClassPathCollective + thisMethod);
+	
+	}
 	
 }
