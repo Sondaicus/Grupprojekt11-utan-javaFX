@@ -211,6 +211,8 @@ public class Main {
             String[] parts = str.split("_");
             for (int j = 0; j < parts.length - 1; j += 2) {
                 tasks.add(new Task(parts[j], parts[j+1]));
+                System.out.println(parts[j] + "j");
+                System.out.println(parts[j+1] + " j+1");
 
             }
 
