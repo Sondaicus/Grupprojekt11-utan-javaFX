@@ -6,34 +6,34 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 {
 	/*Strings used in program logic*/
 	private static String
-	fullProjectPath ,
-	filesFolderPath ,
-	usersFolderPath ,
-	usersListFilePath ,
-	usersTxtFileDatabase;
+		fullProjectPath ,
+		filesFolderPath ,
+		usersFolderPath ,
+		usersListFilePath ,
+		usersTxtFileDatabase;
 	
 	private static String[]
-	allUserNames ,
-	allUsersDatabasePaths ,
-	allUsersDatabaseFiles;
+		allUserNames ,
+		allUsersDatabasePaths ,
+		allUsersDatabaseFiles;
 	
 	private static int
-	leapsInALoop;
+		leapsInALoop;
 	
 	private static boolean
-	seeExecutionInfoInTerminal;
+		seeExecutionInfoInTerminal;
 	
 	/*Strings used in console-window for user to read.*/
 	private static String
-	txtFile = ".txt" ,
-	nextOSFolder = "\\" ,
-	thisFolder = "src" ,
-	thisClass = "DatabaseCommunicator" ,
-	fullClassPathCollective = thisFolder + nextOSFolder + thisClass + nextOSFolder ,
-	leapsInALoopToUser ,
-	tabular1 = "    " ,
-	tabular2 = tabular1 + tabular1 ,
-	tabular3 = tabular2 + tabular1;
+		txtFile = ".txt" ,
+		nextOSFolder = "\\" ,
+		thisFolder = "src" ,
+		thisClass = "DatabaseCommunicator" ,
+		fullClassPathCollective = thisFolder + nextOSFolder + thisClass + nextOSFolder ,
+		leapsInALoopToUser ,
+		tabular1 = "    " ,
+		tabular2 = tabular1 + tabular1 ,
+		tabular3 = tabular2 + tabular1;
 	
 	
 	
@@ -67,25 +67,25 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	public void setDatabaseFolders()
 	{
 		File
-		fullFileNameFile;
+			fullFileNameFile;
 		
 		String
-		fullFileNameString;
+			fullFileNameString;
 		
 		int
-		setFolderLocation;
-		
-		fullFileNameString = "MainFolderIdentifyerTextFile.txt";
-		fullFileNameFile = new File(fullFileNameString);
-		fullProjectPath = fullFileNameFile.getAbsolutePath();
-		setFolderLocation = fullProjectPath.indexOf(fullFileNameString);
-		fullProjectPath = fullProjectPath.substring(0, setFolderLocation);
-		
-		filesFolderPath = fullProjectPath + "\\Files";
-		
-		usersFolderPath = filesFolderPath + "\\Users";
-		
-		usersListFilePath = filesFolderPath + "\\users.txt";
+			setFolderLocation;
+			
+			fullFileNameString = "MainFolderIdentifyerTextFile.txt";
+			fullFileNameFile = new File(fullFileNameString);
+			fullProjectPath = fullFileNameFile.getAbsolutePath();
+			setFolderLocation = fullProjectPath.indexOf(fullFileNameString);
+			fullProjectPath = fullProjectPath.substring(0, setFolderLocation);
+			
+			filesFolderPath = fullProjectPath + "\\Files";
+			
+			usersFolderPath = filesFolderPath + "\\Users";
+			
+			usersListFilePath = filesFolderPath + "\\users.txt";
 		
 	}
 	
@@ -102,10 +102,10 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	public void setUserTxtFileDatabase(String oldFile)
 	{
 		String
-		newFile;
+			newFile;
 		
 		boolean
-		correctFormat;
+			correctFormat;
 		
 		
 		newFile = oldFile;
@@ -132,17 +132,17 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		String[][][]
-		resultsToReturn;
+			resultsToReturn;
 		
 		String
-		baseFileFull ,
-		baseFileTempLine ,
-		baseFileSubstring1 ,
-		baseFileSubstring2 ,
-		baseFileSubstring3;
+			baseFileFull ,
+			baseFileTempLine ,
+			baseFileSubstring1 ,
+			baseFileSubstring2 ,
+			baseFileSubstring3;
 		
 		int
-		arrayFields;
+			arrayFields;
 		
 		
 		resultsToReturn = new String[0][0][0];
@@ -190,19 +190,19 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		ArrayList<Object>
-		resultHolder;
+			resultHolder;
 		
 		String
-		allUserTxtFile ,
-		currentCheckedUserName ,
-		currentUserTxtFile;
+			allUserTxtFile ,
+			currentCheckedUserName ,
+			currentUserTxtFile;
 		
 		boolean
-		allUserTxtFound ,
-		individualUserTxtFound;
+			allUserTxtFound ,
+			individualUserTxtFound;
 		
 		int
-		userFilesQuantity;
+			userFilesQuantity;
 		
 		
 		if(seeExecutionInfoInTerminal)
@@ -314,33 +314,33 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		int
-		lineLoops ,
-		lineLoopsToLines ,
-		approvedLineLoops;
+			lineLoops ,
+			lineLoopsToLines ,
+			approvedLineLoops;
 		
 		String
-		userFilePath ,
-		fullUserFileContentsSingleString ,
-		temporaryUserFileContentsSingleString ,
-		subString1 ,
-		subString2;
+			userFilePath ,
+			fullUserFileContentsSingleString ,
+			temporaryUserFileContentsSingleString ,
+			subString1 ,
+			subString2;
 		
 		String[][]
-		userFileContentsHolder ,
-		userFileContentsFinal ,
-		lastCorrectChecker;
+			userFileContentsHolder ,
+			userFileContentsFinal ,
+			lastCorrectChecker;
 		
 		ArrayList<Object>
-		finalResultReader ,
-		finalResultSender ,
-		temporarySubstringHolder;
+			finalResultReader ,
+			finalResultSender ,
+			temporarySubstringHolder;
 		
 		Boolean
-		fileReadResult;
+			fileReadResult;
 		
 		boolean
-		countLine ,
-		breakLoop;
+			countLine ,
+			breakLoop;
 		
 		
 		approvedLineLoops = 0;
@@ -524,21 +524,21 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		}
 		
 		boolean[]
-		allResults;
+			allResults;
 		
 		boolean
-		proceed ,
-		userFound ,
-		fileFound;
+			proceed ,
+			userFound ,
+			fileFound;
 		
 		String
-		lineRemoved ,
-		fileContents ,
-		allUsersTxtFile ,
-		subjectsPersonalFilePath;
+			lineRemoved ,
+			fileContents ,
+			allUsersTxtFile ,
+			subjectsPersonalFilePath;
 		
 		ArrayList<Object>
-		resultHolder;
+			resultHolder;
 		
 		
 		allResults = new boolean[2];
@@ -628,7 +628,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		PrintWriter
-		outStream;
+			outStream;
 		
 		
 		information = "\n" + information;
@@ -659,13 +659,13 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		PrintWriter
-		outStream;
+			outStream;
 		
 		File
-		secondaryUserFile;
+			secondaryUserFile;
 		
 		boolean
-		secondaryFileCreated;
+			secondaryFileCreated;
 		
 		
 		secondaryFileCreated = false;
@@ -764,19 +764,19 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		File
-		fullFileNameFile;
+			fullFileNameFile;
 		
 		boolean
-		resultDeleted, resultThrowable;
+			resultDeleted, resultThrowable;
 		
 		boolean[]
-		allResults;
+			allResults;
 		
 		Path
-		fullFilePathPath;
+			fullFilePathPath;
 		
 		Throwable
-		failedDeleteCauseThrowable;
+			failedDeleteCauseThrowable;
 		
 		
 		allResults = new boolean[2];
@@ -857,14 +857,14 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		boolean
-		success;
+			success;
 		
 		int
-		usersFound;
+			usersFound;
 		
 		String
-		userAddOnString ,
-		userFileLocation;
+			userAddOnString ,
+			userFileLocation;
 		
 		
 		userFileLocation = usersFolderPath + nextOSFolder + username + txtFile;
@@ -946,19 +946,19 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		boolean
-		procceed;
+			procceed;
 		
 		boolean[]
-		successes;
+			successes;
 		
 		int
-		userID ,
-		taskDuplicates;
+			userID ,
+			taskDuplicates;
 		
 		String
-		lineToPrint ,
-		pathToUse ,
-		fullString;
+			lineToPrint ,
+			pathToUse ,
+			fullString;
 		
 		
 		successes = new boolean[2];
