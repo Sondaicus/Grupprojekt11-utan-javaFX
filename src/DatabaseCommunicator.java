@@ -1,5 +1,8 @@
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.nio.file.Files;
 
 
 public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagrams , StringMethodInterfaces
@@ -16,14 +19,11 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		usersTxtFileDatabase;
 	
 	private static String[]
+		allUserNames ,
 		allUsersDatabasePaths ,
 		allUsersDatabaseFiles;
 	
-	private static long
-		OVERLOADCHECKER1[];
-	
 	private static int
-		OVERLOADCHECKER2 ,
 		leapsInALoop;
 	
 	private static boolean
@@ -45,6 +45,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	
 	DatabaseCommunicator() throws IOException
 	{
+		setSeeExecutionInfoInTerminal(false);
 		setDatabaseFolders();
 		readAllUserFiles();
 		
@@ -104,9 +105,24 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	
 	
 	
-	public void setUserTxtFileDatabase(String usersTxtFileDatabase)
+	public void setUserTxtFileDatabase(String oldFile)
 	{
-		this.usersTxtFileDatabase = usersTxtFileDatabase;
+		String
+			newFile;
+		
+		boolean
+			correctFormat;
+		
+		
+		newFile = oldFile;
+		correctFormat = newFile.endsWith("\n");
+		
+		if(!correctFormat)
+		{
+			newFile = newFile + "\n";
+		}
+		
+		usersTxtFileDatabase = newFile;
 		
 	}
 	
@@ -182,13 +198,24 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		userFilesQuantity = new File(usersFolderPath).list().length;
+		allUserNames = new String[userFilesQuantity];
 		allUsersDatabasePaths = new String[userFilesQuantity];
 		allUsersDatabaseFiles = new String[userFilesQuantity];
+		
+		leapsInALoop = 0;
 		for(int i = 0; i < userFilesQuantity; i++)
 		{
+			setLeapsInALoopToUser();
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(leapsInALoopToUser);
+			}
+			
+			
 			currentCheckedUserName = StringMethodInterfaces.returnSubstringByLine(allUserTxtFile, i, 0,
 			seeExecutionInfoInTerminal);
 			
+			allUserNames[i] = currentCheckedUserName;
 			allUsersDatabasePaths[i] = usersFolderPath + nextOSFolder + currentCheckedUserName + txtFile;
 			resultHolder = StringMethodInterfaces.readFullFile(allUsersDatabasePaths[i],
 			seeExecutionInfoInTerminal);
@@ -196,6 +223,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			individualUserTxtFound = (boolean) resultHolder.get(0);
 			if(individualUserTxtFound)
 			{
+				allUserNames[i] = currentCheckedUserName;
 				currentUserTxtFile = (String) resultHolder.get(1);
 			}
 			
@@ -205,7 +233,8 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			}
 			
 			allUsersDatabaseFiles[i] = currentUserTxtFile;
-		
+			
+			++leapsInALoop;
 		}
 		
 		
@@ -291,14 +320,17 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	values to a new string line by line, and when it comes to the specified user ID it stops reading. The it starts
 	reading from the next file after the specified user, and saves its values to a new string. Once these who Strings
 	 are complete they are put together into a new String, and that String is overwritten to the users.txt file.*/
-	public boolean removeUser(String username) throws IOException
+	public boolean[] removeUser(String username) throws IOException
 	{
 		String thisMethod = "removeUser";
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+			System.out.println(tabular1 + "username: " + "\n" + "$" + username + "$");
 		}
 		
+		boolean[]
+			allResults;
 		
 		boolean
 			proceed ,
@@ -315,7 +347,15 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			resultHolder;
 		
 		
-		subjectsPersonalFilePath = usersFolderPath + username + txtFile;
+		allResults = new boolean[2];
+		subjectsPersonalFilePath = usersFolderPath + nextOSFolder + username + txtFile;
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular2 + "subjectsPersonalFilePath: " + subjectsPersonalFilePath);
+		}
+		
+		
 		fileContents = null;
 		proceed = true;
 		
@@ -351,7 +391,6 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 				allUsersTxtFile = StringMethodInterfaces.removeSingleLineInString(fileContents , lineRemoved , seeExecutionInfoInTerminal);
 				allUsersTxtFile =  StringMethodInterfaces.removeExcessiveBlankLines(allUsersTxtFile, seeExecutionInfoInTerminal);
 				overwriteFile(usersListFilePath , allUsersTxtFile);
-				deleteFile(subjectsPersonalFilePath);
 				
 			}
 			
@@ -360,6 +399,15 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 				proceed = false;
 				
 			}
+			
+			allResults = deleteFile(subjectsPersonalFilePath);
+			
+		}
+		
+		else
+		{
+			allResults[0] = false;
+			allResults[1] = false;
 			
 		}
 		
@@ -370,7 +418,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		}
 		
 		
-		return proceed;
+		return allResults;
 		
 	}
 	
@@ -387,9 +435,10 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		PrintWriter
 			outStream;
-	
 		
-		outStream = new PrintWriter(new BufferedWriter(new FileWriter(information , true)));
+		
+		information = "\n" + information;
+		outStream = new PrintWriter(new BufferedWriter(new FileWriter(fullFilePath , true)));
 		outStream.println(information);
 		
 		
@@ -401,12 +450,6 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		outStream.close();
-		
-		
-		if(seeExecutionInfoInTerminal)
-		{
-			System.out.println("End method: " + fullClassPathCollective + thisMethod);
-		}
 		
 	}
 	
@@ -434,10 +477,19 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		}
 		
 		
+		leapsInALoop = 0;
 		for(int i = 0; i < information.length; i++)
 		{
+			setLeapsInALoopToUser();
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(leapsInALoopToUser);
+			}
+			
+			
 			outStream.println(information[i]);
 			
+			++leapsInALoop;
 		}
 		
 		outStream.close();
@@ -465,7 +517,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			outStream;
 		
 		
-		outStream = new PrintWriter(new BufferedWriter(new FileWriter(fullFilePath)));
+		outStream = new PrintWriter(new BufferedWriter(new FileWriter(fullFilePath, false)));
 		outStream.println(information);
 		
 		
@@ -477,7 +529,6 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		outStream.close();
 		
-		
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println("End method:: " + fullClassPathCollective + thisMethod);
@@ -486,7 +537,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	}
 	
 	
-	public void deleteFile(String fullFilePath)
+	public boolean[] deleteFile(String fullFilePathString) throws IOException
 	{
 		String thisMethod = "deleteFile";
 		if(seeExecutionInfoInTerminal)
@@ -495,31 +546,80 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		}
 		
 		
-		File
-			fullFileNameFile;
+		File fullFileNameFile;
 		
-		boolean
-			result;
+		boolean resultDeleted, resultThrowable;
+		
+		boolean[] allResults;
+		
+		Path fullFilePathPath;
+		
+		Throwable failedDeleteCauseThrowable;
 		
 		
-		fullFileNameFile = new File(fullFilePath);
-		result = fullFileNameFile.delete();
+		allResults = new boolean[2];
+		resultThrowable = false;
+		fullFilePathPath = Paths.get(fullFilePathString);
+		fullFileNameFile = new File(fullFilePathString);
+		resultDeleted = fullFileNameFile.delete();
+		
+		if(!resultDeleted)
+		{
+			try
+			{
+				resultDeleted = java.nio.file.Files.deleteIfExists(fullFilePathPath);
+				
+			}
+			
+			catch(java.nio.file.FileSystemException e)
+			{
+				failedDeleteCauseThrowable = e.getCause();
+				
+				if(failedDeleteCauseThrowable == null)
+				{
+					resultThrowable = true;
+				}
+				
+			}
+			
+		}
 		
 		
 		if(seeExecutionInfoInTerminal)
 		{
-			if(result)
+			if(resultDeleted)
 			{
-				System.out.println(tabular1 + "The file at " + fullFilePath + " was succesfully deleted, result = " + result);
+				System.out.println(tabular1 + "The file at " + fullFilePathString + " was succesfully deleted, result = " + resultDeleted);
 			}
 			
 			else
 			{
-				System.out.println(tabular1 + "The file at " + fullFilePath + " was not deleted, result = " + result);
+				System.out.println(tabular1 + "The file at " + fullFilePathString + " was not deleted, result = " + resultDeleted);
 			}
 			
+			
+			if(resultThrowable)
+			{
+				System.out.println(tabular1 + "The file at " + fullFilePathString + " was could not be deleted (java" + ".nio.file.FileSystemException, cause = null). resultThrowable = " + resultThrowable);
+			}
+			
+			else
+			{
+				System.out.println(tabular1 + "resultThrowable = " + resultThrowable);
+			}
+			
+		}
+		
+		allResults[0] = resultDeleted;
+		allResults[1] = resultThrowable;
+		
+		if(seeExecutionInfoInTerminal)
+		{
 			System.out.println("End method: " + fullClassPathCollective + thisMethod);
 		}
+		
+		
+		return allResults;
 		
 	}
 	
@@ -541,13 +641,17 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			usersFound;
 		
 		String
-			userAddOnString;
+			userAddOnString ,
+			userFileLocation;
+		
+		
+		userFileLocation = usersFolderPath + nextOSFolder + username + txtFile;
 		
 		
 		success = true;
 		if(success)
 		{
-			usersFound = StringMethodInterfaces.countInstancesBySubstring(usersTxtFileDatabase , username , 1 , seeExecutionInfoInTerminal);
+			usersFound = StringMethodInterfaces.countInstancesBySubstring(usersTxtFileDatabase, username, 0, seeExecutionInfoInTerminal);
 			
 			if(usersFound == 0)
 			{
@@ -566,9 +670,33 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		if(success)
 		{
 			userAddOnString = username + "_" + password + "_";
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "userAddOnString = " + "\n" + "$" + userAddOnString + "$");
+			}
+			
+			
 			usersTxtFileDatabase = usersTxtFileDatabase + userAddOnString;
-			usersTxtFileDatabase = StringMethodInterfaces.removeExcessiveBlankLines(usersTxtFileDatabase, seeExecutionInfoInTerminal);
-			writeToFile(usersListFilePath, userAddOnString);
+			usersTxtFileDatabase = StringMethodInterfaces.removeExcessiveBlankLines(usersTxtFileDatabase,
+			seeExecutionInfoInTerminal);
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "usersTxtFileDatabase = " + "\n" + "$" + usersTxtFileDatabase + "$");
+			}
+			
+			
+			overwriteFile(usersListFilePath, usersTxtFileDatabase);
+			overwriteFile(userFileLocation, "");
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "usersTxtFileDatabase = " + "\n" + "$" + usersTxtFileDatabase + "$");
+			}
+			
+			
+			readAllUserFiles();
 			
 		}
 		
@@ -585,8 +713,177 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	
 	
 	
-	public void removeFromList()
+	public boolean[] addTaskToUser(String username, String taskInstance, String taskSubject) throws IOException
 	{
+		String thisMethod = "addTaskToUser";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+			System.out.println(tabular1 + "username: " + "\n" + "$" + username + "$");
+		}
+		
+		
+		boolean
+			procceed;
+		
+		boolean[]
+			successes;
+		
+		int
+			userID ,
+			taskDuplicates;
+		
+		String
+			lineToPrint ,
+			pathToUse ,
+			fullString;
+		
+		
+		successes = new boolean[2];
+		pathToUse = null;
+		lineToPrint = taskInstance + "_" + taskSubject + "_";
+		procceed = true;
+		userID = -1;
+		
+		for(int i = 0; i < successes.length; i++)
+		{
+			successes[i] = false;
+			
+		}
+		
+		leapsInALoop = 0;
+		if(procceed)
+		{
+			for(int i = 0; i < allUserNames.length; i++)
+			{
+				setLeapsInALoopToUser();
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(leapsInALoopToUser);
+				}
+				
+				
+				if(username.equals(allUserNames[i]))
+				{
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular1 + "User found in database, exiting loop.");
+					}
+					
+					
+					userID = i;
+					pathToUse = allUsersDatabasePaths[userID];
+					procceed = true;
+					successes[0] = true;
+					break;
+					
+				}
+				
+				else
+				{
+					procceed = false;
+					
+				}
+				
+				++leapsInALoop;
+			}
+			
+		}
+		
+		if(procceed)
+		{
+			taskDuplicates = StringMethodInterfaces.countInstancesByFullLine(allUsersDatabaseFiles[userID],
+			lineToPrint, seeExecutionInfoInTerminal);
+			
+			if(taskDuplicates == 0)
+			{
+				procceed = true;
+				successes[1] = true;
+				
+			}
+			
+			else
+			{
+				procceed = false;
+				
+			}
+			
+		}
+		
+		if(procceed)
+		{
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular1 + "pathToUse = " + pathToUse);
+				System.out.println(tabular1 + "lineToPrint = " + "\n" + "$" + lineToPrint + "$");
+			}
+			
+			allUsersDatabaseFiles[userID] = allUsersDatabaseFiles[userID] + lineToPrint;
+			
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular1 + "allUsersDatabaseFiles[" + userID + "]: " + "\n" + "$" + allUsersDatabaseFiles[userID] + "$");
+			}
+			
+			
+			fullString = allUsersDatabaseFiles[userID];
+			fullString = StringMethodInterfaces.removeExcessiveBlankLines(fullString, seeExecutionInfoInTerminal);
+			
+			overwriteFile(pathToUse, fullString);
+			
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular1 + "allUsersDatabaseFiles[" + userID + "] = " + "\n" + "$" + allUsersDatabaseFiles[userID] + "$");
+			}
+			
+		}
+		
+		else
+		{
+			System.out.println(tabular1 + "User not found in database, return value will be false.");
+		}
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("End method: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		return successes;
+		
+	}
+	
+	
+	
+	public void printClassVariables()
+	{
+		String thisMethod = "printClassVariables";
+		System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+		
+		System.out.println(tabular1 + "fullProjectPath: " + fullProjectPath);
+		System.out.println(tabular1 + "filesFolderPath: " + filesFolderPath);
+		System.out.println(tabular1 + "usersFolderPath: " + usersFolderPath);
+		System.out.println(tabular1 + "usersListFilePath: " + usersListFilePath);
+		System.out.println(tabular1 + "usersTxtFileDatabase: " + "\n" + "$" + usersTxtFileDatabase + "$");
+		
+		for(int i = 0; i < allUserNames.length; i++)
+		{
+			System.out.println(tabular2 + "allUserNames[" + i + "]: " + "\n" + "$" + allUserNames[i] + "$");
+		}
+		
+		for(int i = 0; i < allUsersDatabasePaths.length; i++)
+		{
+			System.out.println(tabular2 + "allUsersDatabasePaths[" + i + "]: " + allUsersDatabasePaths[i]);
+		}
+	
+		for(int i = 0; i < allUsersDatabaseFiles.length; i++)
+		{
+			System.out.println(tabular2 + "allUsersDatabaseFiles[" + i + "]: " + "\n" + "$" + allUsersDatabaseFiles[i] + "$");
+		}
+		
+		System.out.println("End method: " + fullClassPathCollective + thisMethod);
 	
 	}
 	
@@ -594,7 +891,10 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	
 	public void testMethod() throws IOException
 	{
-	
+		String fullfile = "hej_lösenord1_\n" + "hurdy_gurdy_\n" + "på_lösenord2_\n" + "dig_lösenord3_\n" +
+		                  "hurdy_gurdy_\n";
+		
+		StringMethodInterfaces.returnFullLineByStringLineIndex(fullfile, 1,true);
 	}
 	
 }
