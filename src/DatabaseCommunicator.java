@@ -1,11 +1,9 @@
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.*;
-import java.nio.file.Files;
 
 
-public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagrams , StringMethodInterfaces
+public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagrams , DatabaseToRestOfProgramDiagram , StringMethodInterfaces
 {
 	private static ArrayList<Account>
 		allAccounts;
@@ -258,7 +256,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	
 	
 	
-	public String getUserFile(String username) throws IOException
+	public ArrayList<Object> getUserFile(String username) throws IOException
 	{
 		String thisMethod = "getUserFile";
 		if(seeExecutionInfoInTerminal)
@@ -274,14 +272,14 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		ArrayList<Object>
 			resultHolder;
 		
-		boolean
+		Boolean
 			fileReadResult;
 		
 		
 		userFilePath = usersFolderPath + nextOSFolder + username + txtFile;
 		resultHolder = StringMethodInterfaces.readFullFile(userFilePath, seeExecutionInfoInTerminal);
 		
-		fileReadResult = (boolean) resultHolder.get(0);
+		fileReadResult = (Boolean) resultHolder.get(0);
 		
 		if(fileReadResult)
 		{
@@ -300,26 +298,12 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		}
 		
 		
-		return userFileContents;
+		return resultHolder;
 		
 	}
 	
 	
 	
-/*	public String getUserData(String username) throws IOException
-	{
-	
-	}*/
-	
-	
-	
-	
-	/*This method reads in the main- users.txt file, and other user related filed to the specific user. creates a
-	temporary copy of the users.txt file, where it then removes the line with the specified user and then overrites
-	the users.txt file, now without the specified user. To do this it reads the whole file first, then, it adds its
-	values to a new string line by line, and when it comes to the specified user ID it stops reading. The it starts
-	reading from the next file after the specified user, and saves its values to a new string. Once these who Strings
-	 are complete they are put together into a new String, and that String is overwritten to the users.txt file.*/
 	public boolean[] removeUser(String username) throws IOException
 	{
 		String thisMethod = "removeUser";
@@ -455,55 +439,6 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	
 	
 	
-	public void overwriteFile(String fullFilePath, String[] information) throws IOException
-	{
-		String thisMethod = "overwriteFile (String[] information)";
-		if(seeExecutionInfoInTerminal)
-		{
-			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
-		}
-		
-		
-		PrintWriter
-			outStream;
-		
-		
-		outStream = new PrintWriter(new BufferedWriter(new FileWriter(fullFilePath)));
-		
-		
-		if(seeExecutionInfoInTerminal)
-		{
-			System.out.println("File being overwritten: " + fullFilePath);
-		}
-		
-		
-		leapsInALoop = 0;
-		for(int i = 0; i < information.length; i++)
-		{
-			setLeapsInALoopToUser();
-			if(seeExecutionInfoInTerminal)
-			{
-				System.out.println(leapsInALoopToUser);
-			}
-			
-			
-			outStream.println(information[i]);
-			
-			++leapsInALoop;
-		}
-		
-		outStream.close();
-		
-		
-		if(seeExecutionInfoInTerminal)
-		{
-			System.out.println("End method: " + fullClassPathCollective + thisMethod);
-		}
-		
-	}
-	
-	
-	
 	public void overwriteFile(String fullFilePath, String information) throws IOException
 	{
 		String thisMethod = "overwriteFile (single String information)";
@@ -535,6 +470,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		}
 		
 	}
+	
 	
 	
 	public boolean[] deleteFile(String fullFilePathString) throws IOException
@@ -885,16 +821,6 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		System.out.println("End method: " + fullClassPathCollective + thisMethod);
 	
-	}
-	
-	
-	
-	public void testMethod() throws IOException
-	{
-		String fullfile = "hej_lösenord1_\n" + "hurdy_gurdy_\n" + "på_lösenord2_\n" + "dig_lösenord3_\n" +
-		                  "hurdy_gurdy_\n";
-		
-		StringMethodInterfaces.returnFullLineByStringLineIndex(fullfile, 1,true);
 	}
 	
 }
