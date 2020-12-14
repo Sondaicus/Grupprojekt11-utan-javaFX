@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
@@ -18,7 +19,7 @@ public interface StringMethodInterfaces
 	public static String setLeapsInALoopToUser(int leapsInALoop)
 	{
 		String
-		leapsInALoopToUser;
+			leapsInALoopToUser;
 		
 		leapsInALoopToUser = tabular3 + "leapsInALoop " + leapsInALoop;
 		
@@ -39,25 +40,25 @@ public interface StringMethodInterfaces
 		
 		
 		ArrayList<Object>
-		returnList;
+			returnList;
 		
 		BufferedReader
-		inStream;
+			inStream;
 		
 		String
-		leapsInALoopToUser ,
-		currentLineBeingRead ,
-		fullFile;
+			leapsInALoopToUser ,
+			currentLineBeingRead ,
+			fullFile;
 		
 		Boolean
-		filePathLegitamate;
+			filePathLegitamate;
 		
 		long
-		OVERLOADCHECKER1[];
+			OVERLOADCHECKER1[];
 		
 		int
-		leapsInALoop ,
-		OVERLOADCHECKER2;
+			leapsInALoop ,
+			OVERLOADCHECKER2;
 		
 		
 		returnList = new ArrayList<Object>(2);
@@ -154,29 +155,29 @@ public interface StringMethodInterfaces
 		
 		
 		ArrayList<Object>
-		returnList;
+			returnList;
 		
 		String
-		finalLine ,
-		temporaryUsedDatabaseFile ,
-		currentLineBeingReadFull ,
-		currentLineBeingReadChopped ,
-		objectLineComparator ,
-		leapsInALoopToUser ,
-		fullDatabseFile;
+			finalLine ,
+			temporaryUsedDatabaseFile ,
+			currentLineBeingReadFull ,
+			currentLineBeingReadChopped ,
+			objectLineComparator ,
+			leapsInALoopToUser ,
+			fullDatabseFile;
 		
 		Boolean
-		lineFound;
+			lineFound;
 		
 		long
-		OVERLOADCHECKER1[];
+			OVERLOADCHECKER1[];
 		
 		int
-		objectComparerLocation ,
-		nextLineBreaker ,
-		newLineCheckStart ,
-		leapsInALoop ,
-		OVERLOADCHECKER2;
+			objectComparerLocation ,
+			nextLineBreaker ,
+			newLineCheckStart ,
+			leapsInALoop ,
+			OVERLOADCHECKER2;
 		
 		
 		returnList = new ArrayList<Object>(2);
@@ -509,26 +510,26 @@ public interface StringMethodInterfaces
 		
 		
 		ArrayList<Object>
-		returnList;
+			returnList;
 		
 		String
-		returnLine ,
-		temporaryUsedDatabaseFile ,
-		currentLineBeingReadFull ,
-		leapsInALoopToUser;
+			returnLine ,
+			temporaryUsedDatabaseFile ,
+			currentLineBeingReadFull ,
+			leapsInALoopToUser;
 		
 		Boolean
-		lineFound ,
-		loopContinue;
+			lineFound ,
+			loopContinue;
 		
 		boolean
-		lastLineReadAttempt ,
-		breakMethod;
+			lastLineReadAttempt ,
+			breakMethod;
 		
 		int
-		nextLineBreaker ,
-		rightNumberOfIterations ,
-		leapsInALoop;
+			nextLineBreaker ,
+			rightNumberOfIterations ,
+			leapsInALoop;
 		
 		
 		returnList = new ArrayList<Object>(3);
@@ -748,18 +749,18 @@ public interface StringMethodInterfaces
 		
 		
 		String
-		returnedSubstring ,
-		temporaryUsedDatabaseFile ,
-		currentLineBeingReadFull ,
-		currentLineBeingReadChopped ,
-		objectLineComparator ,
-		leapsInALoopToUser;
+			returnedSubstring ,
+			temporaryUsedDatabaseFile ,
+			currentLineBeingReadFull ,
+			currentLineBeingReadChopped ,
+			objectLineComparator ,
+			leapsInALoopToUser;
 		
 		int
-		objectComparerLocation ,
-		nextLineBreaker ,
-		leapsInALoop ,
-		totalLinesChecked;
+			objectComparerLocation ,
+			nextLineBreaker ,
+			leapsInALoop ,
+			totalLinesChecked;
 		
 		
 		
@@ -1044,15 +1045,15 @@ public interface StringMethodInterfaces
 		
 		
 		String
-		returnedSubstring ,
-		lineStringChopped ,
-		objectLineComparator ,
-		leapsInALoopToUser;
+			returnedSubstring ,
+			lineStringChopped ,
+			objectLineComparator ,
+			leapsInALoopToUser;
 		
 		int
-		objectComparerLocation ,
-		nextLineBreaker ,
-		leapsInALoop;
+			objectComparerLocation ,
+			nextLineBreaker ,
+			leapsInALoop;
 		
 		
 		objectComparerLocation = 0;
@@ -1126,9 +1127,13 @@ public interface StringMethodInterfaces
 				if(objectComparerLocation != -1)
 				{
 					lineStringChopped = lineStringChopped.substring(objectComparerLocation + 1);
+					objectComparerLocation = lineStringChopped.indexOf("_");
+					
 					if(seeExecutionInfoInTerminal)
 					{
-						System.out.println(tabular2 + "lineStringChopped = " + "\n" + "$" + lineStringChopped + "$");
+						System.out.println(tabular2 + "lineStringChopped: " + "\n" + "$" + lineStringChopped + "$");
+						System.out.println(tabular2 + "New objectComparerLocation = " + objectComparerLocation);
+						
 					}
 					
 				}
@@ -1265,17 +1270,17 @@ public interface StringMethodInterfaces
 		
 		
 		String
-		temporaryUsedDatabaseFile ,
-		newFilePart1 ,
-		newFilePart2 ,
-		completeNewFile;
+			temporaryUsedDatabaseFile ,
+			newFilePart1 ,
+			newFilePart2 ,
+			completeNewFile;
 		
 		int
-		part1End ,
-		part2Start;
+			part1End ,
+			part2Start;
 		
 		boolean
-		proceed;
+			proceed;
 		
 		
 		temporaryUsedDatabaseFile = fullString;
@@ -1429,25 +1434,25 @@ public interface StringMethodInterfaces
 		
 		
 		String
-		temporaryUsedDatabaseFile ,
-		currentLineBeingReadFull ,
-		currentLineBeingReadChopped ,
-		objectLineComparator ,
-		leapsInALoopToUser;
+			temporaryUsedDatabaseFile ,
+			currentLineBeingReadFull ,
+			currentLineBeingReadChopped ,
+			objectLineComparator ,
+			leapsInALoopToUser;
 		
 		long
-		OVERLOADCHECKER1[];
+			OVERLOADCHECKER1[];
 		
 		int
-		resultInt ,
-		objectComparerLocation ,
-		nextLineBreaker ,
-		newLineCheckStart ,
-		leapsInALoop ,
-		OVERLOADCHECKER2;
+			resultInt ,
+			objectComparerLocation ,
+			nextLineBreaker ,
+			newLineCheckStart ,
+			leapsInALoop ,
+			OVERLOADCHECKER2;
 		
 		boolean
-		lastAttemptCorrector;
+			lastAttemptCorrector;
 		
 		
 		resultInt = 0;
@@ -1825,22 +1830,22 @@ public interface StringMethodInterfaces
 		
 		
 		String
-		temporaryUsedDatabaseFile ,
-		currentLineBeingReadFull ,
-		leapsInALoopToUser;
+			temporaryUsedDatabaseFile ,
+			currentLineBeingReadFull ,
+			leapsInALoopToUser;
 		
 		long
-		OVERLOADCHECKER1[];
+			OVERLOADCHECKER1[];
 		
 		int
-		resultInt ,
-		nextLineBreaker ,
-		newLineCheckStart ,
-		leapsInALoop ,
-		OVERLOADCHECKER2;
+			resultInt ,
+			nextLineBreaker ,
+			newLineCheckStart ,
+			leapsInALoop ,
+			OVERLOADCHECKER2;
 		
 		boolean
-		lastAttemptCorrector;
+			lastAttemptCorrector;
 		
 		
 		resultInt = 0;
@@ -2022,7 +2027,108 @@ public interface StringMethodInterfaces
 	
 	
 	
-	
+	public static int countTotalNumberOfLines(String fullFile, boolean seeExecutionInfoInTerminal)
+	{
+		String thisMethod = "countTotalNumberOfLines";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start: " + fullClassPathCollective + thisMethod);
+			System.out.println(tabular2 + "fullFile: " + "\n" + "$" + fullFile + "$");
+		}
+		
+		
+		int
+			resultCounts ,
+			nextLineBreaker ,
+			leapsInALoop ,
+			OVERLOADCHECKER2;
+		
+		long
+			OVERLOADCHECKER1[];
+		
+		boolean
+			repeatIteration ,
+			exitLoop;
+		
+		String
+			remainderOfFile ,
+			leapsInALoopToUser;
+		
+		
+		exitLoop = false;
+		repeatIteration = false;
+		resultCounts = 0;
+		remainderOfFile = fullFile;
+		
+		leapsInALoop = 0;
+		OVERLOADCHECKER1 = new long[1000000];
+		OVERLOADCHECKER2 = 0;
+		while(true)
+		{
+			leapsInALoopToUser = setLeapsInALoopToUser(leapsInALoop);
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(leapsInALoopToUser);
+			}
+			
+			
+			nextLineBreaker = remainderOfFile.indexOf("\n");
+			
+			if(nextLineBreaker == -1)
+			{
+				if(!repeatIteration)
+				{
+					repeatIteration = true;
+					
+				}
+				
+				else
+				{
+					break;
+					
+				}
+				
+			}
+			
+			else
+			{
+				try
+				{
+					remainderOfFile = remainderOfFile.substring(nextLineBreaker + 1);
+					
+				}
+				
+				catch(StringIndexOutOfBoundsException e)
+				{
+					exitLoop = true;
+					
+				}
+				
+			}
+			
+			++resultCounts;
+			
+			if(exitLoop)
+			{
+				break;
+				
+			}
+			
+			++leapsInALoop;
+			OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
+			OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
+		}
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular2 + "resultCounts = " + resultCounts);
+			System.out.println("End: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		return resultCounts;
+		
+	}
 	
 	
 	
@@ -2038,26 +2144,24 @@ public interface StringMethodInterfaces
 		
 		
 		ArrayList<Object>
-		resultHolderList;
+			resultHolderList;
 		
 		String
-		newFile ,
-		
-		currentLineBeingReadFull ,
-		leapsInALoopToUser;
+			newFile ,
+			currentLineBeingReadFull ,
+			leapsInALoopToUser;
 		
 		long
-		OVERLOADCHECKER1[];
+			OVERLOADCHECKER1[];
 		
 		int
-		iterationsCounter ,
-		
-		leapsInALoop ,
-		OVERLOADCHECKER2;
+			iterationsCounter ,
+			leapsInALoop ,
+			OVERLOADCHECKER2;
 		
 		boolean
-		successLinePrint,
-		successLineContinue;
+			successLinePrint ,
+			successLineContinue;
 		
 		
 		newFile = "";
