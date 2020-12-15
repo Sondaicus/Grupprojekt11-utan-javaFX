@@ -18,6 +18,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         users.add(new UserAccount("x", "x"));
+        users.add(new UserAccount("p", "p"));
+        users.add(new AdminAccount("q", "q", users));
         try {
             db = new DatabaseCommunicator();
         } catch (IOException io) {
@@ -28,7 +30,7 @@ public class Main {
     }
 
     private static void UI(Scanner sc) {
-        String [][][] list = db.getAllUsers();
+        String[][][] list = db.getAllUsers();
         System.out.println(list.length);
         while (true) {
             System.out.println("1. logga in" + "\n" // välj
@@ -182,9 +184,16 @@ public class Main {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUsername().equalsIgnoreCase(namn) && users.get(i).getPassword().equalsIgnoreCase(pass)) {
                 finns = true;
-                addTasksFromFile(users.get(i).getUsername());
-                user = (UserAccount) users.get(i);
-                user.setTasks(tasks);
+
+                int loginUser = users.get(i).getAccountType();
+
+                if (loginUser == 0) {
+                    admin = (AdminAccount) users.get(i);
+                } else if (loginUser == 1) {
+                    user = (UserAccount) users.get(i);
+                    addTasksFromFile(users.get(i).getUsername());
+                    user.setTasks(tasks);
+                }
 
 
                 System.out.println("Välkommen " + namn + "!");
@@ -205,32 +214,17 @@ public class Main {
             if (getUserFile.get(1) instanceof String[][]) {
                 String[][] list = (String[][]) getUserFile.get(1);
                 System.out.println(list.length);
-                if ((list.length == 0)) {
-                    tasks.clear();
-                } else {
-                    System.out.println("Value");
-
-
-                    for (int i = 0;i < list.length; i++) {
-                        String taskName = Arrays.toString(new String[]{list[i][0]});
-                        String desc = Arrays.toString(new String[]{list[i][1]});
-                        taskName = taskName.substring(1,taskName.length()-1);
-                        desc = desc.substring(1,desc.length()-1);
-                        tasks.add(new Task(taskName,desc));
-                    }
+                tasks.clear();
+                for (int i = 0; i < list.length; i++) {
+                    String taskName = Arrays.toString(new String[]{list[i][0]});
+                    String desc = Arrays.toString(new String[]{list[i][1]});
+                    taskName = taskName.substring(1, taskName.length() - 1);
+                    desc = desc.substring(1, desc.length() - 1);
+                    tasks.add(new Task(taskName, desc));
                 }
 
+
             }
-
-            /*String[][] str = (String[][]) getUserFile.get(1);
-            System.out.println(str[0]);
-            System.out.println(str[1]);*/
-
-            /*String[] parts = str.split("_");
-            for (int j = 0; j < parts.length - 1; j += 2) {
-                tasks.add(new Task(parts[j].trim(), parts[j + 1].trim()));
-            }*/
-
         } catch (IOException io) {
             io.printStackTrace();
         }
