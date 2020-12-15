@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -16,7 +17,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        users.add(new UserAccount("x","x"));
+        users.add(new UserAccount("x", "x"));
         try {
             db = new DatabaseCommunicator();
         } catch (IOException io) {
@@ -24,18 +25,11 @@ public class Main {
         }
         UI(sc);
 
-
-
-
-
-
-
-
-
-
     }
 
     private static void UI(Scanner sc) {
+        String [][][] list = db.getAllUsers();
+        System.out.println(list.length);
         while (true) {
             System.out.println("1. logga in" + "\n" // välj
                     + "2. skapa konto");
@@ -69,14 +63,14 @@ public class Main {
     private static void createUser(String a, String l) {
         user = AccountCreator.createUser(a, l);
         try {
-            boolean isSuccessful = db.createUser(a,l);
+            boolean isSuccessful = db.createUser(a, l, 1);
 
 
-        if (isSuccessful) {
-            users.add(user);
-        } else {
-            System.out.println("Användarnamn finns redan");
-        }
+            if (isSuccessful) {
+                users.add(user);
+            } else {
+                System.out.println("Användarnamn finns redan");
+            }
 
         } catch (IOException io) {
             io.printStackTrace();
@@ -87,7 +81,7 @@ public class Main {
     private static void createAdmin(String a, String l, ArrayList<Account> users) {
         admin = AccountCreator.createAdmin(a, l, users);
         try {
-            boolean isSuccessful = db.createUser(a,l);
+            boolean isSuccessful = db.createUser(a, l, 0);
 
 
             if (isSuccessful) {
@@ -104,38 +98,38 @@ public class Main {
     private static void omUser(Scanner sc) {
         while (true) {
 
-        System.out.println("1. lägg till uppgift" + "\n"
-                + "2. ta bort uppgift" + "\n"
-                + "3. se alla uppgifter" + "\n"
-                + "4. logga ut");
-        String answer = sc.next();
-        //String taskName;
-        if (answer.equalsIgnoreCase("1")) {
-            try {
-            System.out.println("Skriv uppgiftsnamn");
-            String taskName = sc.next();
-            System.out.println("Skriv beskrivning");
-            sc.nextLine();
-            String desc = sc.nextLine();
-            user.createTask(taskName, desc);
-            db.addTaskToUser(user.getUsername(),taskName,desc);
-            } catch (IOException io) {
-                io.printStackTrace();
-            }
+            System.out.println("1. lägg till uppgift" + "\n"
+                    + "2. ta bort uppgift" + "\n"
+                    + "3. se alla uppgifter" + "\n"
+                    + "4. logga ut");
+            String answer = sc.next();
+            //String taskName;
+            if (answer.equalsIgnoreCase("1")) {
+                try {
+                    System.out.println("Skriv uppgiftsnamn");
+                    String taskName = sc.next();
+                    System.out.println("Skriv beskrivning");
+                    sc.nextLine();
+                    String desc = sc.nextLine();
+                    user.createTask(taskName, desc);
+                    db.addTaskToUser(user.getUsername(), taskName, desc);
+                } catch (IOException io) {
+                    io.printStackTrace();
+                }
 
-            System.out.println("Uppgift tillagd!");
-        } else if (answer.equals("2")) {
-            System.out.println("Ange namn på upggiften");
-            String taskName = sc.next();
-            user.removeTask(taskName);
-        } else if (answer.equals("3")) {
-            user.printTasks();
-        } else if (answer.equals("4")) {
-            System.out.println("Loggar ut...");
-            break;
-        } else {
-            System.out.println("Felaktig inmatning!");
-        }
+                System.out.println("Uppgift tillagd!");
+            } else if (answer.equals("2")) {
+                System.out.println("Ange namn på upggiften");
+                String taskName = sc.next();
+                user.removeTask(taskName);
+            } else if (answer.equals("3")) {
+                user.printTasks();
+            } else if (answer.equals("4")) {
+                System.out.println("Loggar ut...");
+                break;
+            } else {
+                System.out.println("Felaktig inmatning!");
+            }
         }
 
     }
@@ -207,14 +201,45 @@ public class Main {
     public static void addTasksFromFile(String username) {
         try {
             ArrayList<Object> getUserFile = db.getUserFile(username);
-            String str = (String) getUserFile.get(1);
-            String[] parts = str.split("_");
-            for (int j = 0; j < parts.length - 1; j += 2) {
-                tasks.add(new Task(parts[j], parts[j+1]));
-                System.out.println(parts[j] + "j");
-                System.out.println(parts[j+1] + " j+1");
+
+            if (getUserFile.get(1) instanceof String[][]) {
+                String[][] list = (String[][]) getUserFile.get(1);
+                System.out.println(list.length);
+                if ((list.length == 0)) {
+                    tasks.clear();
+                } else {
+                    System.out.println("Value");;
+                    String test1 = Arrays.toString(new String[]{list[0][0]});
+                    String test2 = Arrays.toString(new String[]{list[0][1]});
+                    test1 = test1.substring(1,test1.length()-1);
+                    test2 = test2.substring(1,test2.length()-1);
+                    //String test3 = Arrays.toString(new String[]{list[1][0]});
+                    //String test4 = Arrays.toString(new String[]{list[0][3]});
+                    System.out.println(test1);
+                    System.out.println(test2);
+                    //System.out.println(test3);
+                    //System.out.println(test4);
+                    tasks.add(new Task(test1,test2));
+
+
+                    for (int i = 0;i < list.length - 1; i++) {
+
+                        String taskName = Arrays.toString(new String[]{list[i][0]});
+                        String desc = Arrays.toString(new String[]{list[0][i+1]});
+                        tasks.add(new Task(taskName,desc));
+                    }
+                }
 
             }
+
+            /*String[][] str = (String[][]) getUserFile.get(1);
+            System.out.println(str[0]);
+            System.out.println(str[1]);*/
+
+            /*String[] parts = str.split("_");
+            for (int j = 0; j < parts.length - 1; j += 2) {
+                tasks.add(new Task(parts[j].trim(), parts[j + 1].trim()));
+            }*/
 
         } catch (IOException io) {
             io.printStackTrace();
