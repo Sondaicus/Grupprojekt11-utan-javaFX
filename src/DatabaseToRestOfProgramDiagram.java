@@ -27,6 +27,8 @@ public interface DatabaseToRestOfProgramDiagram
 	  duplicate of an already existing task.*/
 	abstract boolean[] addTaskToUser(String username, String taskInstance, String taskSubject) throws IOException;
 	
-	/*This method returns all the users from the database*/
-	abstract String[][][] getAllUsers();
+	/*This method returns all the users from the database as a String[][]. The first field contains each user
+	(decided by line), and its size depends on the amount of users found in the system. The second field has room for 3
+	variables; 1st is the user name, 2nd is password, 3rd is account type.*/
+	abstract String[][] getAllUsers();
 }

@@ -6,34 +6,34 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 {
 	/*Strings used in program logic*/
 	private static String
-		fullProjectPath ,
-		filesFolderPath ,
-		usersFolderPath ,
-		usersListFilePath ,
-		usersTxtFileDatabase;
+	fullProjectPath ,
+	filesFolderPath ,
+	usersFolderPath ,
+	usersListFilePath ,
+	usersTxtFileDatabase;
 	
 	private static String[]
-		allUserNames ,
-		allUsersDatabasePaths ,
-		allUsersDatabaseFiles;
+	allUserNames ,
+	allUsersDatabasePaths ,
+	allUsersDatabaseFiles;
 	
 	private static int
-		leapsInALoop;
+	leapsInALoop;
 	
 	private static boolean
-		seeExecutionInfoInTerminal;
+	seeExecutionInfoInTerminal;
 	
 	/*Strings used in console-window for user to read.*/
 	private static String
-		txtFile = ".txt" ,
-		nextOSFolder = "\\" ,
-		thisFolder = "src" ,
-		thisClass = "DatabaseCommunicator" ,
-		fullClassPathCollective = thisFolder + nextOSFolder + thisClass + nextOSFolder ,
-		leapsInALoopToUser ,
-		tabular1 = "    " ,
-		tabular2 = tabular1 + tabular1 ,
-		tabular3 = tabular2 + tabular1;
+	txtFile = ".txt" ,
+	nextOSFolder = "\\" ,
+	thisFolder = "src" ,
+	thisClass = "DatabaseCommunicator" ,
+	fullClassPathCollective = thisFolder + nextOSFolder + thisClass + nextOSFolder ,
+	leapsInALoopToUser ,
+	tabular1 = "    " ,
+	tabular2 = tabular1 + tabular1 ,
+	tabular3 = tabular2 + tabular1;
 	
 	
 	
@@ -67,25 +67,25 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	public void setDatabaseFolders()
 	{
 		File
-			fullFileNameFile;
+		fullFileNameFile;
 		
 		String
-			fullFileNameString;
+		fullFileNameString;
 		
 		int
-			setFolderLocation;
-			
-			fullFileNameString = "MainFolderIdentifyerTextFile.txt";
-			fullFileNameFile = new File(fullFileNameString);
-			fullProjectPath = fullFileNameFile.getAbsolutePath();
-			setFolderLocation = fullProjectPath.indexOf(fullFileNameString);
-			fullProjectPath = fullProjectPath.substring(0, setFolderLocation);
-			
-			filesFolderPath = fullProjectPath + "\\Files";
-			
-			usersFolderPath = filesFolderPath + "\\Users";
-			
-			usersListFilePath = filesFolderPath + "\\users.txt";
+		setFolderLocation;
+		
+		fullFileNameString = "MainFolderIdentifyerTextFile.txt";
+		fullFileNameFile = new File(fullFileNameString);
+		fullProjectPath = fullFileNameFile.getAbsolutePath();
+		setFolderLocation = fullProjectPath.indexOf(fullFileNameString);
+		fullProjectPath = fullProjectPath.substring(0, setFolderLocation);
+		
+		filesFolderPath = fullProjectPath + "\\Files";
+		
+		usersFolderPath = filesFolderPath + "\\Users";
+		
+		usersListFilePath = filesFolderPath + "\\users.txt";
 		
 	}
 	
@@ -102,10 +102,10 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	public void setUserTxtFileDatabase(String oldFile)
 	{
 		String
-			newFile;
+		newFile;
 		
 		boolean
-			correctFormat;
+		correctFormat;
 		
 		
 		newFile = oldFile;
@@ -122,7 +122,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	
 	
 	
-	public String[][][] getAllUsers()
+	public String[][] getAllUsers()
 	{
 		String thisMethod = "getAllUsers";
 		if(seeExecutionInfoInTerminal)
@@ -131,26 +131,147 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		}
 		
 		
-		String[][][]
-			resultsToReturn;
+		ArrayList<Object>
+		temporarySubstringHolder;
+		
+		String[][]
+		resultsToReturn ,
+		userFileContentsHolder;
 		
 		String
-			baseFileFull ,
-			baseFileTempLine ,
-			baseFileSubstring1 ,
-			baseFileSubstring2 ,
-			baseFileSubstring3;
+		baseFileFull ,
+		baseFileTempLine ,
+		baseFileSubstring1 ,
+		baseFileSubstring2 ,
+		baseFileSubstring3;
 		
 		int
-			arrayFields;
+		arrayFields ,
+		lineLoops ,
+		lineLoopsToLines;
 		
-		
-		resultsToReturn = new String[0][0][0];
-		
+		boolean
+		countLine;
 		
 		
 		baseFileFull = getUserTxtFileDatabase();
 		
+		lineLoops = StringMethodInterfaces.countTotalNumberOfLines(baseFileFull, seeExecutionInfoInTerminal);
+		lineLoopsToLines = lineLoops + 1;
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular1 + "lineLoops = " + lineLoops);
+			System.out.println(tabular1 + "lineLoopsToLines = " + lineLoopsToLines);
+		}
+		
+		
+		userFileContentsHolder = new String[lineLoops][3];
+		arrayFields = 0;
+		for(int i = 1; i < lineLoopsToLines; i++)
+		{
+			temporarySubstringHolder = StringMethodInterfaces.returnFullLineByStringLineIndex(baseFileFull , i , seeExecutionInfoInTerminal);
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular1 + "temporarySubstringHolder: " + "\n" + "$" + temporarySubstringHolder + "$");
+			}
+			
+			
+			countLine = (boolean) temporarySubstringHolder.get(0);
+			
+			if(countLine)
+			{
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular1 + "countLine is true, adding elements to String[][] begins.");
+				}
+				
+				
+				baseFileTempLine = (String) temporarySubstringHolder.get(2);
+				
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "baseFileTempLine: " + "\n" + "$" + baseFileTempLine + "$");
+				}
+				
+				
+				baseFileSubstring1 = StringMethodInterfaces.returnSubstringByLine(baseFileTempLine , 0 , seeExecutionInfoInTerminal);
+				
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "baseFileSubstring11: " + "\n" + "$" + baseFileSubstring1 + "$");
+				}
+				
+				
+				baseFileSubstring2 = StringMethodInterfaces.returnSubstringByLine(baseFileTempLine , 1 , seeExecutionInfoInTerminal);
+				
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "baseFileSubstring2: " + "\n" + "$" + baseFileSubstring2 + "$");
+				}
+				
+				baseFileSubstring3 = StringMethodInterfaces.returnSubstringByLine(baseFileTempLine , 2 , seeExecutionInfoInTerminal);
+				
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "baseFileSubstring3: " + "\n" + "$" + baseFileSubstring3 + "$");
+				}
+				
+				
+				userFileContentsHolder[arrayFields][0] = baseFileSubstring1;
+				userFileContentsHolder[arrayFields][1] = baseFileSubstring2;
+				userFileContentsHolder[arrayFields][2] = baseFileSubstring3;
+				
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "userFileContentsHolder[" + arrayFields + "][0]: " + "\n" + "$" + userFileContentsHolder[arrayFields][0] + "$");
+					System.out.println(tabular2 + "userFileContentsHolder[" + arrayFields + "][1]: " + "\n" + "$" + userFileContentsHolder[arrayFields][1] + "$");
+					System.out.println(tabular2 + "userFileContentsHolder[" + arrayFields + "][1]: " + "\n" + "$" + userFileContentsHolder[arrayFields][2] + "$");
+				}
+				
+				
+				++arrayFields;
+				
+			}
+			
+		}
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular1 + "arrayFields = " + arrayFields);
+		}
+		
+		
+		resultsToReturn = new String[arrayFields][3];
+		for(int i = 0; i < arrayFields; i++)
+		{
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "Strings being saved loop " + i + ".");
+			}
+			
+			
+			resultsToReturn[i][0] = userFileContentsHolder[i][0];
+			resultsToReturn[i][1] = userFileContentsHolder[i][1];
+			resultsToReturn[i][2] = userFileContentsHolder[i][2];
+			
+		}
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular1 + "resultsToReturn.length = " + resultsToReturn.length);
+			
+			
+			for(int i = 0; i < resultsToReturn.length; i++)
+			{
+				System.out.println(tabular2 + "resultsToReturn[" + i + "][0] = " + resultsToReturn[i][0]);
+				System.out.println(tabular2 + "resultsToReturn[" + i + "][1] = " + resultsToReturn[i][1]);
+				System.out.println(tabular2 + "resultsToReturn[" + i + "][2] = " + resultsToReturn[i][2]);
+			}
+			
+		}
 		
 		if(seeExecutionInfoInTerminal)
 		{
@@ -190,19 +311,19 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		ArrayList<Object>
-			resultHolder;
+		resultHolder;
 		
 		String
-			allUserTxtFile ,
-			currentCheckedUserName ,
-			currentUserTxtFile;
+		allUserTxtFile ,
+		currentCheckedUserName ,
+		currentUserTxtFile;
 		
 		boolean
-			allUserTxtFound ,
-			individualUserTxtFound;
+		allUserTxtFound ,
+		individualUserTxtFound;
 		
 		int
-			userFilesQuantity;
+		userFilesQuantity;
 		
 		
 		if(seeExecutionInfoInTerminal)
@@ -314,33 +435,32 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		int
-			lineLoops ,
-			lineLoopsToLines ,
-			approvedLineLoops;
+		lineLoops ,
+		lineLoopsToLines ,
+		approvedLineLoops;
 		
 		String
-			userFilePath ,
-			fullUserFileContentsSingleString ,
-			temporaryUserFileContentsSingleString ,
-			subString1 ,
-			subString2;
+		userFilePath ,
+		fullUserFileContentsSingleString ,
+		temporaryUserFileContentsSingleString ,
+		subString1 ,
+		subString2;
 		
 		String[][]
-			userFileContentsHolder ,
-			userFileContentsFinal ,
-			lastCorrectChecker;
+		userFileContentsHolder ,
+		userFileContentsFinal ,
+		lastCorrectChecker;
 		
 		ArrayList<Object>
-			finalResultReader ,
-			finalResultSender ,
-			temporarySubstringHolder;
+		finalResultReader ,
+		finalResultSender ,
+		temporarySubstringHolder;
 		
 		Boolean
-			fileReadResult;
+		fileReadResult;
 		
 		boolean
-			countLine ,
-			breakLoop;
+		countLine;
 		
 		
 		approvedLineLoops = 0;
@@ -388,7 +508,6 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 				
 				
 				countLine = (boolean) temporarySubstringHolder.get(0);
-				breakLoop =  (boolean) temporarySubstringHolder.get(1);
 				
 				if(countLine)
 				{
@@ -483,7 +602,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			for(int i = 0; i < lastCorrectChecker.length; i++)
 			{
 				System.out.println(tabular2 + "lastCorrectChecker[" + i + "][0] = " + lastCorrectChecker[i][0]);
-				System.out.println(tabular2 + "lastCorrectChecker[" + i + "][0] = " + lastCorrectChecker[i][1]);
+				System.out.println(tabular2 + "lastCorrectChecker[" + i + "][1] = " + lastCorrectChecker[i][1]);
 				
 			}
 			
@@ -511,21 +630,21 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		}
 		
 		boolean[]
-			allResults;
+		allResults;
 		
 		boolean
-			proceed ,
-			userFound ,
-			fileFound;
+		proceed ,
+		userFound ,
+		fileFound;
 		
 		String
-			lineRemoved ,
-			fileContents ,
-			allUsersTxtFile ,
-			subjectsPersonalFilePath;
+		lineRemoved ,
+		fileContents ,
+		allUsersTxtFile ,
+		subjectsPersonalFilePath;
 		
 		ArrayList<Object>
-			resultHolder;
+		resultHolder;
 		
 		
 		allResults = new boolean[2];
@@ -615,7 +734,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		PrintWriter
-			outStream;
+		outStream;
 		
 		
 		information = "\n" + information;
@@ -646,13 +765,13 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		PrintWriter
-			outStream;
+		outStream;
 		
 		File
-			secondaryUserFile;
+		secondaryUserFile;
 		
 		boolean
-			secondaryFileCreated;
+		secondaryFileCreated;
 		
 		
 		secondaryFileCreated = false;
@@ -751,19 +870,19 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		File
-			fullFileNameFile;
+		fullFileNameFile;
 		
 		boolean
-			resultDeleted, resultThrowable;
+		resultDeleted, resultThrowable;
 		
 		boolean[]
-			allResults;
+		allResults;
 		
 		Path
-			fullFilePathPath;
+		fullFilePathPath;
 		
 		Throwable
-			failedDeleteCauseThrowable;
+		failedDeleteCauseThrowable;
 		
 		
 		allResults = new boolean[2];
@@ -844,14 +963,14 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		boolean
-			success;
+		success;
 		
 		int
-			usersFound;
+		usersFound;
 		
 		String
-			userAddOnString ,
-			userFileLocation;
+		userAddOnString ,
+		userFileLocation;
 		
 		
 		userFileLocation = usersFolderPath + nextOSFolder + username + txtFile;
@@ -933,19 +1052,19 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		boolean
-			procceed;
+		procceed;
 		
 		boolean[]
-			successes;
+		successes;
 		
 		int
-			userID ,
-			taskDuplicates;
+		userID ,
+		taskDuplicates;
 		
 		String
-			lineToPrint ,
-			pathToUse ,
-			fullString;
+		lineToPrint ,
+		pathToUse ,
+		fullString;
 		
 		
 		successes = new boolean[2];
