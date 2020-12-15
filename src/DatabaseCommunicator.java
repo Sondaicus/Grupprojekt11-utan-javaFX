@@ -753,19 +753,17 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		subjectsPersonalFilePath = usersFolderPath + nextOSFolder + username + txtFile;
+		fileContents = null;
+		proceed = true;
 		
 		if(seeExecutionInfoInTerminal)
 		{
 			System.out.println(tabular2 + "subjectsPersonalFilePath: " + subjectsPersonalFilePath);
 		}
 		
-		
-		fileContents = null;
-		proceed = true;
-		
 		if(proceed)
 		{
-			resultHolder = StringMethodInterfaces.readFullFile(usersListFilePath , seeExecutionInfoInTerminal);
+			resultHolder = StringMethodInterfaces.readFullFile(subjectsPersonalFilePath, seeExecutionInfoInTerminal);
 			
 			fileFound = (Boolean) resultHolder.get(0);
 			fileContents = (String) resultHolder.get(1);
@@ -872,6 +870,8 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		fileFound = false;
 		linesDeleted = 0;
 		subjectsPersonalFilePath = usersFolderPath + nextOSFolder + username + txtFile;
+		fullFileContents = null;
+		proceed = true;
 		
 		if(seeExecutionInfoInTerminal)
 		{
@@ -879,12 +879,9 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		}
 		
 		
-		fullFileContents = null;
-		proceed = true;
-		
 		if(proceed)
 		{
-			tempResultHolder = StringMethodInterfaces.readFullFile(usersListFilePath , seeExecutionInfoInTerminal);
+			tempResultHolder = StringMethodInterfaces.readFullFile(subjectsPersonalFilePath , seeExecutionInfoInTerminal);
 			
 			fileFound = (Boolean) tempResultHolder.get(0);
 			fullFileContents = (String) tempResultHolder.get(1);
@@ -936,6 +933,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 				{
 					newUsersTxtFile = StringMethodInterfaces.removeSingleLineInString(choppedFileContents , lineRemoved , seeExecutionInfoInTerminal);
 					newUsersTxtFile = StringMethodInterfaces.removeExcessiveBlankLines(newUsersTxtFile , seeExecutionInfoInTerminal);
+					choppedFileContents = newUsersTxtFile;
 					
 					if(seeExecutionInfoInTerminal)
 					{
