@@ -435,7 +435,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 						                   "\n" + "$" + userFileContentsHolder[approvedLineLoops][1] + "$");
 					}
 					
-					
+					/**/
 					++approvedLineLoops;
 					
 				}
