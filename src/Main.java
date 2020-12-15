@@ -208,24 +208,14 @@ public class Main {
                 if ((list.length == 0)) {
                     tasks.clear();
                 } else {
-                    System.out.println("Value");;
-                    String test1 = Arrays.toString(new String[]{list[0][0]});
-                    String test2 = Arrays.toString(new String[]{list[0][1]});
-                    test1 = test1.substring(1,test1.length()-1);
-                    test2 = test2.substring(1,test2.length()-1);
-                    //String test3 = Arrays.toString(new String[]{list[1][0]});
-                    //String test4 = Arrays.toString(new String[]{list[0][3]});
-                    System.out.println(test1);
-                    System.out.println(test2);
-                    //System.out.println(test3);
-                    //System.out.println(test4);
-                    tasks.add(new Task(test1,test2));
+                    System.out.println("Value");
 
 
-                    for (int i = 0;i < list.length - 1; i++) {
-
+                    for (int i = 0;i < list.length; i++) {
                         String taskName = Arrays.toString(new String[]{list[i][0]});
-                        String desc = Arrays.toString(new String[]{list[0][i+1]});
+                        String desc = Arrays.toString(new String[]{list[i][1]});
+                        taskName = taskName.substring(1,taskName.length()-1);
+                        desc = desc.substring(1,desc.length()-1);
                         tasks.add(new Task(taskName,desc));
                     }
                 }
