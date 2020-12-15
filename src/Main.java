@@ -17,9 +17,6 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        users.add(new UserAccount("x", "x"));
-        users.add(new UserAccount("p", "p"));
-        users.add(new AdminAccount("q", "q", users));
         try {
             db = new DatabaseCommunicator();
         } catch (IOException io) {
@@ -30,11 +27,26 @@ public class Main {
     }
 
     private static void UI(Scanner sc) {
-        String[][][] list = db.getAllUsers();
-        System.out.println(list.length);
+        String[][] list = db.getAllUsers();
+        for (int i = 0; i < list.length;i++) {
+            String userName = list[i][0];
+            String password = list[i][1];
+            String accountType = list[i][2];
+            int accType = Integer.valueOf(accountType);
+            if (accType == 0) {
+                AdminAccount oldAdmin = AccountCreator.createAdmin(userName,password,users);
+                users.add(oldAdmin);
+            } else if (accType == 1) {
+                UserAccount oldUser = AccountCreator.createUser(userName,password);
+                users.add(oldUser);
+            } else {
+                System.out.println("Fel");
+            }
+        }
         while (true) {
-            System.out.println("1. logga in" + "\n" // välj
-                    + "2. skapa konto");
+            System.out.println("Välj mellan följande alternativ");
+            System.out.println("1. Logga in" + "\n" // välj
+                    + "2. Skapa konto");
             String answer = sc.next();
 
             if (answer.equalsIgnoreCase("1")) { // logga in
@@ -48,8 +60,8 @@ public class Main {
                 }
             } else if (answer.equalsIgnoreCase("2")) { // skapa konto
                 setInfo(sc);
-                System.out.println("1. vanlig användare" + "\n" // vanligt eller admin
-                        + "2. admin");
+                System.out.println("1. Vanlig Användare" + "\n" // vanligt eller admin
+                        + "2. Admin");
                 kontoTyp = sc.next(); // sätter kontotyp
 
                 if (kontoTyp.equalsIgnoreCase("1")) {
@@ -100,10 +112,10 @@ public class Main {
     private static void omUser(Scanner sc) {
         while (true) {
 
-            System.out.println("1. lägg till uppgift" + "\n"
-                    + "2. ta bort uppgift" + "\n"
-                    + "3. se alla uppgifter" + "\n"
-                    + "4. logga ut");
+            System.out.println("1. Lägg till uppgift" + "\n"
+                    + "2. Ta bort uppgift" + "\n"
+                    + "3. Se alla uppgifter" + "\n"
+                    + "4. Logga ut");
             String answer = sc.next();
             //String taskName;
             if (answer.equalsIgnoreCase("1")) {
@@ -142,7 +154,7 @@ public class Main {
 
             System.out.println("1. Ta bort ett konto" + "\n"
                     + "2. Se alla användare" + "\n"
-                    + "3. logga ut");
+                    + "3. Logga ut");
             String answer = sc.next();
 
             if (answer.equalsIgnoreCase("1")) {
@@ -153,7 +165,6 @@ public class Main {
 
 
                     boolean[] isTrue = db.removeUser(userName);
-                    System.out.println(isTrue[1]);
                     if (!isTrue[1]) {
                         admin.removeAccount(userName);
                     } else {
@@ -213,7 +224,6 @@ public class Main {
 
             if (getUserFile.get(1) instanceof String[][]) {
                 String[][] list = (String[][]) getUserFile.get(1);
-                System.out.println(list.length);
                 tasks.clear();
                 for (int i = 0; i < list.length; i++) {
                     String taskName = Arrays.toString(new String[]{list[i][0]});

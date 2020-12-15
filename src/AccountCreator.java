@@ -20,18 +20,4 @@ public class AccountCreator {
             return new UserAccount(username,pass);
 
     }
-
-    public static Account createAccount(String username, String pass,ArrayList<Account> users, String accType) {
-
-        if (accType.equalsIgnoreCase("admin")) {
-
-            return new AdminAccount(username,pass,users);
-        }
-
-        if (accType.equalsIgnoreCase("user")) {
-            return new UserAccount(username,pass);
-        }
-
-        return null;
-    }
 }
