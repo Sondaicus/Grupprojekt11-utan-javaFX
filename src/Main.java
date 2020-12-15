@@ -28,7 +28,7 @@ public class Main {
     }
 
     private static void UI(Scanner sc) {
-        String [][][] list = db.getAllUsers();
+        String [][] list = db.getAllUsers();
         System.out.println(list.length);
         while (true) {
             System.out.println("1. logga in" + "\n" // välj

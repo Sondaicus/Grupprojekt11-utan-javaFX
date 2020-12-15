@@ -122,7 +122,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 	
 	
 	
-	public String[][][] getAllUsers()
+	public String[][] getAllUsers()
 	{
 		String thisMethod = "getAllUsers";
 		if(seeExecutionInfoInTerminal)
@@ -131,8 +131,12 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		}
 		
 		
-		String[][][]
-			resultsToReturn;
+		ArrayList<Object>
+			temporarySubstringHolder;
+		
+		String[][]
+			resultsToReturn ,
+			userFileContentsHolder;
 		
 		String
 			baseFileFull ,
@@ -142,15 +146,132 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			baseFileSubstring3;
 		
 		int
-			arrayFields;
+			arrayFields ,
+			lineLoops ,
+			lineLoopsToLines;
 		
-		
-		resultsToReturn = new String[0][0][0];
-		
+		boolean
+			countLine;
 		
 		
 		baseFileFull = getUserTxtFileDatabase();
 		
+		lineLoops = StringMethodInterfaces.countTotalNumberOfLines(baseFileFull, seeExecutionInfoInTerminal);
+		lineLoopsToLines = lineLoops + 1;
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular1 + "lineLoops = " + lineLoops);
+			System.out.println(tabular1 + "lineLoopsToLines = " + lineLoopsToLines);
+		}
+		
+		
+		userFileContentsHolder = new String[lineLoops][3];
+		arrayFields = 0;
+		for(int i = 1; i < lineLoopsToLines; i++)
+		{
+			temporarySubstringHolder = StringMethodInterfaces.returnFullLineByStringLineIndex(baseFileFull , i , seeExecutionInfoInTerminal);
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular1 + "temporarySubstringHolder: " + "\n" + "$" + temporarySubstringHolder + "$");
+			}
+			
+			
+			countLine = (boolean) temporarySubstringHolder.get(0);
+			
+			if(countLine)
+			{
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular1 + "countLine is true, adding elements to String[][] begins.");
+				}
+				
+				
+				baseFileTempLine = (String) temporarySubstringHolder.get(2);
+				
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "baseFileTempLine: " + "\n" + "$" + baseFileTempLine + "$");
+				}
+				
+				
+				baseFileSubstring1 = StringMethodInterfaces.returnSubstringByLine(baseFileTempLine , 0 , seeExecutionInfoInTerminal);
+				
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "baseFileSubstring11: " + "\n" + "$" + baseFileSubstring1 + "$");
+				}
+				
+				
+				baseFileSubstring2 = StringMethodInterfaces.returnSubstringByLine(baseFileTempLine , 1 , seeExecutionInfoInTerminal);
+				
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "baseFileSubstring2: " + "\n" + "$" + baseFileSubstring2 + "$");
+				}
+				
+				baseFileSubstring3 = StringMethodInterfaces.returnSubstringByLine(baseFileTempLine , 2 , seeExecutionInfoInTerminal);
+				
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "baseFileSubstring3: " + "\n" + "$" + baseFileSubstring3 + "$");
+				}
+				
+				
+				userFileContentsHolder[arrayFields][0] = baseFileSubstring1;
+				userFileContentsHolder[arrayFields][1] = baseFileSubstring2;
+				userFileContentsHolder[arrayFields][2] = baseFileSubstring3;
+				
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(tabular2 + "userFileContentsHolder[" + arrayFields + "][0]: " + "\n" + "$" + userFileContentsHolder[arrayFields][0] + "$");
+					System.out.println(tabular2 + "userFileContentsHolder[" + arrayFields + "][1]: " + "\n" + "$" + userFileContentsHolder[arrayFields][1] + "$");
+					System.out.println(tabular2 + "userFileContentsHolder[" + arrayFields + "][1]: " + "\n" + "$" + userFileContentsHolder[arrayFields][2] + "$");
+				}
+				
+				
+				++arrayFields;
+				
+			}
+			
+		}
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular1 + "arrayFields = " + arrayFields);
+		}
+		
+		
+		resultsToReturn = new String[arrayFields][3];
+		for(int i = 0; i < arrayFields; i++)
+		{
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular2 + "Strings being saved loop " + i + ".");
+			}
+			
+			
+			resultsToReturn[i][0] = userFileContentsHolder[i][0];
+			resultsToReturn[i][1] = userFileContentsHolder[i][1];
+			resultsToReturn[i][2] = userFileContentsHolder[i][2];
+			
+		}
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular1 + "resultsToReturn.length = " + resultsToReturn.length);
+			
+			
+			for(int i = 0; i < resultsToReturn.length; i++)
+			{
+				System.out.println(tabular2 + "resultsToReturn[" + i + "][0] = " + resultsToReturn[i][0]);
+				System.out.println(tabular2 + "resultsToReturn[" + i + "][1] = " + resultsToReturn[i][1]);
+				System.out.println(tabular2 + "resultsToReturn[" + i + "][2] = " + resultsToReturn[i][2]);
+			}
+			
+		}
 		
 		if(seeExecutionInfoInTerminal)
 		{
@@ -339,8 +460,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			fileReadResult;
 		
 		boolean
-			countLine ,
-			breakLoop;
+			countLine;
 		
 		
 		approvedLineLoops = 0;
@@ -388,7 +508,6 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 				
 				
 				countLine = (boolean) temporarySubstringHolder.get(0);
-				breakLoop =  (boolean) temporarySubstringHolder.get(1);
 				
 				if(countLine)
 				{
@@ -483,7 +602,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			for(int i = 0; i < lastCorrectChecker.length; i++)
 			{
 				System.out.println(tabular2 + "lastCorrectChecker[" + i + "][0] = " + lastCorrectChecker[i][0]);
-				System.out.println(tabular2 + "lastCorrectChecker[" + i + "][0] = " + lastCorrectChecker[i][1]);
+				System.out.println(tabular2 + "lastCorrectChecker[" + i + "][1] = " + lastCorrectChecker[i][1]);
 				
 			}
 			
