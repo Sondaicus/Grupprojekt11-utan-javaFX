@@ -31,4 +31,14 @@ public interface DatabaseToRestOfProgramDiagram
 	(decided by line), and its size depends on the amount of users found in the system. The second field has room for 3
 	variables; 1st is the user name, 2nd is password, 3rd is account type.*/
 	abstract String[][] getAllUsers();
+	
+	/*This method removes the specified task from the specified user. If it exists and is removed the boolean is
+	returned as true, if it doesnt find it and doesnt remove it it is false.*/
+	abstract boolean removeTaskFromUser(String username, String task) throws IOException;
+	
+	/*This method removes all task of the specified subject from the specified user. It has two objects inside, the
+	1st one is a Boolean, the second one an Integer. If the file to the user is found then the Boolean is true, if
+	not it is false. The Integer counts how many lines containing the specified subject has been removed, if its
+	value is 0 then no specified subjects were found, or the users personal file wasn't found.*/
+	abstract ArrayList<Object> removeSubjectFromUser(String username, String subject) throws IOException;
 }
