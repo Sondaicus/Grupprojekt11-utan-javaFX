@@ -27,24 +27,9 @@ public class Main {
     }
 
     private static void UI(Scanner sc) {
-        String[][] list = db.getAllUsers();
-        for (int i = 0; i < list.length;i++) {
-            String userName = list[i][0];
-            String password = list[i][1];
-            String accountType = list[i][2];
-            int accType = Integer.valueOf(accountType);
-            if (accType == 0) {
-                AdminAccount oldAdmin = AccountCreator.createAdmin(userName,password,users);
-                users.add(oldAdmin);
-            } else if (accType == 1) {
-                UserAccount oldUser = AccountCreator.createUser(userName,password);
-                users.add(oldUser);
-            } else {
-                System.out.println("Fel");
-            }
-        }
+        addUsersFromFile();
         while (true) {
-            System.out.println("Välj mellan följande alternativ");
+            System.out.println("Välj mellan följande alternativ:2");
             System.out.println("1. Logga in" + "\n" // välj
                     + "2. Skapa konto");
             String answer = sc.next();
@@ -136,6 +121,12 @@ public class Main {
                 System.out.println("Ange namn på upggiften");
                 String taskName = sc.next();
                 user.removeTask(taskName);
+                try {
+                    db.removeTaskFromUser(user.getUsername(),taskName);
+                } catch (IOException io) {
+                    io.printStackTrace();
+                }
+
             } else if (answer.equals("3")) {
                 user.printTasks();
             } else if (answer.equals("4")) {
@@ -237,6 +228,25 @@ public class Main {
             }
         } catch (IOException io) {
             io.printStackTrace();
+        }
+    }
+
+    public static void addUsersFromFile() {
+        String[][] list = db.getAllUsers();
+        for (int i = 0; i < list.length;i++) {
+            String userName = list[i][0];
+            String password = list[i][1];
+            String accountType = list[i][2];
+            int accType = Integer.valueOf(accountType);
+            if (accType == 0) {
+                AdminAccount oldAdmin = AccountCreator.createAdmin(userName,password,users);
+                users.add(oldAdmin);
+            } else if (accType == 1) {
+                UserAccount oldUser = AccountCreator.createUser(userName,password);
+                users.add(oldUser);
+            } else {
+                System.out.println("Fel");
+            }
         }
     }
 
