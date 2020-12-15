@@ -629,6 +629,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 			System.out.println(tabular1 + "username: " + "\n" + "$" + username + "$");
 		}
 		
+		
 		boolean[]
 		allResults;
 		
@@ -719,6 +720,277 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 		
 		
 		return allResults;
+		
+	}
+	
+	
+	
+	public boolean removeTaskFromUser(String username, String task) throws IOException
+	{
+		String thisMethod = "removeTaskFromUser";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+			System.out.println(tabular1 + "username: " + "\n" + "$" + username + "$");
+			System.out.println(tabular1 + "task: " + "\n" + "$" + task + "$");
+		}
+		
+		
+		boolean
+		finalResult ,
+		proceed ,
+		taskFound ,
+		fileFound;
+		
+		String
+		lineRemoved ,
+		fileContents ,
+		newUsersTxtFile ,
+		subjectsPersonalFilePath;
+		
+		ArrayList<Object>
+		resultHolder;
+		
+		
+		subjectsPersonalFilePath = usersFolderPath + nextOSFolder + username + txtFile;
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular2 + "subjectsPersonalFilePath: " + subjectsPersonalFilePath);
+		}
+		
+		
+		fileContents = null;
+		proceed = true;
+		
+		if(proceed)
+		{
+			resultHolder = StringMethodInterfaces.readFullFile(usersListFilePath , seeExecutionInfoInTerminal);
+			
+			fileFound = (Boolean) resultHolder.get(0);
+			fileContents = (String) resultHolder.get(1);
+			
+			if(fileFound)
+			{
+				proceed = true;
+				
+			}
+			
+			else
+			{
+				proceed = false;
+				
+			}
+			
+		}
+		
+		if(proceed)
+		{
+			resultHolder = StringMethodInterfaces.returnFullLineBySubstring(fileContents , task , 0 ,
+			seeExecutionInfoInTerminal);
+			taskFound = (Boolean) resultHolder.get(0);
+			lineRemoved = (String) resultHolder.get(1);
+			
+			if(taskFound)
+			{
+				newUsersTxtFile = StringMethodInterfaces.removeSingleLineInString(fileContents , lineRemoved , seeExecutionInfoInTerminal);
+				newUsersTxtFile =  StringMethodInterfaces.removeExcessiveBlankLines(newUsersTxtFile, seeExecutionInfoInTerminal);
+				overwriteFile(subjectsPersonalFilePath , newUsersTxtFile);
+				
+				finalResult = true;
+				
+			}
+			
+			else
+			{
+				finalResult = false;
+				
+			}
+			
+		}
+		
+		else
+		{
+			finalResult = false;
+			
+		}
+		
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("End method: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		return finalResult;
+		
+	}
+	
+	
+	
+	public ArrayList<Object> removeSubjectFromUser(String username, String subject) throws IOException
+	{
+		String thisMethod = "removeSubjectFromUser";
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("Start method: " + fullClassPathCollective + thisMethod);
+			System.out.println(tabular1 + "username: " + "\n" + "$" + username + "$");
+			System.out.println(tabular1 + "subject: " + "\n" + "$" + subject + "$");
+		}
+		
+		
+		ArrayList<Object>
+		tempResultHolder ,
+		finalReturnValues;
+		
+		Boolean
+		fileFound;
+		
+		Integer
+		linesDeleted;
+		
+		boolean
+		proceed ,
+		subjectFound;
+		
+		long[]
+		OVERLOADCHECKER1;
+		
+		int
+		OVERLOADCHECKER2;
+		
+		String
+		lineRemoved ,
+		fullFileContents ,
+		choppedFileContents ,
+		newUsersTxtFile ,
+		subjectsPersonalFilePath;
+		
+		
+		finalReturnValues = new ArrayList <Object>(2);
+		newUsersTxtFile = null;
+		fileFound = false;
+		linesDeleted = 0;
+		subjectsPersonalFilePath = usersFolderPath + nextOSFolder + username + txtFile;
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println(tabular2 + "subjectsPersonalFilePath: " + subjectsPersonalFilePath);
+		}
+		
+		
+		fullFileContents = null;
+		proceed = true;
+		
+		if(proceed)
+		{
+			tempResultHolder = StringMethodInterfaces.readFullFile(usersListFilePath , seeExecutionInfoInTerminal);
+			
+			fileFound = (Boolean) tempResultHolder.get(0);
+			fullFileContents = (String) tempResultHolder.get(1);
+			
+			if(fileFound)
+			{
+				proceed = true;
+				
+			}
+			
+			else
+			{
+				proceed = false;
+				
+			}
+			
+		}
+		
+		if(proceed)
+		{
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular1 + "Start: chopping file content.");
+			}
+			
+			choppedFileContents = fullFileContents;
+			
+			
+			leapsInALoop = 0;
+			OVERLOADCHECKER1 = new long[1000000];
+			OVERLOADCHECKER2 = 0;
+			while(true)
+			{
+				setLeapsInALoopToUser();
+				if(seeExecutionInfoInTerminal)
+				{
+					System.out.println(leapsInALoopToUser);
+					System.out.println(tabular2 + "choppedFileContents: " + "\n" + "$" + choppedFileContents + "$");
+				}
+				
+				
+				tempResultHolder = StringMethodInterfaces.returnFullLineBySubstring(choppedFileContents , subject , 1 ,
+				seeExecutionInfoInTerminal);
+				subjectFound = (Boolean) tempResultHolder.get(0);
+				lineRemoved = (String) tempResultHolder.get(1);
+				
+				
+				if(subjectFound)
+				{
+					newUsersTxtFile = StringMethodInterfaces.removeSingleLineInString(choppedFileContents , lineRemoved , seeExecutionInfoInTerminal);
+					newUsersTxtFile = StringMethodInterfaces.removeExcessiveBlankLines(newUsersTxtFile , seeExecutionInfoInTerminal);
+					
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "Line deleted: " + "\n" + "$" + lineRemoved + "$");
+					}
+					
+					
+					++linesDeleted;
+					
+					if(seeExecutionInfoInTerminal)
+					{
+						System.out.println(tabular2 + "Total lines deleted: " + linesDeleted);
+					}
+					
+				}
+				
+				else
+				{
+					break;
+					
+				}
+				
+				
+				++leapsInALoop;
+				OVERLOADCHECKER1[OVERLOADCHECKER2] = OVERLOADCHECKER2;
+				OVERLOADCHECKER2 = OVERLOADCHECKER2 + 1;
+			}
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular1 + "End: chopping file content.");
+				System.out.println(tabular1 + "Start: over writing user file with new String.");
+				System.out.println(tabular2 + "New user file content: " + "\n" + "$" + newUsersTxtFile + "$");
+			}
+			
+			
+			overwriteFile(subjectsPersonalFilePath , newUsersTxtFile);
+			
+			if(seeExecutionInfoInTerminal)
+			{
+				System.out.println(tabular1 + "End: over writing user file with new String.");
+			}
+			
+		}
+		
+		finalReturnValues.add(0, fileFound);
+		finalReturnValues.add(1, linesDeleted);
+		
+		if(seeExecutionInfoInTerminal)
+		{
+			System.out.println("End method: " + fullClassPathCollective + thisMethod);
+		}
+		
+		
+		return finalReturnValues;
 		
 	}
 	
