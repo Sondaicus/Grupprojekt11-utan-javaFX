@@ -435,20 +435,7 @@ public class DatabaseCommunicator implements DatabaseCommunicatorAbstractDiagram
 						                   "\n" + "$" + userFileContentsHolder[approvedLineLoops][1] + "$");
 					}
 					
-					/**/
 					++approvedLineLoops;
-					
-				}
-				
-				if(breakLoop)
-				{
-					if(seeExecutionInfoInTerminal)
-					{
-						System.out.println(tabular1 + "breakLoop is true, exiting loop.");
-					}
-					
-					
-					break;
 					
 				}
 				
