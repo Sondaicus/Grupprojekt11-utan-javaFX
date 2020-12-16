@@ -33,7 +33,7 @@ public class UserInterface {
     public void start() {
         addUsersFromFile();
         while (true) {
-            System.out.println("Välj mellan följande alternativ");
+            System.out.println("Vill du logga in eller skapa konto?");
             System.out.println("1. Logga in" + "\n" // välj
                     + "2. Skapa konto");
             String answer = sc.next();
