@@ -30,10 +30,10 @@ public class UserInterface {
     }
 
 
-    private void start() {
+    public void start() {
         addUsersFromFile();
         while (true) {
-            System.out.println("Välj mellan följande alternativ:2");
+            System.out.println("Välj mellan följande alternativ");
             System.out.println("1. Logga in" + "\n" // välj
                     + "2. Skapa konto");
             String answer = sc.next();
@@ -43,7 +43,7 @@ public class UserInterface {
                 int userType = logInValidator(användarnamn, lösenord);
                 if (userType == 1) {
 
-                    omUser(sc);
+                    ifUser(sc);
                 } else if (userType == 0) {
                     ifAdmin();
                 }
@@ -63,7 +63,7 @@ public class UserInterface {
         }
     }
 
-    private void createUser(String a, String l) {
+    public void createUser(String a, String l) {
         user = AccountCreator.createUser(a, l);
         try {
             boolean isSuccessful = db.createUser(a, l, 1);
@@ -81,7 +81,7 @@ public class UserInterface {
 
     }
 
-    private void createAdmin(String a, String l, ArrayList<Account> users) {
+    public void createAdmin(String a, String l, ArrayList<Account> users) {
         admin = AccountCreator.createAdmin(a, l, users);
         try {
             boolean isSuccessful = db.createUser(a, l, 0);
@@ -98,7 +98,7 @@ public class UserInterface {
         }
     }
 
-    private void omUser(Scanner sc) {
+    public void ifUser(Scanner sc) {
         while (true) {
 
             System.out.println("1. Lägg till uppgift" + "\n"
@@ -143,7 +143,7 @@ public class UserInterface {
 
     }
 
-    private void ifAdmin() {
+    public void ifAdmin() {
 
         while (true) {
 
@@ -185,7 +185,7 @@ public class UserInterface {
         }
     }
 
-    private int logInValidator(String namn, String pass) {
+    public int logInValidator(String namn, String pass) {
         boolean finns = false;
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUsername().equalsIgnoreCase(namn) && users.get(i).getPassword().equalsIgnoreCase(pass)) {
@@ -213,7 +213,7 @@ public class UserInterface {
         return 0;
     }
 
-    private void addTasksFromFile(String username) {
+    public void addTasksFromFile(String username) {
         try {
             ArrayList<Object> getUserFile = db.getUserFile(username);
 
@@ -235,7 +235,7 @@ public class UserInterface {
         }
     }
 
-    private void addUsersFromFile() {
+    public void addUsersFromFile() {
         String[][] list = db.getAllUsers();
         for (int i = 0; i < list.length;i++) {
             String userName = list[i][0];
@@ -254,7 +254,7 @@ public class UserInterface {
         }
     }
 
-    private void setInfo() {
+    public void setInfo() {
         System.out.println("Ange användarnam.");
         användarnamn = sc.next();
         System.out.println("Ange lösenord.");
