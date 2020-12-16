@@ -35,7 +35,8 @@ public class UserInterface {
         while (true) {
             System.out.println("Vill du logga in eller skapa konto?");
             System.out.println("1. Logga in" + "\n" // välj
-                    + "2. Skapa konto");
+                    + "2. Skapa konto" + "\n" +
+                    "3. Avsluta");
             String answer = sc.next();
 
             if (answer.equalsIgnoreCase("1")) { // logga in
@@ -59,6 +60,11 @@ public class UserInterface {
                 } else if (kontoTyp.equalsIgnoreCase("2")) {
                     createAdmin(användarnamn, lösenord, users);
                 }
+            } else if (answer.equals("3")) {
+                System.out.println("Avslutar...");
+                System.exit(0);
+            } else {
+                System.out.println("Försök igen!");
             }
         }
     }
